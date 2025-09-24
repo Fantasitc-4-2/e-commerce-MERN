@@ -18,5 +18,4 @@ yarn-error.log*
 Thumbs.db
 
 # Build output
-frontend/build/
 backend/dist/
