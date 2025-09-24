@@ -1,1 +1,7 @@
-const express = require("express")
+process.loadEnvFile()
+
+DB_URI = process.env.DB_URI
+
+module.exports = {
+    DB_URI,
+}
