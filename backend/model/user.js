@@ -1,12 +1,5 @@
 const mongoose = require("mongoose");
 
-const addressSchema = new mongoose.Schema({
-  street: String,
-  city: String,
-  zip: String,
-  country: String
-}, { _id: false });
-
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, trim: true },
   //trim for save the input without spacing in the beginning or the end
@@ -24,13 +17,24 @@ const userSchema = new mongoose.Schema({
   resetPasswordExpires: Date,
 
   lastLogin: Date,
-
-  createdAt: { type: Date, default: Date.now }
-});
+  
+},{timestamps:true}
+);
 
 
 // Optional: index for faster lookup
 userSchema.index({ email: 1 });
 
 const User = mongoose.model("User", userSchema);
-module.exports = User;
+const mongoose = require("mongoose");
+
+const addressSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  street: String,
+  city: String,
+  zip: String,
+  country: String,
+}, { timestamps: true });
+
+const Address = mongoose.model("Address", addressSchema);
+module.exports = Address;
