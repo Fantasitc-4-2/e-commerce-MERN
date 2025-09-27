@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
   //trim for save the input without spacing in the beginning or the end
   //" Mohammed " will be "Mohammed"
   email: { type: String, unique: true, required: true, lowercase: true, trim: true },
-  passwordHash: { type: String, required: true },
+  password: { type: String, required: true },
   phoneNumber: { type: String, trim: true },
 
   roles: { type: [String], enum: ["customer", "admin"], default: ["customer"] },

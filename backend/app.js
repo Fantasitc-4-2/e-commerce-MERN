@@ -1,18 +1,19 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const { DB_URI } = require("./config/config");
-const port = 3000;
+const { PORT,DB_URI } = require("./config/config");
+const authRouter = require("./route/auth.route")
+const userRouter = require("./route/route")
+app.use(express.json())
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
+app.use("/auth",authRouter)
+app.use("/users",userRouter)
 mongoose
   .connect(DB_URI)
   .then(() => console.log("DB CONNECTED"))
   .catch((err) => err.message);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`)
+  console.log(DB_URI)
+})
