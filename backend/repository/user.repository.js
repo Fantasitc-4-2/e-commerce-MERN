@@ -1,10 +1,10 @@
 const UserModel = require("../model/user")
-
+const mongoose = require("mongoose");
 
 ///get user(s)
 const getAllUsers = async() => await UserModel.find()
 const getUserByEmail = async (email) => await UserModel.findOne({ email });
-
+const getUserById = async (userId) =>  await UserModel.findById(userId);
 
 
 
@@ -27,5 +27,6 @@ const createUser = async(user) => {
 module.exports = {
     getUserByEmail,
     createUser,
-    getAllUsers
+    getAllUsers,
+    getUserById
 }

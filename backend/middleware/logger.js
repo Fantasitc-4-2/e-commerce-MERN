@@ -3,9 +3,9 @@ const logger = (req, res, next) => {
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    const now = new Date().toISOString();
+    const logTime = new Date().toLocaleString("en-EG"); // Local time
     console.log(
-      `[${now}] ${req.method} ${req.originalUrl} ${res.statusCode} - ${duration}ms`
+      `[${logTime}] ${req.method} ${req.originalUrl} - ${res.statusCode} (${duration}ms)`
     );
   });
 

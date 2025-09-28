@@ -5,9 +5,10 @@ const { PORT,DB_URI } = require("./config/config");
 const authRouter = require("./route/auth.route");
 const userRouter = require("./route/route");
 const logger = require("./middleware/logger");
-
+const cookieParser = require("cookie-parser");
 
 app.use(express.json())
+app.use(cookieParser());
 app.use(logger)
 
 app.use("/auth",authRouter);
