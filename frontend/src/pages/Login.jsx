@@ -1,56 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 
-const Signup = () => {
-  const [userData,setUserData] = useState({name:"",userName:"",email:"",password:""})
+export default function Login() {
+    const [userData,setUserData] = useState({email:"",password:""})
+    const handleSubmit = (e) =>{
+        e.preventDefault()
 
-  const handleSubmit =(e) =>{
-    e.preventDefault()
-  }
+    }
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="mx-auto mx-w-2xl text-center">
         <h2 class="text-4xl font-semibold tracking-tight  sm:text-5xl">
-          Create an account
+          Log in to Exclusive
         </h2>
         <p class="mt-2 text-lg/8 text-gray-400">Enter your details below</p>
       </div>
       <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div className="sm:col-span-2">
-            <label for="Name" className="text-sm/6 font-semibold">
-              Name
-            </label>
-            <div className="mt-2">
-              <input
-                id="Name"
-                type="text"
-                placeholder="Joe Negm"
-                name="Name"
-                autoComplete="given-name"
-                className="block w-full bg-white/5 p-3 text-base border-b-1 placeholder:text-gray-500 focus:border-none"
-                value={userData.name}
-                onChange={(e)=>setUserData({...userData,name:e.target.value})}
-              />
-            </div>
-          </div>
-          <div className="sm:col-span-2">
-            <label for="username" className="text-sm/6 font-semibold">
-              username
-            </label>
-            <div className="mt-2">
-              <input
-                id="username"
-                type="text"
-                name="username"
-                placeholder="joenegm"
-                autoComplete="given-name"
-                className="block w-full  bg-white/5 p-3  border-b-1 text-base placeholder:text-gray-500"
-                value={userData.userName}
-                onChange={(e)=>setUserData({...userData,userName:e.target.value})}
-              />
-            </div>
-          </div>
+
 
           <div className="sm:col-span-2">
             <label for="email" className="text-sm/6 font-semibold">
@@ -65,7 +32,9 @@ const Signup = () => {
                 autoComplete="given-name"
                 className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 "
                 value={userData.email}
-                onChange={(e)=>setUserData({...userData,email:e.target.value})}
+                onChange={(e) =>
+                  setUserData({ ...userData, email: e.target.value })
+                }
               />
             </div>
           </div>
@@ -83,26 +52,35 @@ const Signup = () => {
                 autoComplete="given-name"
                 className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500"
                 value={userData.password}
-                onChange={(e)=>setUserData({...userData,password:e.target.value})}
+                onChange={(e) =>
+                  setUserData({ ...userData, password: e.target.value })
+                }
               />
             </div>
           </div>
-          <div class="mt-10 sm:col-span-2">
+          <div class="mt-10">
             <button
               type="submit"
               class="block w-full rounded-md bg-orange-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-400"
             >
-              Create account
+                Log in
             </button>
           </div>
+          <div class="mt-10">
+           <Link to="/forget-password" className="text-orange-500">
+                Forget Password?
+            </Link>
+          </div>
         </div>
-        <div className="mt-5" >
-          <p>Already have an account?<Link to="/login" className="text-orange-500 hover:text-orange-600">Sign in</Link></p>
-          
+        <div className="mt-5 sm:col-span-1">
+          <p>
+            Doens't have an account?
+            <Link to="/signup" className="text-orange-500 hover:text-orange-600">
+              Sign up
+            </Link>
+          </p>
         </div>
       </form>
     </div>
   );
-};
-
-export default Signup;
+}
