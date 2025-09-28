@@ -4,7 +4,11 @@ const mongoose = require("mongoose");
 const { PORT,DB_URI } = require("./config/config");
 const authRouter = require("./route/auth.route");
 const userRouter = require("./route/route");
+const logger = require("./middleware/logger");
+
+
 app.use(express.json())
+app.use(logger)
 
 app.use("/auth",authRouter);
 app.use("/users",userRouter);
