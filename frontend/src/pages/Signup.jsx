@@ -46,13 +46,23 @@ const Signup = () => {
   };
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
-      <div className="mx-auto mx-w-2xl text-center">
+      <div className="flex">
+        <div className="w-1/2 flex items-center justify-center">
+    <img 
+      src="form-img.jpg"
+      alt="Sign-up illustration"
+      className="max-w-full h-auto"
+    />
+  </div>
+  <div className="w-1/2 flex items-center justify-center px-10">
+     
+      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
+         <div className="mx-auto mx-w-2xl text-center">
         <h2 class="text-4xl font-semibold tracking-tight  sm:text-5xl">
           Create an account
         </h2>
         <p class="mt-2 text-lg/8 text-gray-400">Enter your details below</p>
       </div>
-      <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label for="Name" className="text-sm/6 font-semibold">
@@ -154,6 +164,8 @@ const Signup = () => {
           </p>
         </div>
       </form>
+      </div>
+      </div>
     </div>
   );
 };
