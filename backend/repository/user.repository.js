@@ -1,17 +1,27 @@
 const UserModel = require("../model/user")
 
-const getAllUsers = async() => await UserModel.find()
-const getUserByEmail = async(email) =>await UserModel.findOne({email});
 
+///get user(s)
+const getAllUsers = async() => await UserModel.find()
+const getUserByEmail = async (email) => await UserModel.findOne({ email });
+
+
+
+
+//post user(s)
 const createUser = async(user) => {
+   const existingUser = await getUserByEmail(user.email);
+   if (existingUser) {
+      throw new Error("Email already in use");
+   }
    const newUser = new UserModel({
-    username: user.username,
-    email:user.email,
-    password:user.password,
-    phoneNumber: user.phoneNumber
-   })
-   return await newUser.save()
-}
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      phoneNumber: user.phoneNumber
+   });
+   return await newUser.save();
+};
 
 
 module.exports = {

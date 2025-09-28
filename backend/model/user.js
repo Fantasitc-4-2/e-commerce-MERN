@@ -21,20 +21,8 @@ const userSchema = new mongoose.Schema({
 },{timestamps:true}
 );
 
-
-// Optional: index for faster lookup
+// Index for faster lookup by email
 userSchema.index({ email: 1 });
 
 const User = mongoose.model("User", userSchema);
-const mongoose = require("mongoose");
-
-const addressSchema = new mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  street: String,
-  city: String,
-  zip: String,
-  country: String,
-}, { timestamps: true });
-
-const Address = mongoose.model("Address", addressSchema);
-module.exports = Address;
+module.exports = User;
