@@ -6,6 +6,9 @@ import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(email);
@@ -22,7 +25,7 @@ const Footer = () => {
             placeholder="Enter your email"
             classes="bg-black  border-2  border-white"
             value={email}
-            setValue={setEmail}
+            handleChange={handleChange}
           >
             <button className="hover:cursor-pointer" type="submit">
               <PaperAirplaneIcon className="h-6 w-6 text-white " />

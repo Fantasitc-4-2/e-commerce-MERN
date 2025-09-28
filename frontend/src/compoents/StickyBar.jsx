@@ -4,7 +4,7 @@ import { Link } from "react-router";
 const StickyBar = () => {
   const [language, setLanguage] = useState("en");
   return (
-    <div className="bg-black flex p-3  items-center ">
+    <div className="bg-black flex p-2  items-center ">
       <div className="text-white basis-11/12  text-center ">
         <p>
           Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!
