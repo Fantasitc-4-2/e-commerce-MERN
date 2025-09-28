@@ -13,6 +13,8 @@ import {
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import ForgetPassword from "./pages/ForgetPassword";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -24,7 +26,10 @@ function App() {
         <Route path="/wishList" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="*" element={<NotFound />} />
+        
       </Route>
     )
   );
