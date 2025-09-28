@@ -1,12 +1,49 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Signup = () => {
-  const [userData,setUserData] = useState({name:"",userName:"",email:"",password:""})
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState({
+    name: "",
+    userName: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit =(e) =>{
-    e.preventDefault()
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (
+      !userData.name ||
+      !userData.email ||
+      !userData.userName ||
+      !userData.password
+    ) {
+      setError("All fields are required!");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userData.email)) return setError("Invalid email");
+
+    const strongPassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+    if (!strongPassword.test(userData.password)) {
+      return setError(
+        "Password must include uppercase, number, and special char"
+      );
+    }
+    if (userData.password.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      navigate("/");
+    }, 1500);
+  };
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="mx-auto mx-w-2xl text-center">
@@ -30,7 +67,9 @@ const Signup = () => {
                 autoComplete="given-name"
                 className="block w-full bg-white/5 p-3 text-base border-b-1 placeholder:text-gray-500 focus:border-none"
                 value={userData.name}
-                onChange={(e)=>setUserData({...userData,name:e.target.value})}
+                onChange={(e) =>
+                  setUserData({ ...userData, name: e.target.value })
+                }
               />
             </div>
           </div>
@@ -47,7 +86,9 @@ const Signup = () => {
                 autoComplete="given-name"
                 className="block w-full  bg-white/5 p-3  border-b-1 text-base placeholder:text-gray-500"
                 value={userData.userName}
-                onChange={(e)=>setUserData({...userData,userName:e.target.value})}
+                onChange={(e) =>
+                  setUserData({ ...userData, userName: e.target.value })
+                }
               />
             </div>
           </div>
@@ -65,7 +106,9 @@ const Signup = () => {
                 autoComplete="given-name"
                 className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 "
                 value={userData.email}
-                onChange={(e)=>setUserData({...userData,email:e.target.value})}
+                onChange={(e) =>
+                  setUserData({ ...userData, email: e.target.value })
+                }
               />
             </div>
           </div>
@@ -83,22 +126,32 @@ const Signup = () => {
                 autoComplete="given-name"
                 className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500"
                 value={userData.password}
-                onChange={(e)=>setUserData({...userData,password:e.target.value})}
+                onChange={(e) =>
+                  setUserData({ ...userData, password: e.target.value })
+                }
               />
             </div>
           </div>
+          {error && (
+            <div className="sm:col-span-2 text-red-500 text-sm">{error}</div>
+          )}
           <div class="mt-10 sm:col-span-2">
             <button
               type="submit"
               class="block w-full rounded-md bg-orange-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-400"
+              disabled={loading}
             >
-              Create account
+              {loading ? "Loading..." : "Create account"}
             </button>
           </div>
         </div>
-        <div className="mt-5" >
-          <p>Already have an account?<Link to="/login" className="text-orange-500 hover:text-orange-600">Sign in</Link></p>
-          
+        <div className="mt-5">
+          <p>
+            Already have an account?
+            <Link to="/login" className="text-orange-500 hover:text-orange-600">
+              Sign in
+            </Link>
+          </p>
         </div>
       </form>
     </div>

@@ -1,11 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export default function Login() {
+    const [loading,setLoading] = useState(false)
     const [userData,setUserData] = useState({email:"",password:""})
+    const [error,setError] = useState("")
+   const navigate = useNavigate()
     const handleSubmit = (e) =>{
         e.preventDefault()
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userData.email)) return setError("Invalid email");
+        setLoading(true);
+        setTimeout(()=>{
+            setLoading(false)
+            navigate("/")
+        },1500)
     }
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
@@ -58,12 +68,14 @@ export default function Login() {
               />
             </div>
           </div>
+          {error&&(<div className="sm:col-span-2 text-orange-500">{error}</div>)}
           <div class="mt-10">
             <button
               type="submit"
               class="block w-full rounded-md bg-orange-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-400"
+              disabled={loading}
             >
-                Log in
+                {loading?"Loading...":"Log in"}
             </button>
           </div>
           <div class="mt-10">

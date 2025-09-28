@@ -1,11 +1,23 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function ForgetPassword() {
-    const [email,setEmail] = useState();
-    const handleSubmit= (e) =>{
-        e.preventDefault()
+  const [email, setEmail] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate()
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) return setError("Invalid email");
+    setLoading(true);
+    setTimeout(()=>{
+        setLoading(false);
+        navigate("/login")
+    },1500)
+    
+  };
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="mx-auto mx-w-2xl text-center">
@@ -29,18 +41,18 @@ export default function ForgetPassword() {
                 autoComplete="given-name"
                 className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 "
                 value={email}
-                onChange={(e) =>
-                  setEmail(e.target.value)
-                }
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
+          {error&&(<div className="sm:col-span-2 text-orange-500">{error}</div>)}
           <div class="mt-10 sm:col-span-2">
             <button
               type="submit"
               class="block w-full rounded-md bg-orange-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-400"
+              disabled={loading}
             >
-                Send Code
+              {loading ? "Loading..." : "Send Code"}
             </button>
           </div>
         </div>
