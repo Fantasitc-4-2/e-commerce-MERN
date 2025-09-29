@@ -3,6 +3,7 @@ const productService = require("../services/productService.js");
 const { default: mongoose } = require("mongoose");
 const router = express.Router();
 const roleAuthMiddleware = require("../middleware/roleAuthMiddleware.js");
+const authMiddleware = require("../middleware/authMiddleware.js");
 const validateProduct = require("../middleware/validateProduct.js");
 
 //get all items provided with pagination defaulted to first page with a limit of 10 products
@@ -36,8 +37,19 @@ router.get("/:id", async (req, res) => {
     : res.status(404).send({ error: "product can not be found" });
 });
 
-router.post("/", roleAuthMiddleware("admin"), validateProduct , async (req, res) => {
-  const product = req.body;
-  const createdProduct = await productService.create(product);
+router.post("/", authMiddleware , roleAuthMiddleware("admin"), validateProduct , async (req, res) => {
+  try {
+    const product = req.body;
+    const createdProduct = await productService.createProduct(product);
     res.status(201).send(createdProduct);
+  }
+  catch (e) {
+    console.log(e.message);
+    res.status(500).send({"error" : "internal server error"});
+  }
 });
+
+// router.delete("/:id", authMiddleware, roleAuthMiddleware("admin"), async (req, res) => {
+//   const id = req.params.id;
+  
+// })
