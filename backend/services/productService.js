@@ -8,7 +8,11 @@ const getProductById = async (id) => {
     return await productRepository.getProductById(id);
 }
 
+const createProduct = async (product) => {
+    return await productRepository.saveProduct(product);
+}
 module.exports = {
     getAllProducts,
-    getProductById
+    getProductById,
+    createProduct
 }
