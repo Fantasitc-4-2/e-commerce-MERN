@@ -118,7 +118,7 @@ const EditProfile = () => {
           />
         </div>
         <div className="flex flex-row-reverse">
-          <button className="bg-[#e53e3e] text-white px-12 py-3 rounded">
+          <button className="bg-[#e53e3e] hover:bg-[#d74a47] text-white px-12 py-3 rounded hover:cursor-pointer">
             Save Changes
           </button>
         </div>
