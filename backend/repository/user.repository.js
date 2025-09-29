@@ -18,6 +18,8 @@ const createUser = async(user) => {
       username: user.username,
       email: user.email,
       password: user.password,
+      otp:user.otp,
+      otpExpires:user.otpExpires,
       phoneNumber: user.phoneNumber
    });
    return await newUser.save();

@@ -1,9 +1,9 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 const repository = require("../repository/user.repository")
+const { generateOtp, sendOtpEmail } = require("../services/mailService");
 
-
-exports.register = async (userData) =>{
+exports.register = async (userData) => {
   const requiredFields = ["email", "password", "username", "phoneNumber"];
   for (const field of requiredFields) {
     if (!userData[field]) {
@@ -11,14 +11,39 @@ exports.register = async (userData) =>{
     }
   }
 
-  const user = await repository.getUserByEmail(userData.email);
-  if(user){
+  const existingUser = await repository.getUserByEmail(userData.email);
+  if (existingUser) {
     throw new Error("Email already exists");
   }
 
-  const hashedPassword = await bcrypt.hash(userData.password,10);
-  return await repository.createUser({...userData,password:hashedPassword});
-}
+  // Hash password
+  const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+  // Generate OTP & expiry
+  const otp = generateOtp();
+  const otpExpires = Date.now() + 100 * 60 * 1000; // 100 minutes
+
+  // Create user (isVerified = false until OTP confirmed)
+  const newUser = await repository.createUser({
+    ...userData,
+    password: hashedPassword,
+    otp:otp,
+    otpExpires:otpExpires,
+    isVerified: false
+  });
+
+  // Send OTP email
+  await sendOtpEmail(newUser.email, otp);
+
+  // Don’t return sensitive fields
+  return {
+    id: newUser._id,
+    username: newUser.username,
+    email: newUser.email,
+    message: "User registered. Please check your email for the OTP."
+  };
+};
+
 
 const createToken = (user) => {
   // keep payload small — avoid putting sensitive data
@@ -36,6 +61,10 @@ exports.login = async (req, res) => {
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: "Invalid email or password" });
+
+    if (!user.isVerified) {
+      return res.status(403).json({ error: "Please verify your email before logging in" });
+    }
 
     const token = createToken(user);
 
@@ -71,8 +100,8 @@ exports.me = async (req, res) => {
       roles: user.roles
     });
   } catch (err) {
-  console.error("Error in /me:", err);
-  res.status(500).json({ error: err.message, stack: err.stack });
+//   console.error("Error in /me:", err);
+  res.status(500).json({ error: "Server Error"});
 }
 };
 
@@ -80,5 +109,40 @@ exports.logout = (req, res) => {
   res.clearCookie("token", { httpOnly: true, sameSite: "strict" });
   res.json({ message: "Logged out" });
 };
+
+exports.verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({ error: "Email and OTP are required" });
+    }
+
+    const user = await repository.getUserByEmail(email);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.otp !== otp) {
+      return res.status(400).json({ error: "Invalid OTP" });
+    }
+
+    if (user.otpExpires < Date.now()) {
+      return res.status(400).json({ error: "OTP expired" });
+    }
+
+
+    user.isVerified = true;
+    user.otp = undefined; 
+    user.otpExpires = undefined;
+    await user.save();
+
+    res.json({ message: "Email verified successfully!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 
 
