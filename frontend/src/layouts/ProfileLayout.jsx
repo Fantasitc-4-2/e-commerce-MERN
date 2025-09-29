@@ -1,13 +1,8 @@
-import React, { useState } from "react";
-
-import ProfileContent from "../compoents/profile/ProfileContent";
+import React from "react";
 import ProfileSideBar from "../compoents/profile/ProfileSideBar";
+import { Outlet } from "react-router-dom";
 
-const Profile = () => {
-  const [activeItem, setActiveItem] = useState("My Profile");
-  const handleActive = (item) => {
-    setActiveItem(item);
-  };
+const ProfileLayout = ({ activeItem, handleActive }) => {
   return (
     <div className="container mx-auto mb-32 mt-10 relative pt-30 flex justify-center gap-60">
       <div className="absolute top-0 left-28 flex gap-2">
@@ -19,10 +14,13 @@ const Profile = () => {
         <p className="text-black font-bold text-sm">Welcome!</p>
         <p className="text-[#e53e3e] font-semibold text-sm">Morph </p>
       </div>
+
       <ProfileSideBar activeItem={activeItem} handleActive={handleActive} />
-      <ProfileContent activeItem={activeItem} />
+      <div className="w-[60%] shadow-lg px-16 py-8">
+        <Outlet />
+      </div>
     </div>
   );
 };
 
-export default Profile;
+export default ProfileLayout;

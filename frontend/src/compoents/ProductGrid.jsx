@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import axios from "axios";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function ProductGrid() {
   const [data] = useState([
@@ -77,22 +78,26 @@ export default function ProductGrid() {
   ]);
 
   const [products, setProducts] = useState([]);
-  useEffect(async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/products");
-      setProducts(res.data);
-    } catch (error) {
-      console.log(error.message);
-    }
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/results");
+
+        setProducts(res.data);
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
   }, []);
+  if (isLoading) return <LoadingSpinner />;
   return (
     <div className="grid grid-cols-4 m-5 gap-4">
-      {data.map((product) => (
-        <ProductCard
-          title={product.title}
-          img={product.img}
-          description={product.description}
-        />
+      {products.map((product) => (
+        <ProductCard key={product._id} {...product} />
       ))}
     </div>
   );

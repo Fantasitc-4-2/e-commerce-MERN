@@ -6,15 +6,20 @@ const ProfileSideBar = ({ activeItem, handleActive }) => {
       <aside>
         <ProfileList
           title="Manage My Account"
-          items={["My Profile", "Address Book", "My Payment Options"]}
+          items={[
+            { item: "My Profile", link: "edit" },
+            { item: "Address Book", link: "address" },
+            { item: "My Payment Options", link: "payment" },
+          ]}
           handleActive={handleActive}
-          activeItem={activeItem}
         />
         <ProfileList
           title="My Orders"
-          items={["My Returns", "My Cancellations"]}
+          items={[
+            { item: "My Returns", link: "returns" },
+            { item: "My Cancellations", link: "cancellations" },
+          ]}
           handleActive={handleActive}
-          activeItem={activeItem}
         />
 
         <div>

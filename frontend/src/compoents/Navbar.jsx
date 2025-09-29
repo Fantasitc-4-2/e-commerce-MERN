@@ -4,12 +4,28 @@ import {
   ShoppingCartIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import InputBar from "./InputBar";
+import ProfileDropdown from "./ProfileDropDown";
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -77,16 +93,19 @@ export default function Navbar() {
           {" "}
           <ShoppingCartIcon className="h-6 w-6 text-gray-800" />
         </Link>
-        <NavLink
-          to="/profile"
-          className={({ isActive }) =>
-            isActive
-              ? "bg-[#e53e3e] p-2 rounded-3xl text-white"
-              : "text-gray-800"
-          }
-        >
-          <UserIcon className="h-6 w-6 " />
-        </NavLink>
+        <div className="relative" ref={menuRef}>
+          <button
+            className={`hover:cursor-pointer   ${
+              isOpen
+                ? "bg-[#DB4444] text-white rounded-2xl p-1"
+                : "text-gray-800"
+            }`}
+            onClick={() => setIsOpen((isOpen) => !isOpen)}
+          >
+            <UserIcon className="h-6 w-6 " />
+          </button>
+          {isOpen && <ProfileDropdown />}
+        </div>
       </div>
     </nav>
   );
