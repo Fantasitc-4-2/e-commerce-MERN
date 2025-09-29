@@ -28,6 +28,6 @@ router.post("/logout", controller.logout);
 
 router.get("/me", auth, controller.me);
 
-
+router.post("/verify-otp", controller.verifyOtp);
 
 module.exports = router;

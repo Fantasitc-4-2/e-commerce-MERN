@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const reviewSchema = mongoose.Schema({
     comment: {
@@ -6,10 +6,10 @@ const reviewSchema = mongoose.Schema({
         trim: true,
         required: [true, 'review comment required'],
     },
-    // product: {
-    //     type: mongoose.Types.ObjectId,
-    //     ref: "product"
-    // },
+    product: {
+        type: mongoose.Types.ObjectId,
+        ref: "Product"
+    },
     user: {
         type: mongoose.Types.ObjectId,
         ref: "User",
@@ -23,4 +23,6 @@ const reviewSchema = mongoose.Schema({
 
 
 
-export const reviewModel = mongoose.model('Review', reviewSchema)
+const reviewModel = mongoose.model('Review', reviewSchema)
+
+module.exports = reviewModel;
