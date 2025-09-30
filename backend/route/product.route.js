@@ -1,23 +1,20 @@
-const express = require("express");
-const productService = require("../services/productService.js");
-const { default: mongoose } = require("mongoose");
-const router = express.Router();
-const roleAuthMiddleware = require("../middleware/roleAuthMiddleware.js");
-const authMiddleware = require("../middleware/authMiddleware.js");
-const validateProduct = require("../middleware/validateProduct.js");
+import express from "express";
+import * as productService from "../services/productService.js";
+import mongoose from "mongoose";
+import roleAuthMiddleware from "../middleware/roleAuthMiddleware.js";
+import authMiddleware from "../middleware/authMiddleware.js";
+import { validateProduct } from "../middleware/validateProduct.js";
 
-//get all items provided with pagination defaulted to first page with a limit of 10 products
+const router = express.Router();
+
+// Get all items with pagination
 router.get("/", async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const searchVal = req.query.search || "";
 
-    const products = await productService.getAllProducts(
-      limit,
-      page,
-      searchVal
-    );
+    const products = await productService.getAllProducts(limit, page, searchVal);
     res.status(200).send(products);
   } catch (e) {
     console.error(e.message);
@@ -25,6 +22,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get product by ID
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -37,19 +35,22 @@ router.get("/:id", async (req, res) => {
     : res.status(404).send({ error: "product can not be found" });
 });
 
-router.post("/", authMiddleware , roleAuthMiddleware("admin"), validateProduct , async (req, res) => {
-  try {
-    const product = req.body;
-    const createdProduct = await productService.createProduct(product);
-    res.status(201).send(createdProduct);
+// Create product (admin only)
+router.post(
+  "/",
+  authMiddleware,
+  roleAuthMiddleware("admin"),
+  validateProduct,
+  async (req, res) => {
+    try {
+      const product = req.body;
+      const createdProduct = await productService.createProduct(product);
+      res.status(201).send(createdProduct);
+    } catch (e) {
+      console.log(e.message);
+      res.status(500).send({ error: "internal server error" });
+    }
   }
-  catch (e) {
-    console.log(e.message);
-    res.status(500).send({"error" : "internal server error"});
-  }
-});
+);
 
-// router.delete("/:id", authMiddleware, roleAuthMiddleware("admin"), async (req, res) => {
-//   const id = req.params.id;
-  
-// })
+export default router;

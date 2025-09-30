@@ -1,5 +1,5 @@
 // middleware/auth.js
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 const auth = (req, res, next) => {
   try {
@@ -19,7 +19,7 @@ const auth = (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // attach user info to request
-    req.user = { id: decoded.id, roles: decoded.roles,username: decoded.username };
+    req.user = { id: decoded.id, roles: decoded.roles, username: decoded.username };
     next();
   } catch (err) {
     console.error(err);
@@ -27,4 +27,4 @@ const auth = (req, res, next) => {
   }
 };
 
-module.exports = auth;
+export default auth;

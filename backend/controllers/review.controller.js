@@ -1,10 +1,11 @@
-const catchAsyncError = require("../middleware/catchAsyncError.js");
-const reviewModel = require("../model/review.js");
+import {catchAsyncError} from "../middleware/catchAsyncError.js";
+import reviewModel from "../model/review.js";
 
-exports.getAllReview = catchAsyncError(async (req, res, next) => {
+export const getAllReview = catchAsyncError(async (req, res, next) => {
   let result = await reviewModel.find();
   res.json({ message: "Success", result });
 });
-exports.addReview = catchAsyncError(async (req, res, next) => {
+
+export const addReview = catchAsyncError(async (req, res, next) => {
   let result = reviewModel;
 });

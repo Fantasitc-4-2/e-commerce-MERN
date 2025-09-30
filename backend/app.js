@@ -1,26 +1,28 @@
-const express = require("express");
+import express from "express";
+import mongoose from "mongoose";
+import { PORT, DB_URI } from "./config/config.js";
+import authRouter from "./route/auth.route.js";
+import userRouter from "./route/route.js";
+import logger from "./middleware/logger.js";
+import cookieParser from "cookie-parser";
+import reviewRouter from "./route/review.router.js";
+
 const app = express();
-const mongoose = require("mongoose");
-const { PORT,DB_URI } = require("./config/config");
-const authRouter = require("./route/auth.route");
-const userRouter = require("./route/route");
-const logger = require("./middleware/logger");
-const cookieParser = require("cookie-parser");
-const reviewRouter = require("./route/review.router");
 
-app.use(express.json())
+app.use(express.json());
 app.use(cookieParser());
-app.use(logger)
+app.use(logger);
 
-app.use("/auth",authRouter);
-app.use("/users",userRouter);
-app.use("/reviews",reviewRouter);
+app.use("/auth", authRouter);
+app.use("/users", userRouter);
+app.use("/reviews", reviewRouter);
+
 mongoose
   .connect(DB_URI)
   .then(() => console.log("DB CONNECTED"))
   .catch((err) => console.log("DB Failed"));
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
-  console.log(DB_URI)
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(DB_URI);
 });

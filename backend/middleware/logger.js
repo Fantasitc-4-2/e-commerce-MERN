@@ -1,4 +1,4 @@
-const logger = (req, res, next) => {
+ const logger = (req, res, next) => {
   const start = Date.now();
 
   res.on("finish", () => {
@@ -12,4 +12,4 @@ const logger = (req, res, next) => {
   next();
 };
 
-module.exports = logger;
+export default logger

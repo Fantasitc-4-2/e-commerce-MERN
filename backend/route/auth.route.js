@@ -1,7 +1,8 @@
-const express = require("express");
+import express from "express";
+import * as controller from "../controllers/auth.controller.js";
+import auth from "../middleware/authMiddleware.js";
+
 const router = express.Router();
-const controller = require("../controllers/auth.controller");
-const auth = require("../middleware/authMiddleware")
 
 router.post("/register", async (req, res) => {
   try {
@@ -10,7 +11,6 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ error: "All fields are required!" });
     }
 
-    
     const user = await controller.register(req.body);
     res.status(201).json(user);
   } catch (err) {
@@ -23,11 +23,8 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", controller.login);
-
 router.post("/logout", controller.logout);
-
 router.get("/me", auth, controller.me);
-
 router.post("/verify-otp", controller.verifyOtp);
 
-module.exports = router;
+export default router;

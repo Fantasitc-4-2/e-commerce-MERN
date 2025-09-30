@@ -1,7 +1,6 @@
-const { body, validationResult } = require("express-validator");
+import { body, validationResult } from "express-validator";
 
-
-const validateProduct = [
+export const validateProduct = [
   body("title")
     .trim()
     .notEmpty().withMessage("Title is required")
@@ -40,4 +39,3 @@ const validateProduct = [
     next();
   }
 ];
-module.exports = validateProduct;

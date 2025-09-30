@@ -1,15 +1,15 @@
-const express = require("express")
+import express from "express";
+import * as repository from "../repository/user.repository.js";
+
 const router = express.Router();
-const repository = require("../repository/user.repository");
 
+router.get("/", async (req, res) => {
+  try {
+    const users = await repository.getAllUsers();
+    res.status(201).send(users);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 
-router.get("/",async (req,res) =>{
-    try{
-        const users = await repository.getAllUsers()
-        res.status(201).send(users)
-    }catch(err){
-        res.status(500).send({error:err.message})
-    }
-})
-
-module.exports = router
+export default router;

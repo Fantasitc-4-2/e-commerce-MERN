@@ -1,4 +1,4 @@
-const sgMail = require("@sendgrid/mail");
+import sgMail from "@sendgrid/mail";
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -11,7 +11,7 @@ const sendEmail = async (to, subject, text, html) => {
       text,
       html,
     };
-    // console.log(msg.from)
+
     await sgMail.send(msg);
     console.log("✅ Email sent successfully to", to);
   } catch (err) {
@@ -19,4 +19,4 @@ const sendEmail = async (to, subject, text, html) => {
   }
 };
 
-module.exports = sendEmail;
+export default sendEmail;
