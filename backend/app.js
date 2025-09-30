@@ -6,7 +6,7 @@ import userRouter from "./route/route.js";
 import logger from "./middleware/logger.js";
 import cookieParser from "cookie-parser";
 import reviewRouter from "./route/review.router.js";
-
+import productRouter from "./route/product.route.js";
 const app = express();
 
 app.use(express.json());
@@ -16,6 +16,7 @@ app.use(logger);
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/reviews", reviewRouter);
+app.use("/products", productRouter);
 
 mongoose
   .connect(DB_URI)

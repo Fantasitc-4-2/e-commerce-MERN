@@ -18,3 +18,11 @@ export const getProductById = async (id) => {
 export const saveProduct = async (product) => {
   return await productModel.create(product);
 };
+
+export const deleteProductById = async (id) => {
+  return await productModel.findByIdAndDelete(id);
+}
+
+export const updateProductById = (id, updateData) => {
+  return Product.findByIdAndUpdate(id, updateData, { new: true, runValidators: true });
+};

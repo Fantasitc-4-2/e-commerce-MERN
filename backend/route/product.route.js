@@ -53,4 +53,36 @@ router.post(
   }
 );
 
+// Delete product using id by admin
+router.delete("/:id" ,authMiddleware, roleAuthMiddleware("admin"), async (req, res) => {
+  const id = req.params.id;
+  try {
+    const resBody = await productService.deleteProductById(id);
+    res.status(200).send({"product deleted" : resBody.title});
+  } catch(e) {
+    console.log(e.message);
+    res.status(404).send({"error" : "product not found"});
+  }
+})
+
+// partial update using id by admin 
+router.patch("/:id", authMiddleware, roleAuthMiddleware("admin"), async (req, res) => {
+  const id = req.params.id;
+  const updateData = req.body;
+  try {
+    const productUpdated = productService.updateProductById(id, updateData);
+    res.status(200).send(
+      {
+        "message" : "Product updated sucessfully",
+        productUpdated
+      } 
+    )
+  } catch(e) {
+    console.log(e.message);
+    if (e.statusCode === 404) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.status(500).send({"error" : "internal server error"});
+  }
+})
 export default router;
