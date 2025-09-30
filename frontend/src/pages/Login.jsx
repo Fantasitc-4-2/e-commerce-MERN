@@ -50,7 +50,7 @@ export default function Login() {
                   name="email"
                   placeholder="joenegm@example.com"
                   autoComplete="given-name"
-                  className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 "
+                  className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 focus:outline-none"
                   value={userData.email}
                   onChange={(e) =>
                     setUserData({ ...userData, email: e.target.value })
@@ -70,7 +70,7 @@ export default function Login() {
                   name="password"
                   placeholder="Password"
                   autoComplete="given-name"
-                  className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500"
+                  className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 focus:outline-none"
                   value={userData.password}
                   onChange={(e) =>
                     setUserData({ ...userData, password: e.target.value })
@@ -84,14 +84,14 @@ export default function Login() {
             <div class="mt-10">
               <button
                 type="submit"
-                class="block w-full rounded-md bg-orange-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-400"
+                class="block w-full rounded-md bg-orange-500 p-3 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-400"
                 disabled={loading}
               >
                 {loading ? "Loading..." : "Log in"}
               </button>
             </div>
             <div class="mt-10">
-              <Link to="/forget-password" className="text-orange-500">
+              <Link to="/forget-password" className="text-orange-500 p-2 flex justify-center">
                 Forget Password?
               </Link>
             </div>

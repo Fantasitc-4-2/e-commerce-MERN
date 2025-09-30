@@ -75,7 +75,7 @@ const Signup = () => {
                 placeholder="Joe Negm"
                 name="Name"
                 autoComplete="given-name"
-                className="block w-full bg-white/5 p-3 text-base border-b-1 placeholder:text-gray-500 focus:border-none"
+                className="block w-full bg-white/5 p-3 text-base border-b-1 placeholder:text-gray-500 focus:outline-none"
                 value={userData.name}
                 onChange={(e) =>
                   setUserData({ ...userData, name: e.target.value })
@@ -94,7 +94,7 @@ const Signup = () => {
                 name="username"
                 placeholder="joenegm"
                 autoComplete="given-name"
-                className="block w-full  bg-white/5 p-3  border-b-1 text-base placeholder:text-gray-500"
+                className="block w-full  bg-white/5 p-3  border-b-1 text-base placeholder:text-gray-500 focus:outline-none" 
                 value={userData.userName}
                 onChange={(e) =>
                   setUserData({ ...userData, userName: e.target.value })
@@ -114,7 +114,7 @@ const Signup = () => {
                 name="email"
                 placeholder="joenegm@example.com"
                 autoComplete="given-name"
-                className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 "
+                className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 focus:outline-none "
                 value={userData.email}
                 onChange={(e) =>
                   setUserData({ ...userData, email: e.target.value })
@@ -134,7 +134,7 @@ const Signup = () => {
                 name="password"
                 placeholder="Password"
                 autoComplete="given-name"
-                className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500"
+                className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 focus:outline-none"
                 value={userData.password}
                 onChange={(e) =>
                   setUserData({ ...userData, password: e.target.value })
