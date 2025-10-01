@@ -18,6 +18,11 @@ app.use("/users", userRouter);
 app.use("/reviews", reviewRouter);
 app.use("/products", productRouter);
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  res.status(statusCode).json({ error: err.message, statusCode });
+});
+
 mongoose
   .connect(DB_URI)
   .then(() => console.log("DB CONNECTED"))
