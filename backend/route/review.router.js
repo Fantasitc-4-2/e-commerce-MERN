@@ -1,5 +1,5 @@
 import express from "express";
-import { addReview, deleteReview, getAllReview } from "../controllers/review.controller.js";
+import { addReview, deleteReview, getAllReview, getOneReview, updateReview } from "../controllers/review.controller.js";
 import auth from "../middleware/authMiddleware.js";
 import authorizeUser from "../middleware/roleAuthMiddleware.js";
 
@@ -11,5 +11,7 @@ reviewRouter
   .post(auth,addReview);
 reviewRouter
   .route("/:id")
-  .delete(auth,authorizeUser('admin') ,deleteReview);
+  .get(getOneReview)
+  .put(auth,updateReview)
+  .delete(auth,deleteReview)
 export default reviewRouter;
