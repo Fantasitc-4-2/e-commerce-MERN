@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
+import { useNavigate } from "react-router";
 
-export default function ProductGrid() {
+export default function ProductGrid({limit}) {
+  
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate()
+ 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -19,12 +23,24 @@ export default function ProductGrid() {
     };
     fetchProducts();
   }, []);
+  const handleClick = () =>{
+    navigate("/products")
+  }
+   const visibleProducts = limit ? products.slice(0,limit) : products;
   if (isLoading) return <LoadingSpinner />;
   return (
+    <>
     <div className="grid grid-cols-4 m-5 gap-4">
-      {products.map((product) => (
+      {visibleProducts.map((product) => (
         <ProductCard key={product.id} {...product} />
       ))}
-    </div>
+      </div>
+      {limit && 
+      <div className="flex justify-center my-8">
+      <button className="bg-[#DB4444] font-semibold text-white rounded px-8 py-4" onClick={handleClick}>All Products</button>
+      </div>
+      }
+    
+    </>
   );
 }
