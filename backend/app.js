@@ -7,6 +7,7 @@ import logger from "./middleware/logger.js";
 import cookieParser from "cookie-parser";
 import reviewRouter from "./route/review.router.js";
 import productRouter from "./route/product.route.js";
+import cartRouter from "./route/cart.route.js";
 const app = express();
 
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/reviews", reviewRouter);
 app.use("/products", productRouter);
+app.use("/carts", cartRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
