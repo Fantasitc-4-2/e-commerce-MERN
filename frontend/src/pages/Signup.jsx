@@ -114,12 +114,13 @@ const Signup = () => {
                 name="email"
                 placeholder="joenegm@example.com"
                 autoComplete="given-name"
-                className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 focus:outline-none "
+                className="block w-full peer  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 focus:outline-none "
                 value={userData.email}
                 onChange={(e) =>
                   setUserData({ ...userData, email: e.target.value })
                 }
               />
+              <p className="invisible peer-invalid:visible text-red-500 text-sm">Please provide a valid email address.</p>
             </div>
           </div>
 
