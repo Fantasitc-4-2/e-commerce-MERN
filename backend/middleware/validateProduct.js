@@ -23,10 +23,6 @@ export const validateProduct = [
     .notEmpty().withMessage("Stock is required")
     .isInt({ min: 0 }).withMessage("Stock cannot be negative"),
 
-  body("image")
-    .notEmpty().withMessage("Image is required")
-    .isURL().withMessage("Image must be a valid URL"),
-
   body("createdBy")
     .notEmpty().withMessage("CreatedBy is required")
     .isMongoId().withMessage("CreatedBy must be a valid Mongo ID"),
