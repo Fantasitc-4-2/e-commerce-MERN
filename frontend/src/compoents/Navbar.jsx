@@ -7,7 +7,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import InputBar from "./InputBar";
-import ProfileDropdown from "./ProfileDropDown";
+import ProfileDropdown from "./profile/ProfileDropDown";
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
