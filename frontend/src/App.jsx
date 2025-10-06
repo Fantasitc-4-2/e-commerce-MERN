@@ -24,6 +24,11 @@ import PaymentOptions from "./compoents/profile/PaymentOptions";
 import ProfileLayout from "./layouts/ProfileLayout";
 import Products from "./pages/Products";
 import VerifyEmail from "./pages/VerifyEmail";
+
+// 🔹 Import Toastify
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -52,7 +57,18 @@ function App() {
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      {/* 🔹 Toast container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        pauseOnHover={true}
+        theme="colored"
+      />
+    </>
+  );
 }
 
 export default App;
