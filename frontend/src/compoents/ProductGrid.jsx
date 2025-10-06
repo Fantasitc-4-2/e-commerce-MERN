@@ -22,7 +22,6 @@ export default function ProductGrid({ limit }) {
     };
     fetchProducts();
   }, []);
-
   const handleClick = () => {
     navigate("/products");
   };

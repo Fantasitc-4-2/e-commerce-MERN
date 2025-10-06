@@ -8,8 +8,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import InputBar from "./InputBar";
 import ProfileDropdown from "./profile/ProfileDropDown";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMe, logoutUser } from "../slices/authSlice";
 
 export default function Navbar() {
+  const dispatch = useDispatch()
+  const {user} = useSelector(state=>state.auth)
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
@@ -20,7 +24,7 @@ export default function Navbar() {
         setIsOpen(false);
       }
     }
-    
+    dispatch(fetchMe()).unwrap()
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -65,7 +69,32 @@ export default function Navbar() {
         >
           About
         </NavLink>
-        <NavLink
+        {user?
+        <div className="flex flex-row justify-between w-35">
+          <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "underline decoration-2 decoration-gray-300 underline-offset-4"
+              : ""
+          }
+          to="/profile"
+        >
+          {user.username}
+        </NavLink>
+          <button
+          className={({ isActive }) =>
+            isActive
+              ? "underline decoration-2 decoration-gray-300 underline-offset-4 cursor-pointer ml-5"
+              : ""
+          }
+          onClick={()=>dispatch(logoutUser())}
+          >
+            Logout
+          </button>
+        </div>
+        :
+        <div className="flex flex-row justify-between w-35">
+          <NavLink
           className={({ isActive }) =>
             isActive
               ? "underline decoration-2 decoration-gray-300 underline-offset-4"
@@ -75,6 +104,19 @@ export default function Navbar() {
         >
           Sign Up
         </NavLink>
+         <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "underline decoration-2 decoration-gray-300 underline-offset-4"
+              : ""
+          }
+          to="/login"
+        >
+          Log In
+        </NavLink>  
+        </div>
+      }
+
       </div>
       <div className="flex items-center gap-4">
         <InputBar
