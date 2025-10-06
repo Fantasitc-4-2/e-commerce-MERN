@@ -22,18 +22,10 @@ export default function ProductGrid({ limit }) {
     };
     fetchProducts();
   }, []);
-<<<<<<< HEAD
-  
-  const handleClick = () =>{
-    navigate("/products")
-  }
-   const visibleProducts = limit ? products.slice(0,limit) : products;
-=======
   const handleClick = () => {
     navigate("/products");
   };
   const visibleProducts = limit ? products.slice(0, limit) : products;
->>>>>>> 038866428f8275272ad91798f14b53cbe8e47275
   if (isLoading) return <LoadingSpinner />;
   return (
     <>

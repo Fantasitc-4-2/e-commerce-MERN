@@ -7,16 +7,30 @@ export const loginUser = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/login", { email, password });
-      return res.data.user; // backend returns { user, message }
+      return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data?.error || "Login failed");
     }
   }
 );
 
+export const registerUser = createAsyncThunk(
+  "auth/register",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/auth/register", userData);
+      return res.data; // backend returns { user }
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.error || "Registration failed"
+      );
+    }
+  }
+);
+
 // 🔹 Get current logged-in user
 export const fetchMe = createAsyncThunk(
-  "auth/fetchMe",
+  "auth/me",
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.get("/auth/me");
@@ -67,6 +81,18 @@ const authSlice = createSlice({
       // Logout
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
