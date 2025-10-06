@@ -47,6 +47,19 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
   localStorage.removeItem("token"); // optional, since you use cookies
 });
 
+export const verifyEmail = createAsyncThunk(
+  "auth/verify-otp", 
+  async ({ email, otp }, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/auth/verify-otp", { email, otp });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err.response?.data?.error || "OTP verification failed"
+      );
+    }
+  }
+);
 // ✅ Slice
 const authSlice = createSlice({
   name: "auth",
@@ -91,6 +104,18 @@ const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(verifyEmail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(verifyEmail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(verifyEmail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

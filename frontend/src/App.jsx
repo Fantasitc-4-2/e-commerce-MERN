@@ -33,7 +33,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="otp/:email" element={<VerifyEmail />} />
+        <Route path="/otp/:email" element={<VerifyEmail />} />
         <Route path="/wishList" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/products" element={<Products />} />
