@@ -25,7 +25,7 @@ const WishList = () => {
   if (isLoading) return <LoadingSpinner />;
   return (
     <div className="flex flex-col mt-20 ">
-      <WishedProductsRow wished products={wishedProducts} />
+      <WishedProductsRow products={wishedProducts} />
       <RelatedProductsRow products={wishedProducts} />
     </div>
   );
