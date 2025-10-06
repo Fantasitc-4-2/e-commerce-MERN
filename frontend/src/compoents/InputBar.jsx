@@ -1,7 +1,4 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
-
-const InputBar = ({
+export default function InputBar({
   children,
   placeholder,
   classes,
@@ -10,7 +7,7 @@ const InputBar = ({
   id = "",
   name = "",
   type = "text",
-}) => {
+}) {
   return (
     <div className={`flex items-center rounded-md  px-4 py-2 ${classes}`}>
       <input
@@ -25,6 +22,5 @@ const InputBar = ({
       {children}
     </div>
   );
-};
-
-export default InputBar;
+}
+  

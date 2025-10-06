@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import roleAuthMiddleware from "../middleware/roleAuthMiddleware.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import { validateProduct } from "../middleware/validateProduct.js";
-
+import upload from "../config/multipartConfig.js";
 const router = express.Router();
 
 // Get all items with pagination
@@ -36,14 +36,20 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create product (admin only)
+// multipart/form-data body is used not raw json request for this endpoint
 router.post(
   "/",
   authMiddleware,
   roleAuthMiddleware("admin"),
+  upload.single("image"),
   validateProduct,
   async (req, res) => {
     try {
       const product = req.body;
+      if(req.file) {
+        const imageUrl = `/uploads/${req.file.filename}`;
+        product.image = imageUrl;
+      }
       const createdProduct = await productService.createProduct(product);
       res.status(201).send(createdProduct);
     } catch (e) {

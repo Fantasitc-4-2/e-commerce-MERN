@@ -9,7 +9,8 @@ import {
   TruckIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartFilled } from "@heroicons/react/16/solid";
-import RelatedProductCard from "../compoents/RelatedProductCard";
+
+import RelatedProductsRow from "../compoents/RelatedProductsRow";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -50,7 +51,7 @@ const ProductDetails = () => {
     fetchProduct();
   }, [id]);
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProducts = async () => {
       try {
         const res = await axios.get(`http://localhost:3000/results`);
 
@@ -59,7 +60,7 @@ const ProductDetails = () => {
         console.log(error.message);
       }
     };
-    fetchProduct();
+    fetchProducts();
   }, []);
   if (isLoading) return <LoadingSpinner />;
 
@@ -205,15 +206,7 @@ const ProductDetails = () => {
         </div>
       </div>
       {/* Related products section */}
-      <div className="flex justify-center gap-22  items-center mb-30 relative pt-20 container mx-auto">
-        <div className="absolute top-0 left-19 flex items-center gap-4">
-          <div className="w-5 h-10 bg-[#DB4444] rounded"></div>
-          <p className="text-[#DB4444] font-medium">Related Item</p>
-        </div>
-        {relatedProducts.map((product) => (
-          <RelatedProductCard key={product.id} {...product} />
-        ))}
-      </div>
+      <RelatedProductsRow products={relatedProducts} related />
     </div>
   );
 };

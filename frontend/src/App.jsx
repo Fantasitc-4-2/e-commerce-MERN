@@ -22,6 +22,8 @@ import AddressBook from "./compoents/profile/AddressBook";
 import MyReturns from "./compoents/profile/MyReturns";
 import PaymentOptions from "./compoents/profile/PaymentOptions";
 import ProfileLayout from "./layouts/ProfileLayout";
+import Products from "./pages/Products";
+import VerifyEmail from "./pages/VerifyEmail";
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -31,8 +33,10 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/otp/:email" element={<VerifyEmail />} />
         <Route path="/wishList" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/profile" element={<ProfileLayout />}>
           <Route index element={<EditProfile />} />
           <Route path="edit" element={<EditProfile />} />
