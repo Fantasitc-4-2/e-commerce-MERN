@@ -1,21 +1,28 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router";
+import { loginUser } from "../slices/authSlice";
 
 export default function Login() {
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(userData.email)) return setError("Invalid email");
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try{
+      await dispatch(loginUser(userData)).unwrap()
       navigate("/");
-    }, 1500);
+    }catch(err){
+      setError(err)
+    }finally{
+       setLoading(false);
+    }
+   
   };
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">

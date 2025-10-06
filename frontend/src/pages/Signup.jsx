@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { registerUser } from "../slices/authSlice";
 const Signup = () => {
   const dispatch = useDispatch();
 
   const [formLoading, setFormLoading] = useState(false);
-  const [formerror, setFormError] = useState("");
-  const { user, loading, error } = useSelector((state) => state.auth);
+  const [formError, setFormError] = useState("");
   const [userData, setUserData] = useState({
     phoneNumber: "",
     username: "",
@@ -156,18 +155,18 @@ const Signup = () => {
                   />
                 </div>
               </div>
-              {error && (
+              {formError && (
                 <div className="sm:col-span-2 text-red-500 text-sm">
-                  {error}
+                  {formError}
                 </div>
               )}
               <div className="mt-10 sm:col-span-2">
                 <button
                   type="submit"
                   className="block w-full rounded-md bg-orange-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-400"
-                  disabled={loading}
+                  disabled={formLoading}
                 >
-                  {loading ? "Loading..." : "Create account"}
+                  {formLoading ? "Loading..." : "Create account"}
                 </button>
               </div>
             </div>
