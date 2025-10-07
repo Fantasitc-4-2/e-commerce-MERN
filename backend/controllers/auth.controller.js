@@ -40,7 +40,11 @@ export const register = async (userData) => {
 };
 
 const createToken = (user) => {
-  const payload = { id: user._id.toString(), username: user.username, roles: user.roles };
+  const payload = {
+    id: user._id.toString(),
+    username: user.username,
+    roles: user.roles,
+  };
   return jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || "1d",
   });
@@ -53,10 +57,12 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Email and password required" });
 
     const user = await repository.getUserByEmail(email);
-    if (!user) return res.status(401).json({ error: "Invalid email or password" });
+    if (!user)
+      return res.status(401).json({ error: "Invalid email or password" });
 
     const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ error: "Invalid email or password" });
+    if (!match)
+      return res.status(401).json({ error: "Invalid email or password" });
 
     if (!user.isVerified) {
       return res
@@ -68,11 +74,10 @@ export const login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
-
     res.json({
       message: "Login successful",
       user: { id: user._id, username: user.username, email: user.email },
