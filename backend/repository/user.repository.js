@@ -24,3 +24,30 @@ export const createUser = async (user) => {
 
   return await newUser.save();
 };
+
+// Update user by ID
+export const updateUserById = async (userId, updateData) => {
+  // We don’t want to accidentally overwrite sensitive fields directly
+  const allowedFields = ["username", "phoneNumber", "password"];
+  const update = {};
+
+  for (const field of allowedFields) {
+    if (updateData[field] !== undefined) {
+      update[field] = updateData[field];
+    }
+  }
+
+  // Handle password hashing if user wants to update it
+  if (update.password) {
+    const bcrypt = await import("bcrypt");
+    update.password = await bcrypt.default.hash(update.password, 10);
+  }
+
+  const updatedUser = await UserModel.findByIdAndUpdate(
+    userId,
+    { $set: update },
+    { new: true, runValidators: true }
+  ).select("-password -otp -otpExpires");
+
+  return updatedUser;
+};

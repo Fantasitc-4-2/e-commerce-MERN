@@ -141,3 +141,23 @@ export const verifyOtp = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+export const updateUser = async (req, res) => {
+  try {
+    const userId = req.user.id; // from authMiddleware
+    const updatedUser = await repository.updateUserById(userId, req.body);
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (err) {
+    console.error("Error updating user:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
