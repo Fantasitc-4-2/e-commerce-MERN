@@ -39,7 +39,7 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/results/${id}`);
+        const res = await axios.get(`http://localhost:5000/results/${id}`);
 
         setProduct(res.data);
       } catch (error) {

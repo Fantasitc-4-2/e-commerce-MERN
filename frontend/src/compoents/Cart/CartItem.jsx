@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 const CartItem = () => {
+  const [quantity, setQuantity] = useState(1);
   return (
-    <div className="flex justify-between items-center bg-white rounded-lg shadow-sm px-6 py-2 w-[90%] mx-auto  ">
-      <div className="flex justify-center gap-4 items-center">
+    <div className="grid grid-cols-4 items-center bg-white rounded-lg shadow-sm px-6 py-2 w-[70%] mx-auto  ">
+      <div className="flex justify-start gap-5 items-center">
         <div>
           <div className="relative">
             <button className="bg-red-400 text-white  rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold hover:bg-red-600 transition cursor-pointer absolute">
@@ -20,7 +21,8 @@ const CartItem = () => {
         <input
           type="number"
           min="1"
-          value="1"
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
           className="border-black border w-16 px-4 py-2 rounded appearance-auto"
         />
       </span>
