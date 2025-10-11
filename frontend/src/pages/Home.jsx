@@ -1,8 +1,7 @@
-import React from "react";
 import ProductGrid from "../compoents/ProductGrid";
 import CategoryComp from "../compoents/CategoryComp";
 import AdComp from "../compoents/AdComp";
-import BrowseCat from "../compoents/BrowseCat";
+
 
 export default function Home() {
   return (
@@ -12,7 +11,6 @@ export default function Home() {
     <AdComp />
     </div>
       <ProductGrid limit={4} />
-      <BrowseCat />
     </div>
   );
 }

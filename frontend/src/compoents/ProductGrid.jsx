@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect} from "react";
 import ProductCard from "./ProductCard";
-import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../slices/productSlice";
 
 export default function ProductGrid({ limit }) {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const {products,loading,error} = useSelector((state)=>state.products)
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get("http://localhost:3000/results");
-        setProducts(res.data);
-      } catch (error) {
-        console.log(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProducts();
+       dispatch(getAllProducts());
   }, []);
   const handleClick = () => {
     navigate("/products");
   };
   const visibleProducts = limit ? products.slice(0, limit) : products;
-  if (isLoading) return <LoadingSpinner />;
+  if (loading) return <LoadingSpinner />;
   return (
     <>
       <div className="grid grid-cols-4 m-5 gap-4">
@@ -43,6 +34,9 @@ export default function ProductGrid({ limit }) {
             All Products
           </button>
         </div>
+      )}
+      {error&& (
+        <div>{error}</div>
       )}
     </>
   );
