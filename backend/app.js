@@ -10,6 +10,7 @@ import reviewRouter from "./route/review.router.js";
 import productRouter from "./route/product.route.js";
 import cartRouter from "./route/cart.route.js";
 import addressRoutes from "./route/address.route.js";
+import categoryRoutes from "./route/category.route.js";
 import logger from "./middleware/logger.js";
 
 const app = express();
@@ -32,6 +33,7 @@ app.use("/reviews", reviewRouter);
 app.use("/products", productRouter);
 app.use("/carts", cartRouter);
 app.use("/addresses", addressRoutes);
+app.use("/categories", categoryRoutes)
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
