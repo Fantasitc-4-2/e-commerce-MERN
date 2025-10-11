@@ -53,6 +53,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="*" element={<NotFound />} />
+        
       </Route>
     )
   );
@@ -71,4 +72,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
