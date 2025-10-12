@@ -8,6 +8,7 @@ import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { CiHeadphones } from "react-icons/ci";
 import { LuGamepad } from "react-icons/lu";
 import { SlScreenSmartphone } from "react-icons/sl";
+import SectionName from "./SectionName";
 
 export default function CategoryImgs() {
   const [category] = useState([
@@ -39,6 +40,7 @@ export default function CategoryImgs() {
   };
   return (
     <div className="p-3 m-10">
+        <SectionName section="Category"/>
       <div className="flex justify-between">
         <h2 className="text-3xl font-bold">Browse By Category</h2>
         <div className="w-[7%] flex justify-around text-sm">
