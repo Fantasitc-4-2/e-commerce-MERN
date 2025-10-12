@@ -9,7 +9,7 @@ export default function CategoryComp() {
     }
     return (
     <div className="flex sm:flex-col">
-      {category.map(c=>(<div onClick={()=>handleClick(c)} value={c} className="p-3 ml-5" key={c}>
+      {category.map(c=>(<div  onClick={()=>handleClick(c)} value={c} className="p-3 ml-5 cursor-pointer" key={c}>
         {c}
         </div>))}
     </div>
