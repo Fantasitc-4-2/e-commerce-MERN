@@ -4,21 +4,20 @@ const OrderSchema = new mongoose.Schema(
   {
     status: {
       type: String,
-      eum: ["pending", "processing", "shipped", "deliverd", "cancelled"],
+      enum: ["pending", "processing", "shipped", "deliverd", "cancelled"],
       default: "pending",
     },
     payment: {
       method: {
         type: String,
-        eum: ["cash on deleviry", "card"],
+        enum: ["cash on deleviry", "card"],
         default: "cash on deleviry",
       },
       status: {
         type: String,
-        eum: ["pending", "paid", "failed"],
+        enum: ["pending", "paid", "failed"],
         default: "pending",
       },
-      transactionId: { type: String },
     },
     shipping: {
       street: { type: String, required: true },
@@ -27,6 +26,8 @@ const OrderSchema = new mongoose.Schema(
       postal_code: { type: String },
       country: { type: String, required: true },
     },
+    totalOrderPrice: Number,
+
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
