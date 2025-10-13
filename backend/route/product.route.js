@@ -13,8 +13,10 @@ router.get("/", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const searchVal = req.query.search || "";
+    const category = req.query.filter
+    const price = req.query.price;
 
-    const products = await productService.getAllProducts(limit, page, searchVal);
+    const products = await productService.getAllProducts(limit, page, searchVal, price,category);
     res.status(200).send(products);
   } catch (e) {
     console.error(e.message);

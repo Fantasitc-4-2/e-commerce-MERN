@@ -1,12 +1,18 @@
 import productModel from "../model/Product.js";
 
-export const getAllProducts = async (limit, page, searchVal) => {
+export const getAllProducts = async (limit, page, searchVal, price, category) => {
   const skip = (page - 1) * limit;
+  const filter = {
+    $or: [
+      {title: { $regex: searchVal, $options: "i" }},
+      {description: { $regex: searchVal, $options: "i" },}
+    ]
+  }
+  if(price !== undefined && !isNaN(price)) {
+    filter.price = { $lte: price};
+  }
   return await productModel
-    .find({
-      title: { $regex: searchVal, $options: "i" },
-      description: { $regex: searchVal, $options: "i" },
-    })
+    .find(filter)
     .skip(skip)
     .limit(limit);
 };
