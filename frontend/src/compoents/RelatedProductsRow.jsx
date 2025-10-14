@@ -1,6 +1,7 @@
 import React from "react";
 import RelatedProductCard from "./RelatedProductCard";
 import WishedProductCard from "./WishedProductCard";
+import { Link } from "react-router";
 const RelatedProductsRow = ({ products, related }) => {
   return (
     <div className=" mb-30  gap-10 container mx-auto flex  flex-col w-auto">
@@ -22,7 +23,9 @@ const RelatedProductsRow = ({ products, related }) => {
       )}
       <div className="grid grid-cols-4 gap-10">
         {products.map((product) => (
-          <RelatedProductCard key={product.id} {...product} />
+          <Link to={`/products/${product._id}`}>
+            <RelatedProductCard key={product._id} {...product} />
+          </Link>
         ))}
       </div>
     </div>

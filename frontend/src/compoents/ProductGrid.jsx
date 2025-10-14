@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import ProductCard from "./ProductCard";
 import LoadingSpinner from "./LoadingSpinner";
 import { useNavigate } from "react-router";
@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../slices/productSlice";
 import SectionName from "./SectionName";
 
-export default function ProductGrid({ limit,title }) {
-  const {products,loading,error} = useSelector((state)=>state.products)
-  const dispatch = useDispatch()
+export default function ProductGrid({ limit, title }) {
+  const { products, loading, error } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-       dispatch(getAllProducts());
+    dispatch(getAllProducts());
   }, []);
   const handleClick = () => {
     navigate("/products");
@@ -21,10 +21,10 @@ export default function ProductGrid({ limit,title }) {
   if (loading) return <LoadingSpinner />;
   return (
     <div>
-    <SectionName section={title}/>
+      <SectionName section={title} />
       <div className="grid grid-cols-4 m-5 gap-4">
         {visibleProducts.map((product) => (
-          <ProductCard key={product.id} {...product} />
+          <ProductCard key={product._id} {...product} />
         ))}
       </div>
       {limit && (
@@ -37,9 +37,7 @@ export default function ProductGrid({ limit,title }) {
           </button>
         </div>
       )}
-      {error&& (
-        <div>{error}</div>
-      )}
+      {error && <div>{error}</div>}
     </div>
   );
 }

@@ -11,9 +11,11 @@ import {
 import { HeartIcon as HeartFilled } from "@heroicons/react/16/solid";
 
 import RelatedProductsRow from "../compoents/RelatedProductsRow";
+import api from "../api/axios";
 
 const ProductDetails = () => {
   const { id } = useParams();
+
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -33,15 +35,20 @@ const ProductDetails = () => {
       size: size,
       quantatity: quantatity,
     };
-    console.log(selectedProduct);
+    api.post("/carts", selectedProduct);
   };
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/results/${id}`);
+        const res = await api.get(`/products/${id}`);
 
         setProduct(res.data);
+        const related = await api.get(
+          `/products?category=${res.data.category}`
+        );
+
+        setRelatedProducts(related.data.slice(0, 4));
       } catch (error) {
         console.log(error.message);
       } finally {
@@ -50,18 +57,18 @@ const ProductDetails = () => {
     };
     fetchProduct();
   }, [id]);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(`http://localhost:3000/results`);
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const res = await api.get(`/products?category=${product.category}`);
 
-        setRelatedProducts(res.data.slice(0, 4));
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    fetchProducts();
-  }, []);
+  //       setRelatedProducts(res.data.slice(0, 4));
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   };
+  //   fetchProducts();
+  // }, []);
   if (isLoading) return <LoadingSpinner />;
 
   return (
@@ -75,32 +82,16 @@ const ProductDetails = () => {
         </div>
         {/* secondary images section */}
         <aside className="flex flex-col gap-2 w-32  ">
-          <img
-            src={product.image}
-            className=" border-2 border-[#DB4444]"
-            alt={product.title}
-          />
-          <img
-            src={product.image}
-            className=" border-2 border-[#DB4444]"
-            alt={product.title}
-          />
-          <img
-            src={product.image}
-            className=" border-2 border-[#DB4444]"
-            alt={product.title}
-          />
-          <img
-            src={product.image}
-            className=" border-2 border-[#DB4444]"
-            alt={product.title}
-          />
+          <img src={product.image} className=" " alt={product.title} />
+          <img src={product.image} className=" " alt={product.title} />
+          <img src={product.image} className=" " alt={product.title} />
+          <img src={product.image} className=" " alt={product.title} />
         </aside>
         {/* Main image section */}
         <div>
           <img
             src={product.image}
-            className=" border-2 border-[#DB4444] w-[34rem]"
+            className="  w-[34rem]"
             alt={product.title}
           />
         </div>
@@ -141,37 +132,44 @@ const ProductDetails = () => {
             {["XS", "S", "M", "L", "Xl"].map((size, i) => (
               <button
                 key={i}
-                className="border-1 border-black rounded-lg w-10 h-10 font-medium hover:cursor-pointer"
+                className="border-1 border-black rounded-lg w-10 h-10 font-medium hover:bg-gray-300 transition  cursor-pointer"
                 onClick={() => setSize(size)}
               >
                 {size}
               </button>
             ))}
           </div>
-          <div className="flex gap-6 justify-start items-center my-4  ">
-            <div className="flex justify-center items-center border-1 border-black rounded h-14">
+          <div className="flex gap-6 justify-start items-center my-4">
+            {/* Quantity Counter */}
+            <div className="flex justify-center items-center border border-black rounded overflow-hidden h-14">
               <button
-                className="border-r-1 border-black pb-2  w-12 text-5xl font-light hover:cursor-pointer"
-                onClick={() => setQuantatity((q) => q - 1)}
+                className="border-r border-black w-12 h-full text-4xl font-light cursor-pointer hover:bg-gray-200 transition"
+                onClick={() => setQuantatity((q) => Math.max(q - 1, 1))}
               >
                 −
               </button>
-              <div className="   px-8 text-2xl font-semibold">{quantatity}</div>
+              <div className="px-8 text-2xl font-semibold select-none">
+                {quantatity}
+              </div>
               <button
-                className="bg-[#DB4444] text-white border-l-1 border-black pb-2 w-12 text-5xl font-[10] hover:cursor-pointer"
+                className="bg-[#DB4444] text-white border-l border-black w-12 h-full text-4xl font-light cursor-pointer hover:bg-[#8e2929] transition"
                 onClick={() => setQuantatity((q) => q + 1)}
               >
                 +
               </button>
             </div>
+
+            {/* Buy Now */}
             <button
-              className="bg-[#DB4444] text-white border-1 rounded py-3 w-56 text-2xl hover:cursor-pointer"
+              className="bg-[#DB4444] text-white border border-black rounded py-3 w-56 text-2xl hover:bg-[#8e2929] transition cursor-pointer"
               onClick={handleSubmit}
             >
-              Buy Now
+              Add to cart
             </button>
+
+            {/* Wishlist Icon */}
             <div
-              className="p-2 border border-black rounded hover:cursor-pointer"
+              className="p-2 border border-black rounded hover:bg-gray-200 transition cursor-pointer"
               onClick={() => setIsWished((isWished) => !isWished)}
             >
               {isWished ? (
@@ -181,6 +179,7 @@ const ProductDetails = () => {
               )}
             </div>
           </div>
+
           <div>
             <div className="border rounded-sm border-black">
               <div className="border border-black flex justify-start gap-6 p-4">
@@ -206,7 +205,10 @@ const ProductDetails = () => {
         </div>
       </div>
       {/* Related products section */}
-      <RelatedProductsRow products={relatedProducts} related />
+
+      {relatedProducts.length && (
+        <RelatedProductsRow products={relatedProducts} related />
+      )}
     </div>
   );
 };
