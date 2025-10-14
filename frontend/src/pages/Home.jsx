@@ -5,17 +5,17 @@ import CategoryImgs from "../compoents/CategoryImgs";
 import ThisMonth from "../compoents/ThisMonth";
 import HorizDivider from "../compoents/HorizDivider";
 import VerticalDivider from "../compoents/VerticalDivider";
+import RelatedProductCard from "../compoents/RelatedProductCard";
 
 export default function Home() {
   return (
-    <div>
-    <div className="grid grid-cols-5 my-1">
+    <div className="mx-10">
+    <div className="grid grid-cols-5">
     <div className="flex justify-around">
     <CategoryComp />
     <VerticalDivider />   
     </div>
-    <AdComp title="I Phone 17" section="NEW ARRIVEL" img="iphone17.png"/>
-    
+    <AdComp title="IPhone 17" section="NEW ARRIVEL" img="iphone17.png"/>
     </div>
     <div className="p-3 m-20">
       <ProductGrid limit={4} title="Today's"/>
@@ -24,7 +24,8 @@ export default function Home() {
       <HorizDivider />
       <ThisMonth limit={4} title="This Month"/>
       </div>
-      <AdComp  title="I Phone 17" section="NEW ARRIVEL" img="iphone17.png" grid="4" className="my-20"/>
+
+      <AdComp  title="Category" section="Enhance Your Music Experience" img="iphone17.png" grid="4" className="my-20"/>
     </div>
   );
 }

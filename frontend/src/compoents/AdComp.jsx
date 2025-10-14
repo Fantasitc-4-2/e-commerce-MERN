@@ -1,21 +1,24 @@
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { SiApple } from "react-icons/si";
 
 export default function AdComp({img,title,section}) {
   return (
-    <div className={`sm:col-span-4 bg-black mx-4`}>
-      <div className="grid grid-cols-4 h-[400px]">
-        <div className="text-white mx-10 flex flex-col justify-center space-y-6">
-          <h2 className="text-xl">{title}</h2>
-          <h3 className="text-6xl font-bold">{section}</h3>
-          <div className="flex items-center hover:translate-x-5 duration-300 transition-all hover:text-[#DB4444] hover:underline">
-          <h3 className="text-2xl">Shop Now</h3>
+    <div className='col-span-5 md:col-span-4 bg-black md:m-4 overflow-hidden'>
+      <div className="grid grid-cols-4 h-[350px]">
+        <div className="text-white mx-10 flex flex-col justify-around">
+          <div className="flex items-center">
+           <SiApple  className="text-xl md:text-3xl m-2" /><h2 className="text-2xl">{title}</h2>
+          </div>
+          <h3 className="text-6xl font-bold text-[#FB7F33]">{section}</h3>
+          <div className="flex items-center hover:translate-x-5 duration-300 transition-all hover:text-[#FB7F33] hover:underline">
+          <h3 className="text-sm md:text-3xl">Shop Now</h3>
           <div className="mx-2">
            <ArrowForwardIcon />
            </div>
           </div>
         </div>
-        <div className="col-span-3 overflow-hidden flex justify-center">
-          <img className="h-max-[80%] object-contain hover:scale-110 duration-500 transition-all" src={`${img}`} alt="" />
+        <div className="col-span-3 md:flex  justify-center overflow-hidden hidden">
+          <img className=" hover:scale-105 translate-y-5 hover:translate-y-0 hover:motion-safe:animate-pulse duration-500 transition-all" src={`${img}`} alt="" />
         </div>
       </div>
     </div>
