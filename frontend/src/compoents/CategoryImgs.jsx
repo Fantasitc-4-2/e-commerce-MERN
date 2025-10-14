@@ -39,7 +39,7 @@ export default function CategoryImgs() {
     if (startIndex > 0) setStartIndex(startIndex - 1);
   };
   return (
-    <div className="p-3 m-10">
+    <div>
         <SectionName section="Category"/>
       <div className="flex justify-between">
         <h2 className="text-3xl font-bold">Browse By Category</h2>
