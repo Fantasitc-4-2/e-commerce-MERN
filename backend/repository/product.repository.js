@@ -1,6 +1,6 @@
 import productModel from "../model/Product.js";
-
-export const getAllProducts = async (limit, page, searchVal, price, category) => {
+import mongoose from "mongoose";
+export const getAllProducts = async (limit, page, searchVal, price, categoryId) => {
   const skip = (page - 1) * limit;
   const filter = {
     $or: [
@@ -9,8 +9,12 @@ export const getAllProducts = async (limit, page, searchVal, price, category) =>
     ]
   }
   if(price !== undefined && !isNaN(price)) {
-    filter.price = { $lte: price};
+    filter.price = { $lte: Number(price)};
   }
+  if (categoryId) {
+    filter.category = new mongoose.Types.ObjectId(categoryId);
+  }
+  console.log(filter);
   return await productModel
     .find(filter)
     .skip(skip)

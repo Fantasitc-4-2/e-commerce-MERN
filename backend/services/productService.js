@@ -1,8 +1,8 @@
 import * as productRepository from "../repository/product.repository.js";
+import * as categoryRepository from "../repository/category.repository.js";
 
 export const getAllProducts = async (limit, page, searchVal, price,category) => {
-  
-  return await productRepository.getAllProducts(limit, page, searchVal, price,category);
+  return await productRepository.getAllProducts(limit, page, searchVal, price, category);
 };
 
 export const getProductById = async (id) => {

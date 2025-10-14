@@ -24,3 +24,14 @@ export const updateCategory = async (id, data) => {
 export const deleteCategory = async (id) => {
   return await Category.findByIdAndDelete(id);
 };
+
+export const getCategoryIdByName = async (name) => {
+  return await Category.findOne(
+    {
+      name: name
+    },
+    {
+      _id: 1
+    }
+  )
+}

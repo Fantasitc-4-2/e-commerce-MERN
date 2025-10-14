@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const searchVal = req.query.search || "";
-    const category = req.query.filter
+    const category = req.query.category
     const price = req.query.price;
 
     const products = await productService.getAllProducts(limit, page, searchVal, price,category);
