@@ -24,8 +24,6 @@ export const addReview = catchAsyncError(async (req, res, next) => {
   });
   if (isExist)
     return next(new AppError(`you have created a review before`, 409));
-
-
   let result = new reviewModel(req.body);
   await result.save();
   res.json({ message: "Success", result });
