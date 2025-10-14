@@ -22,11 +22,10 @@ const RelatedProductCard = ({ title, image }) => {
           -40%
         </div>
 
-        <button className="hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-300 group-hover:bottom-0">
+        <button className="hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-400 group-hover:bottom-0">
           Add to Cart
         </button>
       </div>
-
       <p className="font-semibold">{title}</p>
       <div className="flex gap-4">
         <p className="text-[#DB4444] font-medium">$120</p>

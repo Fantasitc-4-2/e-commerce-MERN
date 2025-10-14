@@ -9,12 +9,12 @@ import VerticalDivider from "../compoents/VerticalDivider";
 export default function Home() {
   return (
     <div>
-    <div className="grid grid-cols-3 my-1">
-    <div className="col-span-1 flex justify-around">
+    <div className="grid grid-cols-5 my-1">
+    <div className="flex justify-around">
     <CategoryComp />
     <VerticalDivider />   
     </div>
-    <AdComp />
+    <AdComp title="I Phone 17" section="NEW ARRIVEL" img="iphone17.png"/>
     
     </div>
     <div className="p-3 m-20">
@@ -24,6 +24,7 @@ export default function Home() {
       <HorizDivider />
       <ThisMonth limit={4} title="This Month"/>
       </div>
+      <AdComp  title="I Phone 17" section="NEW ARRIVEL" img="iphone17.png" grid="4" className="my-20"/>
     </div>
   );
 }
