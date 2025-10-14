@@ -13,6 +13,7 @@ import cartRouter from "./route/cart.route.js";
 import addressRoutes from "./route/address.route.js";
 import categoryRoutes from "./route/category.route.js";
 import logger from "./middleware/logger.js";
+import orderRouter from "./route/order.route.js";
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use("/products", productRouter);
 app.use("/carts", cartRouter);
 app.use("/addresses", addressRoutes);
 app.use("/categories", categoryRoutes)
+app.use("/orders", orderRouter)
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

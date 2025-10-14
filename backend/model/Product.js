@@ -19,11 +19,11 @@ const productSchema = new mongoose.Schema({
     required: true,
     min: [1, "price must be bigger than zero"],
   },
-  stock: {
-    type: Number,
-    required: true,
-    min: [0, "stock can not be a negative number"],
-  },
+  // stock: {
+  //   type: Number,
+  //   required: true,
+  //   min: [0, "stock can not be a negative number"],
+  // },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Cart",
@@ -36,6 +36,17 @@ const productSchema = new mongoose.Schema({
   image: {
     type: String,
     required: true,
+  },
+  quantity: {
+    type: Number,
+    default: 0,
+    required: [true, "product quantity required"],
+    min: 0,
+  },
+  sold: {
+    type: Number,
+    default: 0,
+    min: 0,
   },
 });
 

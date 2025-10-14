@@ -19,9 +19,9 @@ export const validateProduct = [
     .notEmpty().withMessage("Price is required")
     .isFloat({ min: 1, max: 100000 }).withMessage("Price must be between 1 and 100000"),
 
-  body("stock")
-    .notEmpty().withMessage("Stock is required")
-    .isInt({ min: 0 }).withMessage("Stock cannot be negative"),
+  // body("stock")
+  //   .notEmpty().withMessage("Stock is required")
+  //   .isInt({ min: 0 }).withMessage("Stock cannot be negative"),
 
   body("createdBy")
     .notEmpty().withMessage("CreatedBy is required")
