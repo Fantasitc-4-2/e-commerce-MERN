@@ -31,7 +31,7 @@ export default function ProductCard({ image, title, price, _id }) {
       <div className="m-2">
         <p className="text-red-500">${price}</p>
         <h5 className="text-xl font-semibold tracking-tight">{title}</h5>
-
+      
         <button
           onClick={handleClick}
           className={`bg-black p-2 rounded text-white w-[100%] transition-all duration-300 ${

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import StarRating from "./StarRating";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 
-const RelatedProductCard = ({ title, image }) => {
+const RelatedProductCard = ({ title, image,price,_id,review }) => {
   const [rating, setRating] = useState(0);
   const handleRating = (rate) => {
     setRating(rate);
@@ -12,7 +12,7 @@ const RelatedProductCard = ({ title, image }) => {
     <div className="flex flex-col w-70 gap-1 group">
       <div className="relative w-60 overflow-hidden">
         <img
-          src={image}
+          src={"product-1.jpg"}
           alt=""
           className="w-60 h-60  transform transition-transform duration-300 group-hover:-translate-y-6"
         />
@@ -28,8 +28,8 @@ const RelatedProductCard = ({ title, image }) => {
       </div>
       <p className="font-semibold">{title}</p>
       <div className="flex gap-4">
-        <p className="text-[#DB4444] font-medium">$120</p>
-        <p className="text-gray-400 font-medium line-through">$160</p>
+        <p className="text-[#DB4444] font-medium">{price}</p>
+        <p className="text-gray-400 font-medium line-through">{price}</p>
       </div>
       <StarRating rating={rating} handleRating={handleRating} />
     </div>

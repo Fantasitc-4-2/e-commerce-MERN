@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import ProductCard from "./ProductCard";
 import LoadingSpinner from "./LoadingSpinner";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../slices/productSlice";
 import SectionName from "./SectionName";
+import ProductCard from "./ProductCard";
 
 export default function ProductGrid({ limit, title }) {
   const { products, loading, error } = useSelector((state) => state.products);

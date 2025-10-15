@@ -15,7 +15,7 @@ export default function Home() {
     <CategoryComp />
     <VerticalDivider />   
     </div>
-    <AdComp title="IPhone 17" section="NEW ARRIVEL" img="iphone17.png"/>
+    <AdComp title="IPhone 17" section="NEW ARRIVEL" img="iphone17.png" color="#FB7F33"/>
     </div>
     <div className="p-3 m-20">
       <ProductGrid limit={4} title="Today's"/>
@@ -25,7 +25,7 @@ export default function Home() {
       <ThisMonth limit={4} title="This Month"/>
       </div>
 
-      <AdComp  title="Category" section="Enhance Your Music Experience" img="iphone17.png" grid="4" className="my-20"/>
+      <AdComp  title="Category" section="Enhance Your Music Experience" color="green" img="jbl.png" height={500}  />
     </div>
   );
 }
