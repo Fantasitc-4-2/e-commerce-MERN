@@ -19,11 +19,13 @@ const productSchema = new mongoose.Schema({
     required: true,
     min: [1, "price must be bigger than zero"],
   },
-  // stock: {
-  //   type: Number,
-  //   required: true,
-  //   min: [0, "stock can not be a negative number"],
-  // },
+  discountPrice: {
+    type: Number,
+    min: [1, "price must be bigger than zero"]
+  },
+  discountRate: {
+    type: Number
+  },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Cart",

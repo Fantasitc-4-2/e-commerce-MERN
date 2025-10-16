@@ -2,7 +2,6 @@ import productModel from "../model/Product.js";
 import mongoose from "mongoose";
 export const getAllProducts = async (limit, page, searchVal, price, categoryId) => {
   const skip = (page - 1) * limit;
-
   const filter = {
     $or: [{
         title: {
