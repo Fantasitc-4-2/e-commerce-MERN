@@ -3,7 +3,7 @@ import WishedProductsRow from "../compoents/WishedProductsRow";
 
 import axios from "axios";
 import LoadingSpinner from "../compoents/LoadingSpinner";
-import RelatedProductsRow from "../compoents/RelatedProductsRow";
+import RelatedProductsRow from "../compoents/product/RelatedProductsRow";
 
 const WishList = () => {
   const [wishedProducts, setWishedProducts] = useState([]);

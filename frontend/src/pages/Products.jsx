@@ -1,4 +1,4 @@
-import ProductGrid from '../compoents/ProductGrid'
+import ProductGrid from '../compoents/product/ProductGrid'
 
 export default function Products() {
   return (

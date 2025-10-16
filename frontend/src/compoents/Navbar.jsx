@@ -34,7 +34,7 @@ export default function Navbar() {
     setSearchQuery(e.target.value);
   };
   return (
-    <nav className="px-7 pt-7 pb-3 flex  justify-evenly items-center border-b-2 border-gray-200">
+    <nav className="px-7 pt-7 pb-3 flex justify-evenly items-center border-b-2 border-gray-200">
       <div>
         <h1 className="font-bold text-2xl">X Market</h1>
       </div>
