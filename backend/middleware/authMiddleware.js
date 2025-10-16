@@ -9,8 +9,7 @@ const auth = (req, res, next) => {
     if (authHeader && authHeader.startsWith("Bearer ")) {
       token = authHeader.split(" ")[1];
     }
-
-    // 2) Or cookie
+// 2) Or cookie
     if (!token && req.cookies && req.cookies.token) {
       token = req.cookies.token;
     }
@@ -27,4 +26,4 @@ const auth = (req, res, next) => {
   }
 };
 
-export default auth;
+export default auth; 
