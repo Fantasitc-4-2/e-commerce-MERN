@@ -35,6 +35,12 @@ const productSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  sizes: {
+    type: [String]
+  },
+  colors: {
+    type: [String]
+  },
   image: {
     type: String,
     required: true,
