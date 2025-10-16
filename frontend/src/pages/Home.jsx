@@ -6,6 +6,7 @@ import ThisMonth from "../compoents/home/ThisMonth";
 import HorizDivider from "../compoents/divider/HorizDivider";
 import VerticalDivider from "../compoents/divider/VerticalDivider";
 import AdGroupComp from "../compoents/home/AdGroupComp";
+import Services from "../compoents/home/Services";
 
 export default function Home() {
   return (
@@ -29,6 +30,8 @@ export default function Home() {
 
       <ProductGrid section="Our Products" title="Expoler Our Products" limit={8}/>
       <AdGroupComp />
+      <HorizDivider />
+      <Services />
     </div>
   );
 }
