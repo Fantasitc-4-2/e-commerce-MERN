@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import LoadingSpinner from "./LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinner";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../slices/productSlice";
-import SectionName from "./SectionName";
+import { getAllProducts } from "../../slices/productSlice";
+import SectionName from "../SectionName";
 import ProductCard from "./ProductCard"
 
-export default function ProductGrid({ limit, title }) {
+export default function ProductGrid({ limit, title ,section}) {
   const { products, loading, error } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,9 +20,9 @@ export default function ProductGrid({ limit, title }) {
   const visibleProducts = limit ? products.slice(0, limit) : products;
   if (loading) return <LoadingSpinner />;
   return (
-    <div>
-      <SectionName section={title} />
-      <div className="grid grid-cols-4 m-5 gap-4">
+    <div className="m-20">
+      <SectionName section={section} title={title}  />
+      <div className="grid grid-cols-5 gap-2">
         {visibleProducts.map((product) => (
           <ProductCard key={product._id} {...product} />
         ))}
@@ -30,10 +30,10 @@ export default function ProductGrid({ limit, title }) {
       {limit && (
         <div className="flex justify-center my-8">
           <button
-            className="bg-[#DB4444] font-semibold text-white rounded px-8 py-4 cursor-pointer"
+            className="bg-[#DB4444] font-semibold text-white rounded px-12 py-4 cursor-pointer"
             onClick={handleClick}
           >
-            All Products
+            View All Products
           </button>
         </div>
       )}

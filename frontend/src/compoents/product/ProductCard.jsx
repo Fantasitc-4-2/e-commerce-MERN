@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
-import StarRating from "./StarRating";
+import StarRating from "../StarRating";
 
 export default function ProductCard({ image, title, price, _id }) {
  const [rating, setRating] = useState(0);
@@ -13,8 +13,8 @@ export default function ProductCard({ image, title, price, _id }) {
     navigate(`products/${_id}`);
   };
   return (
-    <div className="flex flex-col w-70 gap-1 group">
-      <div  className="relative w-60 overflow-hidden cursor-pointer">
+    <div className=" gap-1 group">
+      <div  className="relative flex items-center justify-center  overflow-hidden cursor-pointer">
         <img
         onClick={handleClick}
           src={"product-1.jpg"}

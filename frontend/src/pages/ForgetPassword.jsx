@@ -5,6 +5,7 @@ export default function ForgetPassword() {
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [focusedInput,setFocusdInput] = useState("")
   const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,8 +29,10 @@ export default function ForgetPassword() {
       </div>
       <form onSubmit={handleSubmit} className="mx-auto mt-16 max-w-xl sm:mt-20">
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-          <div className="sm:col-span-2">
-            <label for="email" className="text-sm/6 font-semibold">
+          <div className="sm:col-span-2 ">
+            <label htmlFor="email" className={`absolute font-semibold opacity-25 transition-all ${focusedInput === "email" || email
+                    ? "text-[#DB4444] opacity-100"
+                    : "text-gray-700 translate-y-7"}`}>
               Email
             </label>
             <div className="mt-2">
@@ -37,19 +40,21 @@ export default function ForgetPassword() {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="joenegm@example.com"
+      
                 autoComplete="given-name"
-                className="block w-full  bg-white/5 p-3 border-b-1 text-base placeholder:text-gray-500 "
+                className={`block w-full p-3 border-b-1 transition-all border-[#ddd] outline-0 focus:border-[#DB4444]`}
                 value={email}
+                onFocus={() => setFocusdInput("email")}
+                  onBlur={() => setFocusdInput("")}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
-          {error&&(<div className="sm:col-span-2 text-orange-500">{error}</div>)}
+          {error&&(<div className="sm:col-span-2 text-[#DB4444]">{error}</div>)}
           <div class="mt-10 sm:col-span-2">
             <button
               type="submit"
-              class="block w-full rounded-md bg-orange-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-orange-400"
+              class="block w-full rounded-md bg-[#DB4444] px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-[#f41414]"
               disabled={loading}
             >
               {loading ? "Loading..." : "Send Code"}

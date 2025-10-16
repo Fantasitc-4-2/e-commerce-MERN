@@ -41,8 +41,8 @@ router.get("/:id", async (req, res) => {
 // multipart/form-data body is used not raw json request for this endpoint
 router.post(
   "/",
-  authMiddleware,
-  roleAuthMiddleware("admin"),
+  // authMiddleware,
+  // roleAuthMiddleware("admin"),
   upload.single("image"),
   validateProduct,
   async (req, res) => {

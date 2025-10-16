@@ -182,6 +182,8 @@ const Signup = () => {
                     className="block w-full  bg-white/5 p-3 border-b-1 text-base border-[#ddd] focus:border-b-[#DB4444] placeholder:text-gray-500 focus:outline-none"
                     value={userData.password}
                     onFocus={() => setFocusdInput("password")}
+                    onMouseEnter={()=>setFocusdInput("password")}
+                    onMouseLeave={()=>setFocusdInput("")}
                     onBlur={() => setFocusdInput("")}
                     onChange={(e) =>
                       setUserData({ ...userData, password: e.target.value })

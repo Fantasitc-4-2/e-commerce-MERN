@@ -15,6 +15,11 @@ export const getProductById = async (id) => {
 };
 
 export const createProduct = async (product) => {
+  if(product.discountPrice) {
+    product.discountRate = (
+      ((product.price - product.discountPrice) / product.price) * 100
+    ).toFixed(2);
+  }
   return await productRepository.saveProduct(product);
 };
 

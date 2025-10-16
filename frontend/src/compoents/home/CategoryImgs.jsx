@@ -8,7 +8,7 @@ import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { CiHeadphones } from "react-icons/ci";
 import { LuGamepad } from "react-icons/lu";
 import { SlScreenSmartphone } from "react-icons/sl";
-import SectionName from "./SectionName";
+import SectionName from "../SectionName";
 
 export default function CategoryImgs() {
   const [category] = useState([
@@ -39,7 +39,7 @@ export default function CategoryImgs() {
     if (startIndex > 0) setStartIndex(startIndex - 1);
   };
   return (
-    <div>
+    <div className="mx-20">
         <SectionName section="Category"/>
       <div className="flex justify-between">
         <h2 className="text-3xl font-bold">Browse By Category</h2>

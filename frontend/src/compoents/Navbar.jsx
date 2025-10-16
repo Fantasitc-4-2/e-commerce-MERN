@@ -94,7 +94,7 @@ export default function Navbar() {
           <div className="max-w-7xl mx-auto">
             <div className="md:hidden flex items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <button className="text-gray-700 hover:text-gray-900 transition-colors" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                <button className="text-gray-700 hover:text-gray-900 transition-colors cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                   {isMenuOpen ? <XMarkIcon className="h-7 w-7" /> : <Bars3Icon className="h-7 w-7" />}
                 </button>
                 <Link to="/">
@@ -129,7 +129,7 @@ export default function Navbar() {
               <div className="flex-1 max-w-xl">
                 <InputBar
                   placeholder="What are you looking for"
-                  classes="bg-gray-50 hover:bg-gray-100 transition-colors w-full"
+                  classes="bg-gray-100 hover:bg-gray-100 transition-colors w-full"
                   value={searchQuery}
                   handleChange={(e) => setSearchQuery(e.target.value)}
                 >
@@ -147,7 +147,18 @@ export default function Navbar() {
             <div className="md:hidden mt-3">
               <InputBar
                 placeholder="What are you looking for"
-                classes="bg-gray-50 w-full"
+                classes="bg-gray-100 w-full"
+                value={searchQuery}
+                handleChange={(e) => setSearchQuery(e.target.value)}
+              >
+                <MagnifyingGlassIcon className="h-5 w-5 text-gray-600" />
+              </InputBar>
+            </div>
+
+            <div className="hidden md:block lg:hidden mt-4 px-4">
+              <InputBar
+                placeholder="What are you looking for"
+                classes="bg-gray-100 w-full"
                 value={searchQuery}
                 handleChange={(e) => setSearchQuery(e.target.value)}
               >
