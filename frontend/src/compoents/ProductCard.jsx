@@ -1,48 +1,42 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
+import StarRating from "./StarRating";
 
 export default function ProductCard({ image, title, price, _id }) {
-  const navigate = useNavigate();
-  const [hovered, setHovered] = useState(false);
-  const handleClick = () => {
+ const [rating, setRating] = useState(0);
+  const navigate = useNavigate()
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
+    const handleClick = () => {
     navigate(`products/${_id}`);
   };
-  const handleFocus = () => {
-    setHovered(true);
-  };
-  const handleBlur = () => {
-    setHovered(false);
-  };
   return (
-    <div
-      onMouseEnter={handleFocus}
-      onMouseLeave={handleBlur}
-      className="flex flex-col mt-20 justify-between w-full h-120 max-w-sm border border-gray-200 rounded-lg "
-    >
-      <Link to={`/products/${_id}`}>
-        <div>
-          <img
-            className="p-8 rounded-t-lg h-90 w-[100%]"
-            src={"product-1.jpg"}
-            alt={title}
-          />
+    <div className="flex flex-col w-70 gap-1 group">
+      <div  className="relative w-60 overflow-hidden cursor-pointer">
+        <img
+        onClick={handleClick}
+          src={"product-1.jpg"}
+          alt=""
+          className="w-60 h-60  transform transition-transform duration-300 group-hover:-translate-y-6"
+        />
+        <HeartIcon className="absolute top-3 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
+        <EyeIcon className="absolute top-12 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
+        <div className="bg-[#DB4444] text-white absolute top-3 left-2 w-13 rounded text-[.7rem] text-center p-1 font-light">
+          -40%
         </div>
-      </Link>
-      <div className="m-2">
-        <p className="text-red-500">${price}</p>
-        <h5 className="text-xl font-semibold tracking-tight">{title}</h5>
-      
-        <button
-          onClick={handleClick}
-          className={`bg-black p-2 rounded text-white w-[100%] transition-all duration-300 ${
-            hovered
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-3 pointer-events-none"
-          }`}
-        >
-          Add To Cart{" "}
+
+        <button className="hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-400 group-hover:bottom-0">
+          Add to Cart
         </button>
       </div>
+      <p className="font-semibold">{title}</p>
+      <div className="flex gap-4">
+        <p className="text-[#DB4444] font-medium">{price}</p>
+        <p className="text-gray-400 font-medium line-through">{price}</p>
+      </div>
+      <StarRating rating={rating} handleRating={handleRating} />
     </div>
   );
 }

@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import StarRating from "./StarRating";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router";
 
 const RelatedProductCard = ({ title, image,price,_id,review }) => {
   const [rating, setRating] = useState(0);
+  const navigate = useNavigate()
   const handleRating = (rate) => {
     setRating(rate);
   };
-
+    const handleClick = () => {
+    navigate(`products/${_id}`);
+  };
   return (
     <div className="flex flex-col w-70 gap-1 group">
-      <div className="relative w-60 overflow-hidden">
+      <div  className="relative w-60 overflow-hidden cursor-pointer">
         <img
+        onClick={handleClick}
           src={"product-1.jpg"}
           alt=""
           className="w-60 h-60  transform transition-transform duration-300 group-hover:-translate-y-6"

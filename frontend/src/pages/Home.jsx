@@ -3,9 +3,9 @@ import CategoryComp from "../compoents/CategoryComp";
 import AdComp from "../compoents/AdComp";
 import CategoryImgs from "../compoents/CategoryImgs";
 import ThisMonth from "../compoents/ThisMonth";
-import HorizDivider from "../compoents/HorizDivider";
-import VerticalDivider from "../compoents/VerticalDivider";
-import RelatedProductCard from "../compoents/RelatedProductCard";
+import HorizDivider from "../compoents/divider/HorizDivider";
+import VerticalDivider from "../compoents/divider/VerticalDivider";
+import ExpolerOurProducts from "../compoents/ExpolerOurProducts";
 
 export default function Home() {
   return (
@@ -26,6 +26,8 @@ export default function Home() {
       </div>
 
       <AdComp  title="Category" section="Enhance Your Music Experience" color="green" img="jbl.png" height={500}  />
+
+      <ExpolerOurProducts />
     </div>
   );
 }

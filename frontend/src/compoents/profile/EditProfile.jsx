@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import InputBar from "../InputBar";
 const EditProfile = () => {
   const [profileEdit, setProfileEdit] = useState({

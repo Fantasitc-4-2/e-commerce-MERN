@@ -2,6 +2,7 @@ import React from "react";
 import RelatedProductCard from "./RelatedProductCard";
 import WishedProductCard from "./WishedProductCard";
 import { Link } from "react-router";
+import SectionName from "./SectionName";
 const RelatedProductsRow = ({ products, related }) => {
   return (
     <div className=" mb-30  gap-10 container mx-auto flex  flex-col w-auto">
@@ -16,10 +17,7 @@ const RelatedProductsRow = ({ products, related }) => {
           </button>
         </div>
       ) : (
-        <div className=" flex items-center gap-4">
-          <div className="w-5 h-10 bg-[#DB4444] rounded"></div>
-          <p className="text-[rgb(219,68,68)] font-medium">Related Item</p>
-        </div>
+        <SectionName section="Related Items"/>
       )}
       <div className="grid grid-cols-4 gap-10">
         {products.map((product) => (
