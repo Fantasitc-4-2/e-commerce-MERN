@@ -11,10 +11,12 @@ import Services from "../compoents/home/Services";
 export default function Home() {
   return (
     <div className="mx-20">
-    <div className="grid grid-cols-5">
+    <div className=" lg:grid lg:grid-cols-5">
     <div className="flex justify-around">
     <CategoryComp />
-    <VerticalDivider />   
+    <div className="hidden lg:flex">
+    <VerticalDivider />
+    </div>   
     </div>
     <AdComp title="IPhone 17" section="NEW ARRIVEL" img="iphone17.png" color="#FB7F33"/>
     </div>
