@@ -24,9 +24,11 @@ const ProductDetails = () => {
   const [size, setSize] = useState("");
   const [quantatity, setQuantatity] = useState(1);
   const [isWished, setIsWished] = useState(false);
+
   const handleRating = (rate) => {
     setRating(rate);
   };
+
   const handleSubmit = () => {
     const selectedProduct = {
       id: id,
@@ -42,12 +44,10 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
       try {
         const res = await api.get(`/products/${id}`);
-
         setProduct(res.data);
         const related = await api.get(
           `/products?category=${res.data.category}`
         );
-
         setRelatedProducts(related.data.slice(0, 4));
       } catch (error) {
         console.log(error.message);
@@ -57,106 +57,145 @@ const ProductDetails = () => {
     };
     fetchProduct();
   }, [id]);
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const res = await api.get(`/products?category=${product.category}`);
 
-  //       setRelatedProducts(res.data.slice(0, 4));
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   };
-  //   fetchProducts();
-  // }, []);
   if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="flex flex-col items-center justify-center">
       {/* Product details section */}
-      <div className="container mx-auto mb-22 mt-10 relative pt-30 flex justify-center items-center   gap-25">
-        <div className="absolute top-0 left-28 flex gap-2">
-          <p className="text-gray-500 font-semibold text-sm">Home </p>
-          <p className="text-gray-500 font-semibold text-sm">/</p>
-          <p className="text-black font-bold text-sm">{product.title}</p>
+      <div className="container mx-auto mb-12 md:mb-22 mt-6 md:mt-10 px-4 md:px-6 lg:px-0 relative pt-12 md:pt-20 lg:pt-30 flex flex-col lg:flex-row justify-center items-start lg:items-center gap-4 md:gap-8 lg:gap-25">
+        {/* Breadcrumb */}
+        <div className="absolute top-0 left-4 md:left-8 lg:left-28 flex gap-2">
+          <p className="text-gray-500 font-semibold text-xs md:text-sm">Home</p>
+          <p className="text-gray-500 font-semibold text-xs md:text-sm">/</p>
+          <p className="text-black font-bold text-xs md:text-sm truncate max-w-[200px] md:max-w-none">
+            {product.title}
+          </p>
         </div>
-        {/* secondary images section */}
-        <aside className="flex flex-col gap-2 w-32  ">
-          <img src={product.image} className=" " alt={product.title} />
-          <img src={product.image} className=" " alt={product.title} />
-          <img src={product.image} className=" " alt={product.title} />
-          <img src={product.image} className=" " alt={product.title} />
-        </aside>
-        {/* Main image section */}
-        <div>
-          <img
-            src={product.image}
-            className="  w-[34rem]"
-            alt={product.title}
-          />
+
+        {/* Images Section - Mobile: Single column, Desktop: Side by side */}
+        <div className="flex flex-col md:flex-row gap-4 w-full lg:w-auto">
+          {/* Secondary images - Hidden on mobile, shown on md+ */}
+          <aside className="hidden md:flex flex-row md:flex-col gap-2 md:w-24 lg:w-32 overflow-x-auto md:overflow-visible">
+            <img
+              src={product.image}
+              className="w-20 md:w-full flex-shrink-0"
+              alt={product.title}
+            />
+            <img
+              src={product.image}
+              className="w-20 md:w-full flex-shrink-0"
+              alt={product.title}
+            />
+            <img
+              src={product.image}
+              className="w-20 md:w-full flex-shrink-0"
+              alt={product.title}
+            />
+            <img
+              src={product.image}
+              className="w-20 md:w-full flex-shrink-0"
+              alt={product.title}
+            />
+          </aside>
+
+          {/* Main image */}
+          <div className="w-full md:w-auto flex justify-center">
+            <img
+              src={product.image}
+              className="w-full md:w-96 lg:w-[34rem] max-w-md md:max-w-none object-contain"
+              alt={product.title}
+            />
+          </div>
         </div>
-        <div className="flex flex-col  basis-1/6">
-          <h1 className="text-black font-bold text-xl">{product.title}</h1>
-          <div className="flex items-center gap-2">
+
+        {/* Product Info Section */}
+        <div className="flex flex-col w-full lg:basis-1/6">
+          <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
+            {product.title}
+          </h1>
+
+          {/* Rating and Stock */}
+          <div className="flex flex-wrap items-center gap-2 my-2">
             <StarRating handleRating={handleRating} rating={rating} />
-            <p className="text-sm text-gray-400">{"(150 Reviews)"} </p>
-            <p className="text-gray-400 text-sm">|</p>
+            <p className="text-xs md:text-sm text-gray-400">
+              {"(150 Reviews)"}
+            </p>
+            <p className="text-gray-400 text-xs md:text-sm">|</p>
             {quantatity === 0 ? (
-              <p className="text-sm font-semibold text-red-300">out of stock</p>
+              <p className="text-xs md:text-sm font-semibold text-red-300">
+                out of stock
+              </p>
             ) : (
-              <p className="text-sm font-semibold text-green-300">in stock</p>
+              <p className="text-xs md:text-sm font-semibold text-green-300">
+                in stock
+              </p>
             )}
           </div>
-          <div className="font-medium text-2xl">${product.price}</div>
-          <div className="text-sm font-semibold mt-4">
+
+          {/* Price */}
+          <div className="font-medium text-xl md:text-2xl my-2">
+            ${product.price}
+          </div>
+
+          {/* Description */}
+          <div className="text-xs md:text-sm font-semibold mt-2 md:mt-4">
             {product.description}
           </div>
-          <div className="">
-            ____________________________________________________________________________
-          </div>
-          <div className="mt-4 flex items-center gap-2">
-            Colors:
+
+          {/* Divider */}
+          <div className="my-4 border-t border-gray-300"></div>
+
+          {/* Colors */}
+          <div className="mt-2 md:mt-4 flex items-center gap-2 flex-wrap">
+            <span className="text-sm md:text-base">Colors:</span>
             <button
-              className={`p-2 rounded-3xl bg-red-600 hover:cursor-pointer ${
-                color === "red" ? "border-3 border-gray-600" : ""
+              className={`p-2 rounded-full bg-red-600 hover:cursor-pointer ${
+                color === "red" ? "ring-2 ring-gray-600 ring-offset-2" : ""
               }`}
               name="red"
               onClick={(e) => setColor(e.target.name)}
             ></button>
             <button
-              className={`p-2 rounded-3xl bg-black hover:cursor-pointer ${
-                color === "black" ? "border-3 border-gray-600" : ""
+              className={`p-2 rounded-full bg-black hover:cursor-pointer ${
+                color === "black" ? "ring-2 ring-gray-600 ring-offset-2" : ""
               }`}
               name="black"
               onClick={(e) => setColor(e.target.name)}
             ></button>
           </div>
-          <div className="my-4 flex items-center gap-2">
-            <div className="text-xl font-semibold">Size: </div>
-            {["XS", "S", "M", "L", "Xl"].map((size, i) => (
+
+          {/* Sizes */}
+          <div className="my-3 md:my-4 flex items-center gap-2 flex-wrap">
+            <div className="text-base md:text-xl font-semibold">Size:</div>
+            {["XS", "S", "M", "L", "XL"].map((sizeOption, i) => (
               <button
                 key={i}
-                className="border-1 border-black rounded-lg w-10 h-10 font-medium hover:bg-gray-300 transition  cursor-pointer"
-                onClick={() => setSize(size)}
+                className={`border border-black rounded-lg w-8 h-8 md:w-10 md:h-10 text-sm md:text-base font-medium hover:bg-gray-300 transition cursor-pointer ${
+                  size === sizeOption ? "bg-gray-300" : ""
+                }`}
+                onClick={() => setSize(sizeOption)}
               >
-                {size}
+                {sizeOption}
               </button>
             ))}
           </div>
-          <div className="flex gap-6 justify-start items-center my-4">
+
+          {/* Quantity and Actions */}
+          <div className="flex  sm:flex-row gap-3 md:gap-6 justify-start  items-center my-3 md:my-4">
             {/* Quantity Counter */}
-            <div className="flex justify-center items-center border border-black rounded overflow-hidden h-14">
+            <div className="flex justify-center items-center border border-black rounded overflow-hidden h-12 md:h-14  sm:w-auto">
               <button
-                className="border-r border-black w-12 h-full text-4xl font-light cursor-pointer hover:bg-gray-200 transition"
+                className="border-r border-black w-12 h-full text-2xl md:text-4xl font-light cursor-pointer hover:bg-gray-200 transition"
                 onClick={() => setQuantatity((q) => Math.max(q - 1, 1))}
               >
                 −
               </button>
-              <div className="px-8 text-2xl font-semibold select-none">
+              <div className="px-6 md:px-8 text-xl md:text-2xl font-semibold select-none">
                 {quantatity}
               </div>
               <button
-                className="bg-[#DB4444] text-white border-l border-black w-12 h-full text-4xl font-light cursor-pointer hover:bg-[#8e2929] transition"
+                className="bg-[#DB4444] text-white border-l border-black w-12 h-full text-2xl md:text-4xl font-light cursor-pointer hover:bg-[#8e2929] transition"
                 onClick={() => setQuantatity((q) => q + 1)}
               >
                 +
@@ -165,7 +204,7 @@ const ProductDetails = () => {
 
             {/* Buy Now */}
             <button
-              className="bg-[#DB4444] text-white border border-black rounded py-3 w-56 text-2xl hover:bg-[#8e2929] transition cursor-pointer"
+              className="bg-[#DB4444] text-white border border-black rounded py-2 md:py-3 w-[50%] sm:flex-1 md:w-56 text-lg md:text-2xl hover:bg-[#8e2929] transition cursor-pointer"
               onClick={handleSubmit}
             >
               Add to cart
@@ -173,34 +212,39 @@ const ProductDetails = () => {
 
             {/* Wishlist Icon */}
             <div
-              className="p-2 border border-black rounded hover:bg-gray-200 transition cursor-pointer"
+              className="p-2 border border-black rounded hover:bg-gray-200 transition cursor-pointer self-center sm:self-auto"
               onClick={() => setIsWished((isWished) => !isWished)}
             >
               {isWished ? (
-                <HeartFilled className="w-8" />
+                <HeartFilled className="w-6 md:w-8" />
               ) : (
-                <HeartIcon className="w-8" />
+                <HeartIcon className="w-6 md:w-8" />
               )}
             </div>
           </div>
 
-          <div>
+          {/* Delivery Info */}
+          <div className="mt-4">
             <div className="border rounded-sm border-black">
-              <div className="border border-black flex justify-start gap-6 p-4">
-                <TruckIcon className="w-10" />
+              <div className="border-b border-black flex justify-start gap-4 md:gap-6 p-3 md:p-4">
+                <TruckIcon className="w-8 md:w-10 flex-shrink-0" />
                 <div>
-                  <p className="text-lg font-semibold">Free Delivery</p>
-                  <p className="underline font-semibold">
+                  <p className="text-base md:text-lg font-semibold">
+                    Free Delivery
+                  </p>
+                  <p className="underline font-semibold text-xs md:text-sm">
                     Enter your postal code for Delivery Availability
                   </p>
                 </div>
               </div>
-              <div className="border border-black flex justify-start gap-6 p-6">
-                <ArrowPathIcon className="w-10" />
+              <div className="flex justify-start gap-4 md:gap-6 p-3 md:p-6">
+                <ArrowPathIcon className="w-8 md:w-10 flex-shrink-0" />
                 <div>
-                  <p className="text-lg font-semibold">Return Delivery</p>
-                  <p className=" font-semibold">
-                    Free 30 Days Delivery Returns.{" "}
+                  <p className="text-base md:text-lg font-semibold">
+                    Return Delivery
+                  </p>
+                  <p className="font-semibold text-xs md:text-sm">
+                    Free 30 Days Delivery Returns.
                   </p>
                 </div>
               </div>
@@ -208,9 +252,9 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
-      {/* Related products section */}
 
-      {relatedProducts.length && (
+      {/* Related products section */}
+      {relatedProducts.length > 0 && (
         <RelatedProductsRow products={relatedProducts} related />
       )}
     </div>
