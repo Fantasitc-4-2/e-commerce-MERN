@@ -4,6 +4,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
+import CheckoutForm from "./pages/CheckoutForm";
 import ProductDetails from "./pages/ProductDetails";
 import {
   Route,
@@ -41,6 +42,7 @@ function App() {
         <Route path="/otp/:email" element={<VerifyEmail />} />
         <Route path="/wishList" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<CheckoutForm />} />
         <Route path="/products" element={<Products />} />
         <Route path="/profile" element={<ProfileLayout />}>
           <Route index element={<EditProfile />} />
