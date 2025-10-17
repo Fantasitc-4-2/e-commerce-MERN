@@ -1,32 +1,104 @@
 import React, { useState } from "react";
 
-const CartItem = () => {
+const CartItem = ({ image, title, price, id }) => {
   const [quantity, setQuantity] = useState(1);
+
+  const handleDelete = () => {
+    // Add delete logic here
+    console.log("Delete item:", id);
+  };
+
+  const subtotal = (price * quantity).toFixed(2);
+
   return (
-    <div className="grid grid-cols-4 items-center bg-white rounded-lg shadow-sm px-6 py-2 w-[70%] mx-auto  ">
-      <div className="flex justify-start gap-5 items-center">
-        <div>
+    <div className="bg-white rounded-lg shadow-sm w-full md:w-[85%] lg:w-[70%] mx-auto">
+      {/* Desktop/Tablet Layout (md+) */}
+      <div className="hidden md:grid grid-cols-4 items-center px-4 md:px-6 lg:px-8 py-3 md:py-4">
+        {/* Product Column */}
+        <div className="flex justify-start gap-3 md:gap-4 lg:gap-5 items-center">
           <div className="relative">
-            <button className="bg-red-400 text-white  rounded-full w-4 h-4 flex items-center justify-center text-sm font-bold hover:bg-red-600 transition cursor-pointer absolute">
+            <button
+              onClick={handleDelete}
+              className="bg-red-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-sm font-bold hover:bg-red-600 transition cursor-pointer absolute -top-2 -left-2 z-10"
+            >
               ×
             </button>
-            <img src="product-1.jpg" alt="" className="w-12" />
+            <img
+              src={image || "product-1.jpg"}
+              alt={title || "Product"}
+              className="w-12 md:w-14 lg:w-16 object-contain"
+            />
+          </div>
+          <div className="text-sm md:text-base font-medium truncate max-w-[120px] lg:max-w-none">
+            {title || "LCD Monitor"}
           </div>
         </div>
-        <div>LCD Monitor</div>
+
+        {/* Price Column */}
+        <span className="text-sm md:text-base">${price || "650"}</span>
+
+        {/* Quantity Column */}
+        <span>
+          <input
+            type="number"
+            min="1"
+            value={quantity}
+            onChange={(e) =>
+              setQuantity(Math.max(1, parseInt(e.target.value) || 1))
+            }
+            className="border-black border w-14 md:w-16 lg:w-20 px-2 md:px-3 lg:px-4 py-1 md:py-2 rounded text-sm md:text-base"
+          />
+        </span>
+
+        {/* Subtotal Column */}
+        <span className="text-sm md:text-base font-semibold">${subtotal}</span>
       </div>
 
-      <span>$650</span>
-      <span>
-        <input
-          type="number"
-          min="1"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          className="border-black border w-16 px-4 py-2 rounded appearance-auto"
-        />
-      </span>
-      <span>$650</span>
+      {/* Mobile Layout */}
+      <div className="md:hidden flex flex-col p-4 gap-3">
+        <div className="flex gap-3">
+          {/* Image and Delete Button */}
+          <div className="relative flex-shrink-0">
+            <button
+              onClick={handleDelete}
+              className="bg-red-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-sm font-bold hover:bg-red-600 transition cursor-pointer absolute -top-2 -left-2 z-10"
+            >
+              ×
+            </button>
+            <img
+              src={image || "product-1.jpg"}
+              alt={title || "Product"}
+              className="w-20 h-20 object-contain"
+            />
+          </div>
+
+          {/* Product Info */}
+          <div className="flex-1 flex flex-col justify-between">
+            <h3 className="font-medium text-sm">{title || "LCD Monitor"}</h3>
+            <p className="text-gray-600 text-sm">Price: ${price || "650"}</p>
+          </div>
+        </div>
+
+        {/* Quantity and Subtotal */}
+        <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">Qty:</span>
+            <input
+              type="number"
+              min="1"
+              value={quantity}
+              onChange={(e) =>
+                setQuantity(Math.max(1, parseInt(e.target.value) || 1))
+              }
+              className="border-black border w-16 px-3 py-1 rounded text-sm"
+            />
+          </div>
+          <div className="text-right">
+            <span className="text-xs text-gray-600 block">Subtotal</span>
+            <span className="font-semibold text-base">${subtotal}</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
