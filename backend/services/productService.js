@@ -6,12 +6,17 @@ export const getAllProducts = async (limit, page, searchVal, price,category) => 
 };
 
 export const getProductById = async (id) => {
-  const reviews = await reviewRepository.getReviewsByProductId(id);
   const product = await productRepository.getProductById(id);
-  if(!product) {
-    return null;
-  }
-  return {...product.toObject(), reviews: reviews}
+  if (!product) return null;
+
+  const reviews = await reviewRepository.getReviewsForProduct(id);
+
+  return {
+    ...product.toObject(),
+    reviewCount: reviews.count,
+    averageRating: reviews.averageRating,
+    reviews: reviews.reviews,
+  };
 };
 
 export const createProduct = async (product) => {

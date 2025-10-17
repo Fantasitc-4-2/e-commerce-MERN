@@ -8,7 +8,7 @@ export default function CategoryComp() {
         navigate(`/${e}`)
     }
     return (
-    <div className="flex sm:flex-col">
+    <div className="grid grid-cols-3 md:grid-cols-5 lg:flex lg:flex-col">
       {category.map(c=>(<div  onClick={()=>handleClick(c)} value={c} className="p-2 cursor-pointer sm:hover:translate-x-5 hover:underline  transition-all duration-300" key={c}>
         {c}
         </div>))}

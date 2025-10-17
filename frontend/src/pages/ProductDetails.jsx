@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartFilled } from "@heroicons/react/16/solid";
 
-import RelatedProductsRow from "../compoents/RelatedProductsRow";
+import RelatedProductsRow from "../compoents/product/RelatedProductsRow";
 import api from "../api/axios";
 
 const ProductDetails = () => {

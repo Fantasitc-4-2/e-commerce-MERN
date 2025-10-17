@@ -8,7 +8,7 @@ import { HiOutlineDesktopComputer } from "react-icons/hi";
 import { CiHeadphones } from "react-icons/ci";
 import { LuGamepad } from "react-icons/lu";
 import { SlScreenSmartphone } from "react-icons/sl";
-import SectionName from "./SectionName";
+import SectionName from "../SectionName";
 
 export default function CategoryImgs() {
   const [category] = useState([
@@ -39,14 +39,14 @@ export default function CategoryImgs() {
     if (startIndex > 0) setStartIndex(startIndex - 1);
   };
   return (
-    <div>
+    <div className="mx-5 sm:mx-10 md:mx-15 lg:mx-20">
         <SectionName section="Category"/>
-      <div className="flex justify-between">
-        <h2 className="text-3xl font-bold">Browse By Category</h2>
-        <div className="w-[7%] flex justify-around text-sm">
+      <div className="flex flex-col justify-between items-center sm:flex-row">
+        <h2 className="text-xl p-2 md:text-2xl lg:text-3xl font-bold">Browse By Category</h2>
+        <div className="hidden md:flex sm:w-[15%] md:w-[10%]  sm:justify-around justify-between text-sm">
           <button
             onClick={handlePrev}
-            className="bg-[#ddd] p-2 rounded-4xl cursor-pointer "
+            className="bg-[#ddd] rounded-4xl p-2 lg:rounded-4xl cursor-pointer "
           >
             <ArrowBackIcon />
           </button>
@@ -58,7 +58,7 @@ export default function CategoryImgs() {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
         {sliced.map((c) => {
           const name = Object.keys(c)[0];
           const img = Object.values(c)[0];
@@ -66,7 +66,7 @@ export default function CategoryImgs() {
             <div
               onClick={() => handleClick(name)}
               value={name}
-              className="m-5 cursor-pointer border rounded-md border-[#ddd] h-40 text-center flex flex-col justify-around hover:translate-y-2 hover:bg-[#DB4444] hover:text-white transition-all"
+              className="my-1 sm:m-1 md:m-2 lg:m-5 cursor-pointer border rounded-md border-[#ddd] h-40 text-center flex flex-col justify-around hover:translate-y-2 hover:bg-[#DB4444] hover:text-white transition-all"
               key={name}
             >
               <div className="text-6xl flex justify-center">{img}</div>
@@ -74,6 +74,20 @@ export default function CategoryImgs() {
             </div>
           );
         })}
+        <div className="w-full md:hidden   flex sm:justify-around justify-between text-sm">
+          <button
+            onClick={handlePrev}
+            className="bg-[#ddd] rounded-4xl p-2 lg:rounded-4xl cursor-pointer "
+          >
+            <ArrowBackIcon />
+          </button>
+          <button
+            onClick={handleNext}
+            className="bg-[#ddd] p-2 rounded-4xl cursor-pointer"
+          >
+            <ArrowForwardIcon />
+          </button>
+        </div>
       </div>
     </div>
   );
