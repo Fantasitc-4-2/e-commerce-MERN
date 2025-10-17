@@ -10,33 +10,24 @@ export const getReviewsByProductId = async (id) => {
         return [];
     }
 }
-export const getReviewsForProduct = async (req, res) => {
-  try {
-    const { productId } = req.params;
+export const getReviewsForProduct = async (productId) => {
+  const reviews = await getReviewsByProductId(productId);
 
-    // Get all reviews for that product
-    const reviews = await reviewRepository.getReviewsByProductId(productId);
-
-    // If no reviews exist
-    if (!reviews || reviews.length === 0) {
-      return res.status(200).json({
-        count: 0,
-        averageRating: 0,
-        reviews: [],
-      });
-    }
-
-    // Calculate average rating
-    const totalRatings = reviews.reduce((sum, r) => sum + r.ratings, 0);
-    const averageRating = (totalRatings / reviews.length).toFixed(1);
-
-    res.status(200).json({
-      count: reviews.length,
-      averageRating: Number(averageRating),
-      reviews,
-    });
-  } catch (error) {
-    console.error("Error fetching reviews:", error);
-    res.status(500).json({ error: "Server error" });
+  if (!reviews || reviews.length === 0) {
+    return {
+      count: 0,
+      averageRating: 0,
+      reviews: [],
+    };
   }
+
+  const totalRatings = reviews.reduce((sum, r) => sum + r.ratings, 0);
+  const averageRating =
+    Math.round((totalRatings / reviews.length) * 2) / 2;
+
+  return {
+    count: reviews.length,
+    averageRating,
+    reviews,
+  };
 };
