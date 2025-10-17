@@ -101,7 +101,11 @@ const ProductDetails = () => {
             <StarRating handleRating={handleRating} rating={rating} />
             <p className="text-sm text-gray-400">{"(150 Reviews)"} </p>
             <p className="text-gray-400 text-sm">|</p>
-            <p className="text-sm font-semibold text-green-300">in stock</p>
+            {quantatity === 0 ? (
+              <p className="text-sm font-semibold text-red-300">out of stock</p>
+            ) : (
+              <p className="text-sm font-semibold text-green-300">in stock</p>
+            )}
           </div>
           <div className="font-medium text-2xl">${product.price}</div>
           <div className="text-sm font-semibold mt-4">
