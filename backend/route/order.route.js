@@ -17,5 +17,8 @@ orderRouter
   .route("/:id")
   .post(auth, orderController.createCashOrder)
   .get(auth, orderController.getOneOrder);
+orderRouter
+  .route("/checkout/:id")
+  .post(auth, orderController.createCheckoutSession)
 
 export default orderRouter;

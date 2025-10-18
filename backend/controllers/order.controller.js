@@ -59,12 +59,14 @@ export const createCashOrder = catchAsyncError(async (req, res, next) => {
   }
 });
 export const getUserOrders = catchAsyncError(async (req, res, next) => {
-  const order = await Order.find({ userId: req.user.id }).populate('items.productId')
+  const order = await Order.find({ userId: req.user.id }).populate(
+    "items.productId"
+  );
   !order && next(new AppError(`order not found`, 404));
   order && res.status(200).json({ message: "success", order });
 });
 export const getOneOrder = catchAsyncError(async (req, res, next) => {
-  const order = await Order.findById(req.params.id).populate('items.productId');
+  const order = await Order.findById(req.params.id).populate("items.productId");
 
   if (!order) {
     return next(new AppError(`order not found`, 404));
@@ -80,7 +82,39 @@ export const getOneOrder = catchAsyncError(async (req, res, next) => {
   return next(new AppError(`You are not authorized to access this order`, 403));
 });
 export const getAllOrders = catchAsyncError(async (req, res, next) => {
-  const order = await Order.find({}).populate('items.productId')
+  const order = await Order.find({}).populate("items.productId");
   !order && next(new AppError(`order not found`, 404));
   order && res.status(200).json({ message: "success", order });
+});
+
+export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
+
+
+  
+  let cart = await cartModel.findById(req.params.id);
+  if (!cart) return next(new AppError(`cart not found`, 404));
+
+  const totalOrderPrice = cart.totalPrice;
+
+  let session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: "egp",
+          unit_amount: totalOrderPrice * 100,
+          product_data: {
+            name: req.user.username,
+          },
+        },
+        quantity: 1,
+      },
+    ],
+    mode: "payment",
+    success_url: "http://localhost:5173/",
+    cancel_url: "http://localhost:5173/",
+    customer_email: req.user.email,
+    client_reference_id: req.params.id,
+    metadata: req.body.shipping,
+  });
+  res.status(200).json({ message: "success", session })
 });

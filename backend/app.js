@@ -35,8 +35,8 @@ app.use("/reviews", reviewRouter);
 app.use("/products", productRouter);
 app.use("/carts", cartRouter);
 app.use("/addresses", addressRoutes);
-app.use("/categories", categoryRoutes)
-app.use("/orders", orderRouter)
+app.use("/categories", categoryRoutes);
+app.use("/orders", orderRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -48,6 +48,6 @@ mongoose
   .catch((err) => console.error("❌ DB Connection Failed:", err));
 
 // ✅ Start the server
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
