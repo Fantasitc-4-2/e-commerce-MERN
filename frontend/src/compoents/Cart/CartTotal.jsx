@@ -1,7 +1,7 @@
 import React from "react";
 import CartCheckOut from "./CartCheckOut";
 
-const CartTotal = () => {
+const CartTotal = ({ subTotal }) => {
   return (
     <div className="w-full md:w-[85%] lg:w-[70%] mx-auto flex flex-col lg:flex-row justify-between gap-6 md:gap-8 mb-12 md:mb-20 lg:mb-30 items-stretch lg:items-start px-4 md:px-6 lg:px-0">
       {/* Coupon Section */}
@@ -17,7 +17,7 @@ const CartTotal = () => {
       </div>
 
       {/* Checkout Section */}
-      <CartCheckOut />
+      <CartCheckOut subTotal={subTotal} />
     </div>
   );
 };

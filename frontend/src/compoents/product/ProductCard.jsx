@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import StarRating from "../StarRating";
+import axios from "axios";
 
 export default function ProductCard({
   image,
@@ -18,6 +19,14 @@ export default function ProductCard({
   };
   const handleClick = () => {
     navigate(`products/${_id}`);
+  };
+
+  const handleAddToCart = async () => {
+    await axios.post(
+      "http://localhost:5000/carts",
+      { productId: _id },
+      { withCredentials: true }
+    );
   };
   return (
     <div className=" gap-1 group">
@@ -36,7 +45,10 @@ export default function ProductCard({
           </div>
         )}
 
-        <button className="hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-400 group-hover:bottom-0">
+        <button
+          onClick={handleAddToCart}
+          className="hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-400 group-hover:bottom-0"
+        >
           Add to Cart
         </button>
       </div>

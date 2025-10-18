@@ -1,12 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-const CartItem = ({ image, title, price, id }) => {
+const CartItem = ({ image, title, price, _id, handleDelete, handleChange }) => {
   const [quantity, setQuantity] = useState(1);
-
-  const handleDelete = () => {
-    // Add delete logic here
-    console.log("Delete item:", id);
-  };
 
   const subtotal = (price * quantity).toFixed(2);
 
@@ -18,7 +13,7 @@ const CartItem = ({ image, title, price, id }) => {
         <div className="flex justify-start gap-3 md:gap-4 lg:gap-5 items-center">
           <div className="relative">
             <button
-              onClick={handleDelete}
+              onClick={() => handleDelete(_id)}
               className="bg-red-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-sm font-bold hover:bg-red-600 transition cursor-pointer absolute -top-2 -left-2 z-10"
             >
               ×
@@ -35,7 +30,7 @@ const CartItem = ({ image, title, price, id }) => {
         </div>
 
         {/* Price Column */}
-        <span className="text-sm md:text-base">${price || "650"}</span>
+        <span className="text-sm md:text-base">${price}</span>
 
         {/* Quantity Column */}
         <span>
@@ -60,7 +55,7 @@ const CartItem = ({ image, title, price, id }) => {
           {/* Image and Delete Button */}
           <div className="relative flex-shrink-0">
             <button
-              onClick={handleDelete}
+              onClick={() => handleDelete(_id)}
               className="bg-red-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-sm font-bold hover:bg-red-600 transition cursor-pointer absolute -top-2 -left-2 z-10"
             >
               ×
@@ -74,8 +69,8 @@ const CartItem = ({ image, title, price, id }) => {
 
           {/* Product Info */}
           <div className="flex-1 flex flex-col justify-between">
-            <h3 className="font-medium text-sm">{title || "LCD Monitor"}</h3>
-            <p className="text-gray-600 text-sm">Price: ${price || "650"}</p>
+            <h3 className="font-medium text-sm">{title}</h3>
+            <p className="text-gray-600 text-sm">Price: ${price}</p>
           </div>
         </div>
 
@@ -87,9 +82,10 @@ const CartItem = ({ image, title, price, id }) => {
               type="number"
               min="1"
               value={quantity}
-              onChange={(e) =>
-                setQuantity(Math.max(1, parseInt(e.target.value) || 1))
-              }
+              onChange={(e) => {
+                setQuantity(Math.max(1, parseInt(e.target.value) || 1));
+                handleChange(_id, parseInt(e.target.value));
+              }}
               className="border-black border w-16 px-3 py-1 rounded text-sm"
             />
           </div>

@@ -2,20 +2,49 @@ import React, { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 import axios from "axios";
 
-const CartBody = () => {
-  const [items, SetItems] = useState([]);
-
+const CartBody = ({ subTotalChange }) => {
+  const [items, setItems] = useState([]);
   useEffect(() => {
     const getCart = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/results`);
-        SetItems(res.data);
+        const res = await axios.get("http://localhost:5000/carts", {
+          withCredentials: true,
+        });
+        setItems(res.data.cartUser.items);
       } catch (err) {
         console.log(err);
       }
     };
     getCart();
   }, []);
+
+  useEffect(() => {
+    const subTotalValue = items.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+    subTotalChange(subTotalValue);
+  }, [items]);
+  const handleChange = async (id, q) => {
+    await axios.put(
+      `http://localhost:5000/carts/${id}`,
+      { quantity: q },
+      {
+        withCredentials: true,
+      }
+    );
+    setItems(
+      items.map((i) => {
+        return id === i._id ? { ...i, quantity: q } : i;
+      })
+    );
+  };
+  const handleDelete = async (id) => {
+    await axios.delete(`http://localhost:5000/carts/${id}`, {
+      withCredentials: true,
+    });
+    setItems(items.filter((i) => id !== i._id));
+  };
 
   if (items.length === 0)
     return (
@@ -37,7 +66,12 @@ const CartBody = () => {
       </div>
 
       {items.map((item) => (
-        <CartItem key={item.id} {...item} />
+        <CartItem
+          handleChange={handleChange}
+          handleDelete={handleDelete}
+          key={item._id}
+          {...item}
+        />
       ))}
     </div>
   );

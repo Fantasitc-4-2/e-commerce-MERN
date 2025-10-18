@@ -1,16 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const CartCheckOut = () => {
+const CartCheckOut = ({ subTotal }) => {
   const navigate = useNavigate();
 
   const handleCheckout = () => {
     navigate("/checkout");
   };
 
-  const subtotal = 1750;
   const shipping = 0;
-  const total = subtotal + shipping;
+  const total = subTotal + shipping;
 
   return (
     <div className="border-2 rounded border-black py-4 md:py-5 lg:py-6 px-4 md:px-5 lg:px-6 flex flex-col w-full lg:w-[40%] lg:max-w-md">
@@ -21,7 +20,7 @@ const CartCheckOut = () => {
       {/* Subtotal */}
       <div className="flex justify-between border-b border-gray-300 py-2 md:py-3">
         <span className="text-sm md:text-base text-gray-700">Subtotal:</span>
-        <span className="text-sm md:text-base font-medium">${subtotal}</span>
+        <span className="text-sm md:text-base font-medium">${subTotal}</span>
       </div>
 
       {/* Shipping */}
