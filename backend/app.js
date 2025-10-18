@@ -28,6 +28,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(logger);
 
+app.get('/', (req, res) => res.send('Hello World!'))
+
 // ✅ Routes
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
@@ -42,6 +44,7 @@ app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({ error: err.message, statusCode });
 });
+
 mongoose
   .connect(DB_URI)
   .then(() => console.log("✅ DB Connected"))
@@ -51,3 +54,5 @@ mongoose
 app.listen(process.env.PORT || PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+
