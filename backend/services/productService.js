@@ -1,8 +1,20 @@
 import * as productRepository from "../repository/product.repository.js";
 import * as categoryRepository from "../repository/category.repository.js";
 import * as reviewRepository from "../repository/review.repository.js";
-export const getAllProducts = async (limit, page, searchVal, price,category) => {
-  return await productRepository.getAllProducts(limit, page, searchVal, price, category);
+export const getAllProducts = async (
+  limit,
+  page,
+  searchVal,
+  price,
+  category
+) => {
+  return await productRepository.getAllProducts(
+    limit,
+    page,
+    searchVal,
+    price,
+    category
+  );
 };
 
 export const getProductById = async (id) => {
@@ -20,11 +32,13 @@ export const getProductById = async (id) => {
 };
 
 export const createProduct = async (product) => {
-  if(product.discountPrice) {
-    product.discountRate = (
-      ((product.price - product.discountPrice) / product.price) * 100
+  if (product.discountRate && product.discountRate < 100) {
+    product.discountPrice = (
+      product.price -
+      ((product.price * product.discountRate) / 100)
     ).toFixed(2);
   }
+  console.log(product.discountPrice);
   return await productRepository.saveProduct(product);
 };
 
@@ -34,10 +48,13 @@ export const deleteProductById = async (id) => {
     throw new Error("Product can not be found");
   }
   return res;
-}
+};
 
 export const updateProductById = async (id, updateData) => {
-  const updatedProduct = await productRepository.updateProductById(id, updateData);
+  const updatedProduct = await productRepository.updateProductById(
+    id,
+    updateData
+  );
 
   if (!updatedProduct) {
     const error = new Error("Product not found");
@@ -47,4 +64,3 @@ export const updateProductById = async (id, updateData) => {
 
   return updatedProduct;
 };
-

@@ -3,6 +3,9 @@ import { useNavigate } from "react-router";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import StarRating from "../StarRating";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../slices/cartSlice";
+import { toast } from "react-toastify";
 
 export default function ProductCard({
   image,
@@ -14,6 +17,8 @@ export default function ProductCard({
 }) {
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.cart);
   const handleRating = (rate) => {
     setRating(rate);
   };
@@ -22,11 +27,13 @@ export default function ProductCard({
   };
 
   const handleAddToCart = async () => {
-    await axios.post(
-      "http://localhost:5000/carts",
-      { productId: _id },
-      { withCredentials: true }
-    );
+    try {
+      await dispatch(addToCart({ id: _id })).unwrap();
+      toast.success("Added to Cart!");
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to add to cart");
+    }
   };
   return (
     <div className=" gap-1 group">
