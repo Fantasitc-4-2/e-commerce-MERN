@@ -3,6 +3,8 @@ import { cartModel } from "../model/cart.js";
 import Order from "../model/order.js";
 import Product from "../model/Product.js";
 import { AppError } from "../utils/AppError.js";
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createCashOrder = catchAsyncError(async (req, res, next) => {
   console.log(req.body);
