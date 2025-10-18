@@ -72,7 +72,8 @@ export const updateQuantity =catchAsyncError( async (req, res) => {
 export const getLoggedUsercart = catchAsyncError(async (req, res, next) => {
   let cartUser = await cartModel
     .findOne({ userId: req.user.id })
-console.log(req.user);
+    .populate('items.productId')
+
 
   res.json({ message: "success", cartUser });
 });

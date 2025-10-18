@@ -6,11 +6,16 @@ import authorizeUser from "../middleware/roleAuthMiddleware.js";
 const orderRouter = express.Router();
 
 orderRouter
-  .route("/:id")
-  .post(auth, orderController.createCashOrder)
-//   .get(auth, orderController.getUserOrders);
+  .route("/getAllOrders")
+  .get(auth, authorizeUser("admin"), orderController.getAllOrders);
+
 orderRouter
   .route("/")
-  .get(auth, authorizeUser("admin", "user"), orderController.getUserOrders);
+  .get(auth, authorizeUser("admin"), orderController.getUserOrders);
+
+orderRouter
+  .route("/:id")
+  .post(auth, orderController.createCashOrder)
+  .get(auth, orderController.getOneOrder);
 
 export default orderRouter;
