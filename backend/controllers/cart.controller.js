@@ -56,6 +56,9 @@ export const addToCart = catchAsyncError(async (req, res, next) => {
     });
     calcPrice(result);
     await result.save();
+    
+    await result.populate("items.productId");
+    
     return res.status(200).json({ message: "success", result });
   }
   
@@ -75,6 +78,9 @@ export const addToCart = catchAsyncError(async (req, res, next) => {
   
   calcPrice(isCartExist);
   await isCartExist.save();
+  
+  await isCartExist.populate("items.productId");
+  
   res.status(200).json({ message: "success", cart: isCartExist });
 });
 
@@ -91,6 +97,8 @@ export const removeFromCart = catchAsyncError(async (req, res, next) => {
   
   calcPrice(result);
   await result.save();
+  
+  await result.populate("items.productId");
   
   res.status(200).json({ message: "success", result });
 });
@@ -129,6 +137,8 @@ export const updateQuantity = catchAsyncError(async (req, res, next) => {
 
   calcPrice(isCartExist);
   await isCartExist.save();
+  
+  await isCartExist.populate("items.productId");
   
   res.status(200).json({ message: "success", cart: isCartExist });
 });
