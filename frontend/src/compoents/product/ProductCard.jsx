@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 export default function ProductCard({
   image,
+  quantity,
   title,
   price,
   _id,
@@ -18,7 +19,7 @@ export default function ProductCard({
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.cart);
+  let { user } = useSelector((state) => state.auth);
   const handleRating = (rate) => {
     setRating(rate);
   };
@@ -27,8 +28,13 @@ export default function ProductCard({
   };
 
   const handleAddToCart = async () => {
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      navigate("/login");
+      return;
+    }
     try {
-      await dispatch(addToCart({ id: _id })).unwrap();
+      await dispatch(addToCart({ id: _id, quantity: 1 })).unwrap(); // ✅ Add quantity
       toast.success("Added to Cart!");
     } catch (err) {
       console.log(err);

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 const CartItem = ({
-  image,
+ image,
   title,
   price,
-  _id,
-  productId,
+  _id,           // This is the cart item ID
+  productId,     // This is the full product object
   handleDelete,
   quantity: initialQuantity,
   handleChange,
@@ -19,6 +19,7 @@ const CartItem = ({
   const handleQuantityChange = (newQuantity) => {
     const validQuantity = Math.max(1, parseInt(newQuantity) || 1);
     setQuantity(validQuantity);
+    console.log(quantity)
     console.log(productId)
     handleChange(productId._id, validQuantity);
   };

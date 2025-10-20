@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import CartItem from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -8,6 +8,7 @@ import LoadingSpinner from "../LoadingSpinner";
 const CartBody = ({ subTotalChange }) => {
   const dispatch = useDispatch();
   let { items, loading } = useSelector((state) => state.cart);
+
   useEffect(() => {
     dispatch(getCart());
   }, [dispatch]);
@@ -35,7 +36,6 @@ const CartBody = ({ subTotalChange }) => {
       toast.error(err || "Failed to delete item");
     }
   };
-  if (loading) return <LoadingSpinner />;
   if (items.length === 0)
     return (
       <div className="w-full text-gray-600 mx-auto my-12 md:my-24 lg:my-36 px-4">
@@ -58,11 +58,14 @@ const CartBody = ({ subTotalChange }) => {
       {items.map((item) => (
         <CartItem
           handleChange={handleChange}
-          quantity = {item.quantity}
+          quantity={item.quantity}
           handleDelete={handleDelete}
           key={item._id}
-          productId={item.productId._id || item.productId}
-          {...item}
+          _id={item._id} // Cart item ID for deletion/update
+          productId={item.productId} // Full product object
+          title={item.productId?.title}
+          price={item.productId?.price}
+          image={item.productId?.image}
         />
       ))}
     </div>
