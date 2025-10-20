@@ -1,7 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import cors from "cors"; // ✅ Correct import
-
+import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import { PORT, DB_URI } from "./config/config.js";
@@ -28,7 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(logger);
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', (req, res) => res.send('Hello World!'));
 
 // ✅ Routes
 app.use("/auth", authRouter);
@@ -40,19 +39,24 @@ app.use("/addresses", addressRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/orders", orderRouter);
 
+// Error handler
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({ error: err.message, statusCode });
 });
 
+// ✅ Database Connection
 mongoose
   .connect(DB_URI)
   .then(() => console.log("✅ DB Connected"))
   .catch((err) => console.error("❌ DB Connection Failed:", err));
 
-// ✅ Start the server
-app.listen(process.env.PORT || PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-});
+// ✅ Only listen on port in development (not on Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(process.env.PORT || PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+  });
+}
 
-
+// ✅ CRITICAL: Export the app for Vercel
+export default app;
