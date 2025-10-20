@@ -11,9 +11,11 @@ function calcPrice(cart) {
 
   cart.totalPrice = allPrice;
 }
-export const addToCart = catchAsyncError(async (req, res) => {
+export const addToCart = catchAsyncError(async (req, res,next) => {
   let product = await Product.findById(req.body.productId);
-  !product && next(new AppError(`Product not found`, 404));
+    if (!product) {
+    return next(new AppError(`Product not found`, 404));
+  }
 
   let isCartExist = await cartModel.findOne({ userId: req.user.id });
   req.body.price = product.price;
@@ -39,20 +41,24 @@ export const addToCart = catchAsyncError(async (req, res) => {
   res.status(200).json({ message: "success", cart: isCartExist });
 })
 
-export const removeFromCart =catchAsyncError( async (req, res) => {
+export const removeFromCart =catchAsyncError( async (req, res,next) => {
   let result = await cartModel.findOneAndUpdate(
     { userId: req.user.id },
     { $pull: { items: { _id: req.params.id } } },
     { new: true }
   );
 
-  !result && next(new AppError(`item not found`, 404));
+   if (!result) {
+    return next(new AppError(`item not found`, 404));
+  }
+  
   result && res.status(200).json({ message: "success", result });
 })
-export const updateQuantity =catchAsyncError( async (req, res) => {
+export const updateQuantity =catchAsyncError( async (req, res,next) => {
   let product = await Product.findById(req.params.id);
-  !product && next(new AppError(`Product not found`, 404));
-
+  if (!product) {
+    return next(new AppError(`Product not found`, 404));
+  }
   let isCartExist = await cartModel.findOne({ userId: req.user.id });
 
   let item = isCartExist.items.find(

@@ -13,7 +13,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       const status = error.response.status;
-
+      console.log("Interceptor caught error:", error.response);
       if (status === 401) {
         toast.error("Session expired. Please log in again.");
       } else if (status >= 500) {

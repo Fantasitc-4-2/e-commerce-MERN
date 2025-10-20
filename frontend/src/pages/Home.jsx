@@ -25,7 +25,7 @@ export default function Home() {
       <HorizDivider />
       <CategoryImgs />
       <HorizDivider />
-      <ThisMonth limit={4} title="This Month"/>
+      <ThisMonth limit={5} title="This Month"/>
       </div>
 
       <AdComp  title="Category" section="Enhance Your Music Experience" color="green" img="jbl.png" height={500}  />

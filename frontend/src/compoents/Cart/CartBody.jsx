@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect} from "react";
 import CartItem from "./CartItem";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { deleteItemCart, getCart, updateCart } from "../../slices/cartSlice";
+import LoadingSpinner from "../LoadingSpinner";
 
 const CartBody = ({ subTotalChange }) => {
-  const [items, setItems] = useState([]);
+  const dispatch = useDispatch();
+  let { items, loading } = useSelector((state) => state.cart);
   useEffect(() => {
-    const getCart = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/carts", {
-          withCredentials: true,
-        });
-        setItems(res.data.cartUser.items);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getCart();
-  }, []);
+    dispatch(getCart());
+  }, [dispatch]);
 
   useEffect(() => {
     const subTotalValue = items.reduce(
@@ -24,28 +18,24 @@ const CartBody = ({ subTotalChange }) => {
       0
     );
     subTotalChange(subTotalValue);
-  }, [items]);
+  }, [items, subTotalChange]);
   const handleChange = async (id, q) => {
-    await axios.put(
-      `http://localhost:5000/carts/${id}`,
-      { quantity: q },
-      {
-        withCredentials: true,
-      }
-    );
-    setItems(
-      items.map((i) => {
-        return id === i._id ? { ...i, quantity: q } : i;
-      })
-    );
+    try {
+      await dispatch(updateCart({ id, quantity: q })).unwrap();
+      toast.success("Cart Updated");
+    } catch (err) {
+      toast.error(err || "Failed to update cart");
+    }
   };
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/carts/${id}`, {
-      withCredentials: true,
-    });
-    setItems(items.filter((i) => id !== i._id));
+    try {
+      await dispatch(deleteItemCart({ id })).unwrap();
+      toast.success("Item deleted");
+    } catch (err) {
+      toast.error(err || "Failed to delete item");
+    }
   };
-
+  if (loading) return <LoadingSpinner />;
   if (items.length === 0)
     return (
       <div className="w-full text-gray-600 mx-auto my-12 md:my-24 lg:my-36 px-4">
@@ -68,8 +58,10 @@ const CartBody = ({ subTotalChange }) => {
       {items.map((item) => (
         <CartItem
           handleChange={handleChange}
+          quantity = {item.quantity}
           handleDelete={handleDelete}
           key={item._id}
+          productId={item.productId._id || item.productId}
           {...item}
         />
       ))}
