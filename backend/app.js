@@ -13,6 +13,7 @@ import addressRoutes from "./route/address.route.js";
 import categoryRoutes from "./route/category.route.js";
 import logger from "./middleware/logger.js";
 import orderRouter from "./route/order.route.js";
+import wishlistRoutes from "./route/wishlist.routes.js";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use("/carts", cartRouter);
 app.use("/addresses", addressRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/orders", orderRouter);
+app.use("/wishlist", wishlistRoutes);
 
 // Error handler
 app.use((err, req, res, next) => {
