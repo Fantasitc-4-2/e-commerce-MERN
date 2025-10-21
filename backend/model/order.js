@@ -50,6 +50,7 @@ const OrderSchema = new mongoose.Schema(
         },
       },
     ],
+    paidAt: Date,
   },
   { timestamps: true }
 );

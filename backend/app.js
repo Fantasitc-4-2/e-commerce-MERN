@@ -14,6 +14,7 @@ import categoryRoutes from "./route/category.route.js";
 import logger from "./middleware/logger.js";
 import orderRouter from "./route/order.route.js";
 import wishlistRoutes from "./route/wishlist.routes.js";
+import { createOnlineSession } from "./controllers/order.controller.js";
 
 const app = express();
 
@@ -23,12 +24,17 @@ app.use(
     credentials: true,
   })
 );
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  createOnlineSession
+);
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(logger);
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get("/", (req, res) => res.send("Hello World!"));
 
 // ✅ Routes
 app.use("/auth", authRouter);
@@ -50,11 +56,11 @@ app.use((err, req, res, next) => {
 // ✅ Database Connection
 mongoose
   .connect(DB_URI)
-  .then(() => console.log("✅ DB Connected"))
+  .then(() => console.log(`  ${DB_URI}  DB Connected`))
   .catch((err) => console.error("❌ DB Connection Failed:", err));
 
 // ✅ Only listen on port in development (not on Vercel)
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
   app.listen(process.env.PORT || PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
   });
