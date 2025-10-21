@@ -1,6 +1,5 @@
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useState } from "react";
-import { SiApple } from "react-icons/si";
 
 export default function AdComp({img,logo,title,section,color,height}) {
   const [hovered,setHovered] = useState(false)
@@ -23,8 +22,8 @@ export default function AdComp({img,logo,title,section,color,height}) {
            </div>
           </div>
         </div>
-        <div className="col-span-3 md:flex  justify-center overflow-hidden translate-y-35 scale-80 sm:scale-90 sm:translate-y-10">
-          <img className=" hover:scale-105 translate-y-5  hover:motion-safe:animate-pulse duration-500 transition-all" src={`${img}`} alt="" />
+        <div className="col-span-3 md:flex justify-center overflow-hidden scale-80 sm:scale-90 sm:translate-y-25 hover:translate-y-20 transition-all">
+          <img className=" hover:scale-105 hover:motion-safe:animate-pulse duration-500 transition-all" src={`${img}`} alt="" />
         </div>
       </div>
     </div>
