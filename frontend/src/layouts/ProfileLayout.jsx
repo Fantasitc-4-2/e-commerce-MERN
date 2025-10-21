@@ -1,8 +1,11 @@
 import React from "react";
 import ProfileSideBar from "../compoents/profile/ProfileSideBar";
 import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProfileLayout = ({ activeItem, handleActive }) => {
+  const {user} = useSelector((state) => state.auth);
+  console.log(user)
   return (
     <div className="container mx-auto mb-32 mt-10 relative pt-30 flex justify-center gap-60">
       <div className="absolute top-0 left-28 flex gap-2">
@@ -12,7 +15,7 @@ const ProfileLayout = ({ activeItem, handleActive }) => {
       </div>
       <div className="absolute top-0 right-28 flex gap-1">
         <p className="text-black font-bold text-sm">Welcome!</p>
-        <p className="text-[#e53e3e] font-semibold text-sm">Morph </p>
+        <p className="text-[#e53e3e] font-semibold text-sm">{user.username} </p>
       </div>
 
       <ProfileSideBar activeItem={activeItem} handleActive={handleActive} />
