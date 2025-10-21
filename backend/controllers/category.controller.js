@@ -2,7 +2,7 @@ import * as repository from "../repository/category.repository.js";
 
 export const createCategory = async (req, res) => {
   try {
-    const { name, description, image } = req.body;
+    const { name, description, image, icon } = req.body;
     if (!name) return res.status(400).json({ error: "Name is required" });
 
     const existing = await repository.getAllCategories();
@@ -10,7 +10,7 @@ export const createCategory = async (req, res) => {
       return res.status(409).json({ error: "Category already exists" });
     }
 
-    const category = await repository.createCategory({ name, description, image });
+    const category = await repository.createCategory({ name, description, image, icon });
     res.status(201).json(category);
   } catch (err) {
     res.status(500).json({ error: err.message });
