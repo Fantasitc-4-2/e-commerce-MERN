@@ -95,3 +95,10 @@ export const updateProductById = (id, updateData) => {
     runValidators: true
   });
 };
+
+
+export const getProductsByCategory = async (categoryId) => {
+  return await productModel
+    .find({ category: categoryId })
+    .populate("category", "name") // populate category name only
+};

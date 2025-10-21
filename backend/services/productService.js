@@ -64,3 +64,13 @@ export const updateProductById = async (id, updateData) => {
 
   return updatedProduct;
 };
+
+export const getProductsByCategory = async (categoryId) => {
+  const products = await productRepository.getProductsByCategory(categoryId);
+
+  if (!products || products.length === 0) {
+    return { message: "No products found for this category", products: [] };
+  }
+
+  return products;
+};
