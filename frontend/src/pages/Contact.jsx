@@ -1,8 +1,6 @@
-import ProtectedRoute from "../compoents/ProtectedRoute"
 
 export default function Contact() {
   return (
-    <ProtectedRoute >
     <div className="min-h-screen bg-white text-gray-800 px-6 py-16">
       <div className="text-sm text-gray-500 mb-12 max-w-6xl mx-auto w-full">
         <span className="text-gray-600">Home</span> /{" "}
@@ -24,7 +22,7 @@ export default function Contact() {
               Fill out our form and we will contact you within 24 hours.
             </p>
             <p className="text-sm font-medium">
-              Email: Nezuko chan@gmail.com
+              Email: Nezukochan@gmail.com
             </p>
             <p className="text-sm font-medium">
               Email: fantastic4+2@gmail.com
@@ -65,6 +63,5 @@ export default function Contact() {
         </form>
       </div>
     </div>
-    </ProtectedRoute>
   );
 }

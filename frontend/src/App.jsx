@@ -43,7 +43,9 @@ function App() {
         <Route path="/wishList" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<CheckoutForm />} />
-        <Route path="/products" element={<Products />} />
+        <Route path="/products" element={<Products />} >
+          <Route path="category/:id" element={<Products />} />
+        </Route>
         <Route path="/profile" element={<ProfileLayout />}>
           <Route index element={<EditProfile />} />
           <Route path="edit" element={<EditProfile />} />

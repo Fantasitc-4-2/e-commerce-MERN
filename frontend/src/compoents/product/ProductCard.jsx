@@ -46,7 +46,7 @@ export default function ProductCard({
       <div className="relative flex items-center justify-center  overflow-hidden cursor-pointer">
         <img
           onClick={handleClick}
-          src={"product-1.jpg"}
+          src={image}
           alt=""
           className="w-60 h-60  transform transition-transform duration-300 group-hover:-translate-y-6"
         />

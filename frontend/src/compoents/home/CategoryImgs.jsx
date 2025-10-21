@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+
 import { BsSmartwatch } from "react-icons/bs";
 import { IoCameraOutline } from "react-icons/io5";
 import { HiOutlineDesktopComputer } from "react-icons/hi";
@@ -12,6 +13,7 @@ import SectionName from "../SectionName";
 import api from "../../api/axios";
 
 export default function CategoryImgs() {
+  const navigate = useNavigate();
   const icons =[
      <IoCameraOutline />,
     <SlScreenSmartphone />,
@@ -34,9 +36,8 @@ export default function CategoryImgs() {
   ,[])
   const [startIndex, setStartIndex] = useState(0);
   const sliced = categoryApi.slice(startIndex, startIndex + 6);
-  const handleClick =async (e) => {
-    await api.get(`/categories/${e._id}`)
-  
+ const handleClick = (id, categoryName) => {
+    navigate(`/products/category/${id}`, { state: { categoryName } });
   };
   const handleNext = () => {
     if (startIndex < categoryApi.length - 6) setStartIndex(startIndex + 1);
@@ -67,9 +68,10 @@ export default function CategoryImgs() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
         {sliced.map((c,i) => {
           const icon = c.icon || icons[i];
+
           return (
             <div
-              onClick={() => handleClick(c)}
+              onClick={() => handleClick(c._id)}
               value={c.name}
               className="my-1 sm:m-1 md:m-2 lg:m-5 cursor-pointer border rounded-md border-[#ddd] h-40 text-center flex flex-col justify-around hover:translate-y-2 hover:bg-[#DB4444] hover:text-white transition-all"
               key={c._id}
