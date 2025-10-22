@@ -10,7 +10,7 @@ const ProductsRow = ({ products }) => {
       </div>
 
       <div className="grid grid-cols-4 gap-10">
-        {products.map((product) => (
+        {products?.map((product) => (
           <WishedProductCard key={product.id} {...product} />
         ))}
       </div>

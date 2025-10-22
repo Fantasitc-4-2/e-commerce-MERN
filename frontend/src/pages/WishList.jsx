@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from "react";
-import WishedProductsRow from "../compoents/WishedProductsRow";
+import React, { useEffect } from "react";
+import WishedProductsRow from "../compoents/ProductsRow";
+import { useDispatch, useSelector } from "react-redux";
+import { getWishList } from "../slices/wishListSlice";
 
-import axios from "axios";
 import LoadingSpinner from "../compoents/LoadingSpinner";
 import RelatedProductsRow from "../compoents/product/RelatedProductsRow";
+import ProductsRow from "../compoents/ProductsRow";
 
 const WishList = () => {
-  const [wishedProducts, setWishedProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(`http://localhost:3000/results`);
+  const dispatch = useDispatch();
+  const { wishlist, loading } = useSelector((state) => state.wishlist);
 
-        setWishedProducts(res.data.slice(0, 4));
-      } catch (error) {
-        console.log(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
-  if (isLoading) return <LoadingSpinner />;
+  useEffect(() => {
+    dispatch(getWishList());
+  }, [dispatch]);
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+  console.log(wishlist);
   return (
     <div className="flex flex-col mt-20 ">
-      <WishedProductsRow products={wishedProducts} />
-      <RelatedProductsRow products={wishedProducts} />
+      {wishlist?.length === 0 ? (
+        <p className="text-center text-2xl font-medium">
+          Your wishlist is empty.
+        </p>
+      ) : (
+        <ProductsRow products={wishlist} />
+      )}
+
+      {/* <RelatedProductsRow products={wishlist} /> */}
     </div>
   );
 };

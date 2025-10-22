@@ -12,10 +12,17 @@ import { HeartIcon as HeartFilled } from "@heroicons/react/16/solid";
 
 import RelatedProductsRow from "../compoents/product/RelatedProductsRow";
 import api from "../api/axios";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToWishList,
+  deleteItemWishList,
+  getWishList,
+} from "../slices/wishListSlice";
 
 const ProductDetails = () => {
   const { id } = useParams();
-
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.wishlist);
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,10 +30,29 @@ const ProductDetails = () => {
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
   const [quantatity, setQuantatity] = useState(1);
-  const [isWished, setIsWished] = useState(false);
+  // const [isWished, setIsWished] = useState(false);
 
+  const isWished = wishlistItems?.some((item) => item._id === id);
+
+  useEffect(() => {
+    dispatch(getWishList());
+  }, [dispatch]);
   const handleRating = (rate) => {
     setRating(rate);
+  };
+
+  const handleWish = async () => {
+    try {
+      if (isWished) {
+        await dispatch(deleteItemWishList({ id })).unwrap();
+      } else {
+        await dispatch(addToWishList({ id })).unwrap();
+      }
+      // Optionally refetch wishlist to ensure sync
+      dispatch(getWishList());
+    } catch (error) {
+      console.error("Wishlist operation failed:", error);
+    }
   };
 
   const handleSubmit = () => {
@@ -211,16 +237,17 @@ const ProductDetails = () => {
             </button>
 
             {/* Wishlist Icon */}
-            <div
+
+            <button
+              onClick={handleWish}
               className="p-2 border border-black rounded hover:bg-gray-200 transition cursor-pointer self-center sm:self-auto"
-              onClick={() => setIsWished((isWished) => !isWished)}
             >
               {isWished ? (
                 <HeartFilled className="w-6 md:w-8" />
               ) : (
                 <HeartIcon className="w-6 md:w-8" />
               )}
-            </div>
+            </button>
           </div>
 
           {/* Delivery Info */}
