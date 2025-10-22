@@ -1,4 +1,3 @@
-import { STRIPE_SECRET_KEY, WEBHOOK_SECRET } from "../config/config.js";
 import { catchAsyncError } from "../middleware/catchAsyncError.js";
 import { cartModel } from "../model/cart.js";
 import Order from "../model/order.js";
@@ -6,7 +5,7 @@ import Product from "../model/Product.js";
 import User from "../model/user.js";
 import { AppError } from "../utils/AppError.js";
 import Stripe from "stripe";
-const stripe = new Stripe(STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createCashOrder = catchAsyncError(async (req, res, next) => {
   let cart = await cartModel.findById(req.params.id);
@@ -116,49 +115,74 @@ export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
   res.status(200).json({ message: "success", session });
 });
 export const createOnlineSession = async (request, response) => {
-    let event = request.body;
-    // Only verify the event if you have an endpoint secret defined.
-    // Otherwise use the basic event deserialized with JSON.parse
-    if (WEBHOOK_SECRET) {
-      // Get the signature sent by Stripe
-      const signature = request.headers["stripe-signature"]
-      try {
-        event = stripe.webhooks.constructEvent(
-          request.body,
-          signature,
-          WEBHOOK_SECRET
-        );
-        console.log("✅ Webhook signature verified");
-      } catch (err) {
-        console.log(`⚠️Webhook signature verification failed.`, err.message);
- return response.status(400).send(`Webhook Error: ${err.message}`);
+  console.log("🔵 ==> WEBHOOK RECEIVED <==");
+  
+  // Check if env vars are loaded
+  console.log("🔑 WEBHOOK_SECRET exists:", !!process.env.WEBHOOK_SECRET);
+  console.log("🔑 STRIPE_SECRET_KEY exists:", !!process.env.STRIPE_SECRET_KEY);
+  console.log("🔑 Body is Buffer:", Buffer.isBuffer(request.body));
+  
+  let event;
 
-      }
+  if (process.env.WEBHOOK_SECRET) {
+    const signature = request.headers["stripe-signature"];
+    console.log("🔐 Signature exists:", !!signature);
+    
+    try {
+      event = stripe.webhooks.constructEvent(
+        request.body,
+        signature,
+        process.env.WEBHOOK_SECRET
+      );
+      console.log("✅ Webhook signature verified successfully");
+    } catch (err) {
+      console.log("❌ Webhook signature verification FAILED:", err.message);
+      return response.status(400).send(`Webhook Error: ${err.message}`);
     }
-
-    console.log("event.type", event.type);
-
-   
-
-    if (event.type === "checkout.session.completed") {
-       try {
-      
-         console.log("create order here");
-         await card(event.data.object, response);
-         return response.status(200).json({ received: true });
-    } catch (error) {
-        console.log("ERRRROR in webhook handler:", error);
-             return response.status(200).json({ received: true, error: error.message });
-
-    }
-
-    } else {
-      console.log("unhandled event type", event.type);
-        return response.status(200).json({ received: true });
-
+  } else {
+    console.log("⚠️ WARNING: WEBHOOK_SECRET not found - parsing without verification");
+    // Parse the Buffer as JSON
+    try {
+      const bodyString = request.body.toString('utf8');
+      event = JSON.parse(bodyString);
+      console.log("📦 Body parsed as JSON (no verification)");
+    } catch (parseError) {
+      console.log("❌ Failed to parse body:", parseError.message);
+      return response.status(400).send("Invalid request body");
     }
   }
 
+  // Debug: Log what we got
+  console.log("📩 Event type:", event.type);
+  console.log("📩 Event ID:", event.id);
+  console.log("📦 Has data.object:", !!event.data?.object);
+
+  if (event.type === "checkout.session.completed") {
+    try {
+      console.log("💳 Processing checkout.session.completed...");
+      console.log("🛒 Session ID:", event.data.object.id);
+      console.log("📧 Customer email:", event.data.object.customer_email);
+      console.log("🆔 Cart reference ID:", event.data.object.client_reference_id);
+      
+      await card(event.data.object);
+      
+      console.log("✅ Order created successfully!");
+      return response.status(200).json({ received: true, success: true });
+    } catch (error) {
+      console.error("❌ ERROR in webhook handler:");
+      console.error("Message:", error.message);
+      console.error("Stack:", error.stack);
+      return response.status(200).json({ 
+        received: true, 
+        success: false,
+        error: error.message 
+      });
+    }
+  } else {
+    console.log("ℹ️ Unhandled event type:", event.type);
+    return response.status(200).json({ received: true });
+  }
+};
 async function card(session) {
   console.log("🔄 Processing session:", session.id);
 
