@@ -1,3 +1,4 @@
+import { STRIPE_SECRET_KEY, WEBHOOK_SECRET } from "../config/config.js";
 import { catchAsyncError } from "../middleware/catchAsyncError.js";
 import { cartModel } from "../model/cart.js";
 import Order from "../model/order.js";
@@ -5,7 +6,7 @@ import Product from "../model/Product.js";
 import User from "../model/user.js";
 import { AppError } from "../utils/AppError.js";
 import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(STRIPE_SECRET_KEY);
 
 export const createCashOrder = catchAsyncError(async (req, res, next) => {
   let cart = await cartModel.findById(req.params.id);
@@ -118,14 +119,14 @@ export const createOnlineSession = async (request, response) => {
     let event = request.body;
     // Only verify the event if you have an endpoint secret defined.
     // Otherwise use the basic event deserialized with JSON.parse
-    if (process.env.WEBHOOK_SECRET) {
+    if (WEBHOOK_SECRET) {
       // Get the signature sent by Stripe
       const signature = request.headers["stripe-signature"]
       try {
         event = stripe.webhooks.constructEvent(
           request.body,
           signature,
-          process.env.WEBHOOK_SECRET
+          WEBHOOK_SECRET
         );
         console.log("✅ Webhook signature verified");
       } catch (err) {
