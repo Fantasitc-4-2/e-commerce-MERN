@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-import { PORT, DB_URI } from "./config/config.js";
+import { PORT, DB_URI} from "./config/config.js";
 import authRouter from "./route/auth.route.js";
 import userRouter from "./route/route.js";
 import reviewRouter from "./route/review.router.js";
@@ -53,12 +53,10 @@ mongoose
   .then(() => console.log("✅ DB Connected"))
   .catch((err) => console.error("❌ DB Connection Failed:", err));
 
-// ✅ Only listen on port in development (not on Vercel)
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(process.env.PORT || PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-  });
-}
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
 
 // ✅ CRITICAL: Export the app for Vercel
 export default app;
