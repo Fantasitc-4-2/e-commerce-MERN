@@ -5,6 +5,7 @@ import roleAuthMiddleware from "../middleware/roleAuthMiddleware.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import { validateProduct } from "../middleware/validateProduct.js";
 import upload from "../config/multipartConfig.js";
+import cloudinary from "../config/cloudinaryConfig.js";
 const router = express.Router();
 
 // Get all items with pagination
@@ -49,6 +50,14 @@ router.post(
     try {
       const product = req.body;
       if(req.file) {
+        cloudinary.uploader.upload(req.file.path, {folder: "products"}, (error, result) => {
+          if (error) {
+            console.log("Cloudinary failed uploading the image: ", error);
+          }
+          else {
+            console.log("cloudinary uploaded the image: " + result.format);
+          }
+        })
         const imageUrl = `/uploads/${req.file.filename}`;
         product.image = imageUrl;
       }

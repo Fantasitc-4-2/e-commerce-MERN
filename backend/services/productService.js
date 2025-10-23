@@ -38,7 +38,6 @@ export const createProduct = async (product) => {
       ((product.price * product.discountRate) / 100)
     ).toFixed(2);
   }
-  console.log(product.discountPrice);
   return await productRepository.saveProduct(product);
 };
 
