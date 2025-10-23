@@ -3,6 +3,7 @@ import { cartModel } from "../model/cart.js";
 import Order from "../model/order.js";
 import Product from "../model/Product.js";
 import User from "../model/user.js";
+import { ApiFeatures } from "../utils/ApiFeatures.js";
 import { AppError } from "../utils/AppError.js";
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -81,9 +82,19 @@ export const getOneOrder = catchAsyncError(async (req, res, next) => {
   return next(new AppError(`You are not authorized to access this order`, 403));
 });
 export const getAllOrders = catchAsyncError(async (req, res, next) => {
-  const order = await Order.find({}).populate("items.productId");
-  !order && next(new AppError(`order not found`, 404));
-  order && res.status(200).json({ message: "success", order });
+  let apifeatures = new ApiFeatures(
+    Order.find({}).populate("items.productId"),
+    req.query
+  ).paginate()
+    .sort()
+    .fields()
+    .filter()
+    .search();
+  // const order = await Order.find({}).populate("items.productId");
+  let result = await apifeatures.mongooseQuery;
+
+  !result && next(new AppError(`order not found`, 404));
+  res.status(200).json({ message: "success", page: apifeatures.page, result });
 });
 
 export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
@@ -116,18 +127,18 @@ export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
 });
 export const createOnlineSession = async (request, response) => {
   console.log("🔵 ==> WEBHOOK RECEIVED <==");
-  
+
   // Check if env vars are loaded
   console.log("🔑 WEBHOOK_SECRET exists:", !!process.env.WEBHOOK_SECRET);
   console.log("🔑 STRIPE_SECRET_KEY exists:", !!process.env.STRIPE_SECRET_KEY);
   console.log("🔑 Body is Buffer:", Buffer.isBuffer(request.body));
-  
+
   let event;
 
   if (process.env.WEBHOOK_SECRET) {
     const signature = request.headers["stripe-signature"];
     console.log("🔐 Signature exists:", !!signature);
-    
+
     try {
       event = stripe.webhooks.constructEvent(
         request.body,
@@ -140,10 +151,12 @@ export const createOnlineSession = async (request, response) => {
       return response.status(400).send(`Webhook Error: ${err.message}`);
     }
   } else {
-    console.log("⚠️ WARNING: WEBHOOK_SECRET not found - parsing without verification");
+    console.log(
+      "⚠️ WARNING: WEBHOOK_SECRET not found - parsing without verification"
+    );
     // Parse the Buffer as JSON
     try {
-      const bodyString = request.body.toString('utf8');
+      const bodyString = request.body.toString("utf8");
       event = JSON.parse(bodyString);
       console.log("📦 Body parsed as JSON (no verification)");
     } catch (parseError) {
@@ -162,20 +175,23 @@ export const createOnlineSession = async (request, response) => {
       console.log("💳 Processing checkout.session.completed...");
       console.log("🛒 Session ID:", event.data.object.id);
       console.log("📧 Customer email:", event.data.object.customer_email);
-      console.log("🆔 Cart reference ID:", event.data.object.client_reference_id);
-      
+      console.log(
+        "🆔 Cart reference ID:",
+        event.data.object.client_reference_id
+      );
+
       await card(event.data.object);
-      
+
       console.log("✅ Order created successfully!");
       return response.status(200).json({ received: true, success: true });
     } catch (error) {
       console.error("❌ ERROR in webhook handler:");
       console.error("Message:", error.message);
       console.error("Stack:", error.stack);
-      return response.status(200).json({ 
-        received: true, 
+      return response.status(200).json({
+        received: true,
         success: false,
-        error: error.message 
+        error: error.message,
       });
     }
   } else {
