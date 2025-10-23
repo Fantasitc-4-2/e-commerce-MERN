@@ -55,7 +55,7 @@ router.post(
             console.log("Cloudinary failed uploading the image: ", error);
           }
           else {
-            console.log("cloudinary uploaded the image: " + result.format);
+            console.log("cloudinary uploaded the image: " + result.secure_url);
           }
         })
         const imageUrl = `/uploads/${req.file.filename}`;
