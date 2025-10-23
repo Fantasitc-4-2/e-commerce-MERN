@@ -10,7 +10,7 @@ import Services from "../compoents/home/Services";
 
 export default function Home() {
   return (
-    <div className="mx-20">
+    <div className="md:mx-20">
     <div className=" lg:grid lg:grid-cols-5">
     <div className="flex justify-around">
     <CategoryComp />

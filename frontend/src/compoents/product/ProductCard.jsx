@@ -42,8 +42,8 @@ export default function ProductCard({
     }
   };
   return (
-    <div className=" gap-1 group">
-      <div className="relative flex items-center justify-center  overflow-hidden cursor-pointer">
+    <div className="gap-1 group">
+      <div className=" relative flex items-center justify-center  overflow-hidden cursor-pointer">
         <img
           onClick={handleClick}
           src={image}
@@ -60,7 +60,7 @@ export default function ProductCard({
 
         <button
           onClick={handleAddToCart}
-          className="hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-400 group-hover:bottom-0"
+          className=" hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-400 group-hover:bottom-0"
         >
           Add to Cart
         </button>
