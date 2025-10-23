@@ -50,16 +50,15 @@ router.post(
     try {
       const product = req.body;
       if(req.file) {
-        cloudinary.uploader.upload(req.file.path, {folder: "products"}, (error, result) => {
+        await cloudinary.uploader.upload(req.file.path, {folder: "products"}, (error, result) => {
           if (error) {
             console.log("Cloudinary failed uploading the image: ", error);
           }
           else {
             console.log("cloudinary uploaded the image: " + result.secure_url);
+            product.image = result.secure_url;
           }
         })
-        const imageUrl = `/uploads/${req.file.filename}`;
-        product.image = imageUrl;
       }
       const createdProduct = await productService.createProduct(product);
       res.status(201).send(createdProduct);
