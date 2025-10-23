@@ -102,4 +102,28 @@ router.patch("/:id", authMiddleware, roleAuthMiddleware("admin"), async (req, re
     res.status(500).send({"error" : "internal server error"});
   }
 })
+
+
+// 🧩 Get all products by category ID
+router.get("/category/:categoryId", async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    // Fetch products by category
+    const products = await productService.getProductsByCategory(categoryId);
+
+    // If no products found
+    if (!products || products.length === 0) {
+      return res.status(404).json({ message: "No products found for this category" });
+    }
+
+    // Return success
+    res.status(200).json(products);
+
+  } catch (error) {
+    console.error("Error fetching products by category:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;

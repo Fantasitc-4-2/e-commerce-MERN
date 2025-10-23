@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 export default function ProductCard({
   image,
+  quantity,
   title,
   price,
   _id,
@@ -18,7 +19,7 @@ export default function ProductCard({
   const [rating, setRating] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.cart);
+  let { user } = useSelector((state) => state.auth);
   const handleRating = (rate) => {
     setRating(rate);
   };
@@ -27,8 +28,13 @@ export default function ProductCard({
   };
 
   const handleAddToCart = async () => {
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      navigate("/login");
+      return;
+    }
     try {
-      await dispatch(addToCart({ id: _id })).unwrap();
+      await dispatch(addToCart({ id: _id, quantity: 1 })).unwrap(); // ✅ Add quantity
       toast.success("Added to Cart!");
     } catch (err) {
       console.log(err);
@@ -36,11 +42,11 @@ export default function ProductCard({
     }
   };
   return (
-    <div className=" gap-1 group">
-      <div className="relative flex items-center justify-center  overflow-hidden cursor-pointer">
+    <div className="gap-1 group">
+      <div className=" relative flex items-center justify-center  overflow-hidden cursor-pointer">
         <img
           onClick={handleClick}
-          src={"product-1.jpg"}
+          src={image}
           alt=""
           className="w-60 h-60  transform transition-transform duration-300 group-hover:-translate-y-6"
         />
@@ -54,7 +60,7 @@ export default function ProductCard({
 
         <button
           onClick={handleAddToCart}
-          className="hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-400 group-hover:bottom-0"
+          className=" hover:cursor-pointer absolute bottom-[-3rem] left-0 w-full bg-black text-white py-2 text-sm font-medium transition-all duration-400 group-hover:bottom-0"
         >
           Add to Cart
         </button>

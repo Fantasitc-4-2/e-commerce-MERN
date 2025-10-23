@@ -44,6 +44,7 @@ const createToken = (user) => {
     id: user._id.toString(),
     username: user.username,
     roles: user.roles,
+    email:user.email
   };
   return jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || "1d",

@@ -1,7 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const CartItem = ({ image, title, price, _id, handleDelete, handleChange }) => {
-  const [quantity, setQuantity] = useState(1);
+const CartItem = ({
+ image,
+  title,
+  price,
+  _id,           // This is the cart item ID
+  productId,     // This is the full product object
+  handleDelete,
+  quantity: initialQuantity,
+  handleChange,
+}) => {
+  const [quantity, setQuantity] = useState(initialQuantity);
+
+  useEffect(() => {
+    setQuantity(initialQuantity);
+  }, [initialQuantity]);
+
+  const handleQuantityChange = (newQuantity) => {
+    const validQuantity = Math.max(1, parseInt(newQuantity) || 1);
+    setQuantity(validQuantity);
+    console.log(quantity)
+    console.log(productId)
+    handleChange(productId._id, validQuantity);
+  };
 
   const subtotal = (price * quantity).toFixed(2);
 
@@ -38,9 +59,7 @@ const CartItem = ({ image, title, price, _id, handleDelete, handleChange }) => {
             type="number"
             min="1"
             value={quantity}
-            onChange={(e) =>
-              setQuantity(Math.max(1, parseInt(e.target.value) || 1))
-            }
+            onChange={(e) => handleQuantityChange(e.target.value)}
             className="border-black border w-14 md:w-16 lg:w-20 px-2 md:px-3 lg:px-4 py-1 md:py-2 rounded text-sm md:text-base"
           />
         </span>
@@ -82,10 +101,7 @@ const CartItem = ({ image, title, price, _id, handleDelete, handleChange }) => {
               type="number"
               min="1"
               value={quantity}
-              onChange={(e) => {
-                setQuantity(Math.max(1, parseInt(e.target.value) || 1));
-                handleChange(_id, parseInt(e.target.value));
-              }}
+              onChange={(e) => handleQuantityChange(e.target.value)}
               className="border-black border w-16 px-3 py-1 rounded text-sm"
             />
           </div>

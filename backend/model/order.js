@@ -33,25 +33,24 @@ const OrderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-      items: [
-        {
-          productId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Product",
-            require: true,
-          },
-          quantity: {
-            type: Number,
-            required: true,
-           
-          },
-          price: {
-            type: Number,
-            required: true,
-    
-          },
+    items: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          require: true,
         },
-      ],
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+    paidAt: Date,
   },
   { timestamps: true }
 );

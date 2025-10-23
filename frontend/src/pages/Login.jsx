@@ -27,7 +27,7 @@ export default function Login() {
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="flex">
-        <div className="w-1/2 flex items-center justify-center">
+        <div className="w-1/2 hidden lg:flex items-center justify-center">
           <img
             src="form-img.jpg"
             alt="Sign-up illustration"
@@ -100,7 +100,7 @@ export default function Login() {
               </div>
             </div>
             {error && (
-              <div className="sm:col-span-2 text-orange-500">{error}</div>
+              <div className="sm:col-span-2 text-[#f41414]">{error}</div>
             )}
             <div className="mt-10">
               <button

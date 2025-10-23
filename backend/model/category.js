@@ -15,6 +15,10 @@ const categorySchema = new mongoose.Schema(
     image: {
       type: String, // e.g. URL or filename
     },
+    icon: {
+    type: String, // store icon name as a string
+    required: false,
+    },
   },
   { timestamps: true } // adds createdAt & updatedAt
 );
