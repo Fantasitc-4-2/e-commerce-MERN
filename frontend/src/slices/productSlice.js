@@ -4,12 +4,17 @@ import api from "../api/axios";
 
 export const getAllProducts = createAsyncThunk(
     "products/getAll",
-    async(_,{rejectWithValue})=>{
-        try{
-            const res = await api.get("/products");
-            return res.data
-        }catch(err){
-            return rejectWithValue(err.response?.data.error)
+    async(params = { page: 1, limit: 50 }, { rejectWithValue }) => {
+        try {
+            const res = await api.get("/products", {
+                params: {
+                    page: params.page,
+                    limit: params.limit
+                }
+            });
+            return res.data;
+        } catch(err) {
+            return rejectWithValue(err.response?.data.error);
         }
     }
 )

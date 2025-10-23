@@ -12,8 +12,8 @@ export default function ProductGrid({ limit, title ,section}) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getAllProducts());
-  }, []);
+    dispatch(getAllProducts({ page: 1, limit: 50 }));
+  }, [dispatch]);
   const handleClick = () => {
     navigate("/products");
   };

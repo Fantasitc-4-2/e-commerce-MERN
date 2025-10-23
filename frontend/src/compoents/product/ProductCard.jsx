@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { EyeIcon, HeartIcon } from "@heroicons/react/24/outline";
 import StarRating from "../StarRating";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
 import { toast } from "react-toastify";
@@ -24,7 +23,7 @@ export default function ProductCard({
     setRating(rate);
   };
   const handleClick = () => {
-    navigate(`products/${_id}`);
+    navigate(`/products/${_id}`);
   };
 
   const handleAddToCart = async () => {
@@ -42,7 +41,7 @@ export default function ProductCard({
     }
   };
   return (
-    <div className="gap-1 group">
+    <div className="gap-1 group md:my-10">
       <div className=" relative flex items-center justify-center  overflow-hidden cursor-pointer">
         <img
           onClick={handleClick}
