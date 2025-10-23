@@ -6,6 +6,7 @@ import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
 import CheckoutForm from "./pages/CheckoutForm";
 import ProductDetails from "./pages/ProductDetails";
+import AddProduct from "./pages/AddProduct";
 import {
   Route,
   createBrowserRouter,
@@ -46,6 +47,7 @@ function App() {
         <Route path="/products" element={<Products />} >
           <Route path="category/:id" element={<Products />} />
         </Route>
+        <Route path="/products/add" element={<AddProduct />} />
         <Route path="/profile" element={<ProfileLayout />}>
           <Route index element={<EditProfile />} />
           <Route path="edit" element={<EditProfile />} />
