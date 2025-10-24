@@ -43,12 +43,14 @@ export default function ProductCard({
   return (
     <div className="gap-1 group md:my-10">
       <div className=" relative flex items-center justify-center  overflow-hidden cursor-pointer">
+        <div className="w-50 h-50 flex items-center">
         <img
           onClick={handleClick}
           src={image}
           alt=""
-          className="w-50 h-50 transform transition-transform duration-300 group-hover:-translate-y-6"
+          className=" transform transition-transform duration-300 group-hover:-translate-y-6"
         />
+        </div>
         <HeartIcon className="absolute top-3 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
         <EyeIcon className="absolute top-12 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
         {discountRate && (
