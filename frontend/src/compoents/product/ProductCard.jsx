@@ -5,6 +5,11 @@ import StarRating from "../StarRating";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../slices/cartSlice";
 import { toast } from "react-toastify";
+import {
+  addToWishList,
+  deleteItemWishList,
+  getWishList,
+} from "../../slices/wishListSlice";
 
 export default function ProductCard({
   image,
@@ -19,11 +24,29 @@ export default function ProductCard({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let { user } = useSelector((state) => state.auth);
+  const [isWished, setIsWished] = useState(false);
   const handleRating = (rate) => {
     setRating(rate);
   };
   const handleClick = () => {
     navigate(`/products/${_id}`);
+  };
+
+  const handleWish = async (id) => {
+    console.log(id)
+    try {
+      if (isWished) {
+        await dispatch(deleteItemWishList({ id })).unwrap();
+
+      } else {
+        await dispatch(addToWishList({ id })).unwrap();
+        
+      }
+      // Optionally refetch wishlist to ensure sync
+      dispatch(getWishList());
+    } catch (error) {
+      console.error("Wishlist operation failed:", error);
+    }
   };
 
   const handleAddToCart = async () => {
@@ -43,15 +66,18 @@ export default function ProductCard({
   return (
     <div className="gap-1 group md:my-10">
       <div className=" relative flex items-center justify-center  overflow-hidden cursor-pointer">
-        <div className="w-50 h-50 flex items-center">
-        <img
-          onClick={handleClick}
-          src={image}
-          alt=""
-          className=" transform transition-transform duration-300 group-hover:-translate-y-6"
-        />
+        <div className="w-50 h-50 flex items-center justify-center">
+          <img
+            onClick={handleClick}
+            src={image}
+            alt=""
+            className=" transform max-h-40 transition-transform duration-300 group-hover:-translate-y-6"
+          />
         </div>
-        <HeartIcon className="absolute top-3 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
+        <HeartIcon
+          onClick={()=>handleWish(_id)}
+          className="absolute top-3 right-2 w-6 bg-gray-100 rounded-3xl p-1"
+        />
         <EyeIcon className="absolute top-12 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
         {discountRate && (
           <div className="bg-[#DB4444] text-white absolute top-3 left-2 w-13 rounded text-[.7rem] text-center p-1 font-light">

@@ -35,6 +35,10 @@ export default function CategoryComp() {
     }
   }, [selectedId, dispatch]);
 
+    const handleAllProducts = () => {
+    dispatch(getAllProducts({}));
+    navigate("/products");
+  }
   const handleClick = (categoryId) => {
     dispatch(getAllProducts({ category: categoryId }));
     navigate(`/products/category/${categoryId}`);
@@ -46,7 +50,7 @@ export default function CategoryComp() {
   return (
     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:flex lg:flex-col">
       <div
-        onClick={() => navigate('/products')}
+        onClick={handleAllProducts}
         className={`p-2 cursor-pointer hover:bg-gray-50 rounded transition-all duration-300 
           ${!selectedId ? 'bg-gray-50 font-medium text-[#DB4444]' : ''}`}
       >
