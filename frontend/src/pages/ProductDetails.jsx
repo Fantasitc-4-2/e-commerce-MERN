@@ -35,7 +35,7 @@ const ProductDetails = () => {
   // const [isWished, setIsWished] = useState(false);
   const navigate = useNavigate();
   let { user } = useSelector((state) => state.auth);
-  const isWished = wishlistItems?.some((item) => item._id === id);
+  const isWished = wishlistItems?.some((item) => item?._id === id);
 
   useEffect(() => {
     dispatch(getWishList());

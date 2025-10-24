@@ -6,9 +6,11 @@ import { getAllProducts } from "../../slices/productSlice";
 import SectionName from "../SectionName";
 import ProductCard from "./ProductCard";
 import Pagination from "../Pagination";
+import { getWishList } from "../../slices/wishListSlice";
 
 export default function ProductGrid({ limit, title, section }) {
   const { products, loading, error, currentPage, hasMore } = useSelector((state) => state.products);
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -17,9 +19,17 @@ export default function ProductGrid({ limit, title, section }) {
     dispatch(getAllProducts({ page, limit: pageSize }));
   }, [dispatch, limit]);
 
+  // Fetch products on mount
   useEffect(() => {
     loadPage(1);
   }, [loadPage]);
+
+  //  Fetch wishlist ONCE when component mounts (only if user is logged in)
+  useEffect(() => {
+    if (user) {
+      dispatch(getWishList());
+    }
+  }, [dispatch, user]);
 
   const handlePageChange = (newPage) => {
     loadPage(newPage);

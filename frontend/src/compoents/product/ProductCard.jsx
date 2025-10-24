@@ -10,6 +10,7 @@ import {
   deleteItemWishList,
   getWishList,
 } from "../../slices/wishListSlice";
+import { HeartIcon as HeartFilled } from "@heroicons/react/16/solid";
 
 export default function ProductCard({
   image,
@@ -24,28 +25,42 @@ export default function ProductCard({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let { user } = useSelector((state) => state.auth);
-  const [isWished, setIsWished] = useState(false);
+  
+  //  Get wishlist from Redux
+  const wishlistItems = useSelector((state) => state.wishlist.wishlist) || [];
+  
+  // Derive isWished from Redux state instead of local state
+  const isWished = wishlistItems.some((item) => item?._id === _id);
+
+
   const handleRating = (rate) => {
     setRating(rate);
   };
+
   const handleClick = () => {
     navigate(`/products/${_id}`);
   };
 
-  const handleWish = async (id) => {
-    console.log(id)
+  const handleWish = async () => {
+    if (!user) {
+      toast.error("Please login to add items to wishlist");
+      navigate("/login");
+      return;
+    }
+    
     try {
       if (isWished) {
-        await dispatch(deleteItemWishList({ id })).unwrap();
-
+        await dispatch(deleteItemWishList({ id: _id })).unwrap();
+        toast.success("Removed from wishlist");
       } else {
-        await dispatch(addToWishList({ id })).unwrap();
-        
+        await dispatch(addToWishList({ id: _id })).unwrap();
+        toast.success("Added to wishlist");
       }
-      // Optionally refetch wishlist to ensure sync
+      // Refetch to ensure sync
       dispatch(getWishList());
     } catch (error) {
       console.error("Wishlist operation failed:", error);
+      toast.error("Wishlist operation failed");
     }
   };
 
@@ -56,13 +71,14 @@ export default function ProductCard({
       return;
     }
     try {
-      await dispatch(addToCart({ id: _id, quantity: 1 })).unwrap(); // ✅ Add quantity
+      await dispatch(addToCart({ id: _id, quantity: 1 })).unwrap();
       toast.success("Added to Cart!");
     } catch (err) {
       console.log(err);
       toast.error("Failed to add to cart");
     }
   };
+
   return (
     <div className="gap-1 group md:my-10">
       <div className=" relative flex items-center justify-center  overflow-hidden cursor-pointer">
@@ -74,10 +90,13 @@ export default function ProductCard({
             className=" transform max-h-40 transition-transform duration-300 group-hover:-translate-y-6"
           />
         </div>
-        <HeartIcon
-          onClick={()=>handleWish(_id)}
-          className="absolute top-3 right-2 w-6 bg-gray-100 rounded-3xl p-1"
-        />
+        <button onClick={handleWish} className="absolute top-3 right-2 bg-gray-100 rounded-3xl p-1">
+          {isWished ? (
+            <HeartFilled className="w-5 text-[#DB4444]" />
+          ) : (
+            <HeartIcon className="w-5 " />
+          )}
+        </button>
         <EyeIcon className="absolute top-12 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
         {discountRate && (
           <div className="bg-[#DB4444] text-white absolute top-3 left-2 w-13 rounded text-[.7rem] text-center p-1 font-light">
