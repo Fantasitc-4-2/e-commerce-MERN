@@ -7,11 +7,12 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import React, { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import InputBar from "./InputBar";
 import ProfileDropdown from "./profile/ProfileDropDown";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMe, logoutUser } from "../slices/authSlice";
+import { getAllProducts } from "../slices/productSlice";
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -32,6 +33,10 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleSearch=()=>{
+    dispatch(getAllProducts({search:searchQuery}));
+    navigate(`/products?search=${searchQuery}`);
+  }
   const navLinkClass = ({ isActive }) =>
     `hover:text-[#DB4444] transition-colors ${isActive ? "text-[#DB4444] font-semibold" : ""}`;
 
@@ -132,6 +137,7 @@ export default function Navbar() {
                   classes="bg-gray-100 hover:bg-gray-100 transition-colors w-full"
                   value={searchQuery}
                   handleChange={(e) => setSearchQuery(e.target.value)}
+                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                 >
                   <MagnifyingGlassIcon className="h-5 w-5 text-gray-600" />
                 </InputBar>
@@ -150,6 +156,7 @@ export default function Navbar() {
                 classes="bg-gray-100 w-full"
                 value={searchQuery}
                 handleChange={(e) => setSearchQuery(e.target.value)}
+                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               >
                 <MagnifyingGlassIcon className="h-5 w-5 text-gray-600" />
               </InputBar>
@@ -161,6 +168,7 @@ export default function Navbar() {
                 classes="bg-gray-100 w-full"
                 value={searchQuery}
                 handleChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               >
                 <MagnifyingGlassIcon className="h-5 w-5 text-gray-600" />
               </InputBar>

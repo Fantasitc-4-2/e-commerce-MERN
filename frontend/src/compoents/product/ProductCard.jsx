@@ -47,7 +47,7 @@ export default function ProductCard({
           onClick={handleClick}
           src={image}
           alt=""
-          className="w-60 h-60  transform transition-transform duration-300 group-hover:-translate-y-6"
+          className="w-50 h-50 transform transition-transform duration-300 group-hover:-translate-y-6"
         />
         <HeartIcon className="absolute top-3 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
         <EyeIcon className="absolute top-12 right-2 w-6 bg-gray-100 rounded-3xl p-1" />

@@ -17,7 +17,7 @@ export default function CategoryComp() {
         navigate(`/products/category/${e}`)
     }
     return (
-    <div className="grid grid-cols-3 md:grid-cols-5 lg:flex lg:flex-col">
+    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:flex lg:flex-col">
       {category.map(c=>(<div  onClick={()=>handleClick(c._id)} value={c.name} className="p-1 cursor-pointer sm:hover:translate-x-5 hover:underline  transition-all duration-300" key={c._id}>
         {c.name}
         </div>))}
