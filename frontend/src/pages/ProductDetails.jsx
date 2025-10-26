@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import LoadingSpinner from "../compoents/LoadingSpinner";
 import StarRating from "../compoents/StarRating";
