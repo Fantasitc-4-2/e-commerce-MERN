@@ -1,6 +1,5 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
 import LoadingSpinner from "../compoents/LoadingSpinner";
 import StarRating from "../compoents/StarRating";
 import {
@@ -18,6 +17,8 @@ import {
   deleteItemWishList,
   getWishList,
 } from "../slices/wishListSlice";
+import { addToCart } from "../slices/cartSlice";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -31,8 +32,9 @@ const ProductDetails = () => {
   const [size, setSize] = useState("");
   const [quantatity, setQuantatity] = useState(1);
   // const [isWished, setIsWished] = useState(false);
-
-  const isWished = wishlistItems?.some((item) => item._id === id);
+  const navigate = useNavigate();
+  let { user } = useSelector((state) => state.auth);
+  const isWished = wishlistItems?.some((item) => item?._id === id);
 
   useEffect(() => {
     dispatch(getWishList());
@@ -55,15 +57,20 @@ const ProductDetails = () => {
     }
   };
 
-  const handleSubmit = () => {
-    const selectedProduct = {
-      id: id,
-      title: product.title,
-      color: color,
-      size: size,
-      quantatity: quantatity,
-    };
-    api.post("/carts", selectedProduct);
+  // Add to cart handler
+  const handleAddToCart = async () => {
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      navigate("/login");
+      return;
+    }
+    try {
+      await dispatch(addToCart({ id: id, quantity: quantatity })).unwrap(); // ✅ Add quantity
+      toast.success("Added to Cart!");
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to add to cart");
+    }
   };
 
   useEffect(() => {
@@ -231,7 +238,7 @@ const ProductDetails = () => {
             {/* Buy Now */}
             <button
               className="bg-[#DB4444] text-white border border-black rounded py-2 md:py-3 w-[50%] sm:flex-1 md:w-56 text-lg md:text-2xl hover:bg-[#8e2929] transition cursor-pointer"
-              onClick={handleSubmit}
+              onClick={handleAddToCart}
             >
               Add to cart
             </button>

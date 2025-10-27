@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router";
-import { loginUser } from "../slices/authSlice";
+import { fetchMe, loginUser } from "../slices/authSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ export default function Login() {
     setLoading(true);
     try {
       await dispatch(loginUser(userData)).unwrap();
+      dispatch(fetchMe()).unwrap();
       navigate("/");
     } catch (err) {
       setError(err);
@@ -40,10 +41,16 @@ export default function Login() {
           className="mx-auto mt-16 max-w-xl sm:mt-20"
         >
           <div className="mx-auto mx-w-2xl text-center">
-            <h2 className={`text-4xl font-semibold tracking-tight sm:text-5xl transition-all ${focusedInput? "text-[#DB4444]":"text-gray-700"}`}>
+            <h2
+              className={`text-4xl font-semibold tracking-tight sm:text-5xl transition-all ${
+                focusedInput ? "text-[#DB4444]" : "text-gray-700"
+              }`}
+            >
               Log in to Exclusive
             </h2>
-            <p className="mt-2 text-lg/8 text-gray-400">Enter your details below</p>
+            <p className="mt-2 text-lg/8 text-gray-400">
+              Enter your details below
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
             <div className="relative sm:col-span-2">
@@ -63,7 +70,11 @@ export default function Login() {
                   type="email"
                   name="email"
                   autoComplete="given-name"
-                  className={`peer block w-full p-3 border-b-1 placeholder:text-gray-500 focus:outline-none ${focusedInput ==="email" ?"border-[#DB4444]":"border-[#ddd]"}`}
+                  className={`peer block w-full p-3 border-b-1 placeholder:text-gray-500 focus:outline-none ${
+                    focusedInput === "email"
+                      ? "border-[#DB4444]"
+                      : "border-[#ddd]"
+                  }`}
                   onFocus={() => setFocusdInput("email")}
                   onBlur={() => setFocusdInput("")}
                   value={userData.email}
@@ -79,7 +90,11 @@ export default function Login() {
             <div className="relative sm:col-span-2">
               <label
                 htmlFor="password"
-                className={`absolute text-sm/6 font-semibold transform transition-all ${focusedInput ==="password" || userData.password ? "text-[#DB4444] opacity-100" :"opacity-25 translate-y-5"}`}
+                className={`absolute text-sm/6 font-semibold transform transition-all ${
+                  focusedInput === "password" || userData.password
+                    ? "text-[#DB4444] opacity-100"
+                    : "opacity-25 translate-y-5"
+                }`}
               >
                 Password
               </label>
@@ -89,7 +104,11 @@ export default function Login() {
                   type="password"
                   name="password"
                   autoComplete="given-name"
-                  className={`block w-full  bg-white/5 p-3  border-b-1 text-base placeholder:text-gray-500 focus:outline-none ${focusedInput ==="password"?"border-[#DB4444]":"border-[#ddd]"}`}
+                  className={`block w-full  bg-white/5 p-3  border-b-1 text-base placeholder:text-gray-500 focus:outline-none ${
+                    focusedInput === "password"
+                      ? "border-[#DB4444]"
+                      : "border-[#ddd]"
+                  }`}
                   value={userData.password}
                   onFocus={() => setFocusdInput("password")}
                   onBlur={() => setFocusdInput("")}
