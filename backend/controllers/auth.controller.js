@@ -44,7 +44,7 @@ const createToken = (user) => {
     id: user._id.toString(),
     username: user.username,
     roles: user.roles,
-    email:user.email
+    email: user.email,
   };
   return jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || "1d",
@@ -75,7 +75,10 @@ export const login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      // Only require secure cookies in production (allows localhost/dev over http)
+      secure: process.env.NODE_ENV === "production",
+      // keep sameSite none to allow cross-site requests when deployed; browsers
+      // require `secure` when sameSite is 'none' in production
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
@@ -106,7 +109,13 @@ export const me = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token", { httpOnly: true, sameSite: "strict" });
+  // Clear using the same attributes used when the cookie was set so the
+  // browser removes it correctly in both development and production.
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: process.env.NODE_ENV === "production",
+  });
   res.json({ message: "Logged out" });
 };
 
@@ -161,4 +170,3 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
-
