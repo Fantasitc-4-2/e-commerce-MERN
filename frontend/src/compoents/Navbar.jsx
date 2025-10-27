@@ -26,7 +26,7 @@ export default function Navbar() {
   // Fetch user on mount
   useEffect(() => {
     dispatch(fetchMe());
-  }, [dispatch]);
+  }, []);
 
   // Handle click outside
   useEffect(() => {
@@ -71,19 +71,21 @@ export default function Navbar() {
       >
         <ShoppingCartIcon className={iconClass} />
       </Link>
-      <div className="relative" ref={menuRef}>
-        <button
-          className={`p-2 rounded-full transition-all ${
-            isOpen
-              ? "bg-[#DB4444] text-white"
-              : "hover:bg-gray-100 text-gray-700"
-          }`}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <UserIcon className="h-6 w-6" />
-        </button>
-        {isOpen && <ProfileDropdown />}
-      </div>
+      {user && (
+        <div className="relative" ref={menuRef}>
+          <button
+            className={`p-2 rounded-full transition-all ${
+              isOpen
+                ? "bg-[#DB4444] text-white"
+                : "hover:bg-gray-100 text-gray-700"
+            }`}
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <UserIcon className="h-6 w-6" />
+          </button>
+          {isOpen && <ProfileDropdown />}
+        </div>
+      )}
     </>
   );
 
