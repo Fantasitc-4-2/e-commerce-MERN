@@ -117,8 +117,9 @@ export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
       },
     ],
     mode: "payment",
-    success_url: "http://localhost:5173/success_url",
-    cancel_url: "http://localhost:5173/cancel_url",
+    success_url: "http://localhost:5173/success",
+cancel_url: "http://localhost:5173/cancel",
+
     customer_email: req.user.email,
     client_reference_id: req.params.id,
     metadata: req.body.shipping,

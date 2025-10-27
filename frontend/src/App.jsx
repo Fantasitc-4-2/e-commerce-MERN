@@ -4,7 +4,9 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
-import CheckoutForm from "./pages/CheckoutForm";
+import OrderCheckout from "./pages/OrderCheckout";
+import Success from "./pages/success";
+import Cancel from "./pages/cancel";
 import ProductDetails from "./pages/ProductDetails";
 import AddProduct from "./pages/AddProduct";
 import {
@@ -26,8 +28,6 @@ import PaymentOptions from "./compoents/profile/PaymentOptions";
 import ProfileLayout from "./layouts/ProfileLayout";
 import Products from "./pages/Products";
 import VerifyEmail from "./pages/VerifyEmail";
-
-// 🔹 Import Toastify
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -41,10 +41,14 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/otp/:email" element={<VerifyEmail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/wishList" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<CheckoutForm />} />
-        <Route path="/products" element={<Products />} >
+        <Route path="/order-checkout" element={<OrderCheckout />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
+        <Route path="/products" element={<Products />}>
           <Route path="category/:id" element={<Products />} />
         </Route>
         <Route path="/products/add" element={<AddProduct />} />
@@ -56,10 +60,7 @@ function App() {
           <Route path="returns" element={<MyReturns />} />
           <Route path="payment" element={<PaymentOptions />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="*" element={<NotFound />} />
-        
       </Route>
     )
   );
@@ -67,7 +68,6 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      {/* 🔹 Toast container */}
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -78,4 +78,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

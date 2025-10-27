@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 const CartMiddle = () => {
   return (
-    <div class="flex justify-between mt-8 w-[70%] mx-auto my-10">
+    <div className="flex justify-between items-center w-[85%] lg:w-[70%] mx-auto my-12 px-4">
       <Link to="/">
-        <button class="border border-gray-400 px-6 py-2 rounded hover:bg-gray-100 transition cursor-pointer font-semibold ">
-          Return To Shop
+        <button className="border border-gray-300 px-6 py-3 rounded-lg font-semibold text-gray-700 hover:bg-gray-100 transition">
+          Return to Shop
         </button>
       </Link>
       <Link to="/products">
-        <button class="border border-gray-400 px-6 py-2 rounded hover:bg-gray-100 transition cursor-pointer font-semibold">
+        <button className="border border-gray-300 px-6 py-3 rounded-lg font-semibold text-gray-700 hover:bg-gray-100 transition">
           Update Cart
         </button>
       </Link>

@@ -146,3 +146,16 @@ export const getLoggedUsercart = catchAsyncError(async (req, res, next) => {
 
   res.json({ message: "success", cartUser });
 });
+
+// ✅ NEW FUNCTION: Get cart by ID (admin or general use)
+export const getCartById = catchAsyncError(async (req, res, next) => {
+  const { id } = req.params;
+
+  const cart = await cartModel.findById(id).populate("items.productId");
+
+  if (!cart) {
+    return next(new AppError("Cart not found", 404));
+  }
+
+  res.status(200).json({ message: "success", cart });
+});
