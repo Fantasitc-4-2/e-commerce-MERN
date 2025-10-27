@@ -58,6 +58,8 @@ export const login = async (req, res) => {
       return res.status(400).json({ error: "Email and password required" });
 
     const user = await repository.getUserByEmail(email);
+    console.log(password, user?.password);
+    
     if (!user)
       return res.status(401).json({ error: "Invalid email or password" });
 

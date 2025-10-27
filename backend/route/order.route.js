@@ -20,5 +20,8 @@ orderRouter
 orderRouter
   .route("/checkout/:id")
   .post(auth, orderController.createCheckoutSession)
+orderRouter
+  .route("/changeOrderStatus/:id")
+  .post(auth,authorizeUser("admin"), orderController.changeOrderStatus)
 
 export default orderRouter;

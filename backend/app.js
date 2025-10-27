@@ -57,7 +57,7 @@ app.use((err, req, res, next) => {
 // ✅ Database Connection
 mongoose
   .connect(DB_URI)
-  .then(() => console.log(`  ${DB_URI}  DB Connected`))
+  .then(() => console.log(`DB Connected`))
   .catch((err) => console.error("❌ DB Connection Failed:", err));
 
 

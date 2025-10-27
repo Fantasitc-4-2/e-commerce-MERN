@@ -85,7 +85,8 @@ export const getAllOrders = catchAsyncError(async (req, res, next) => {
   let apifeatures = new ApiFeatures(
     Order.find({}).populate("items.productId"),
     req.query
-  ).paginate()
+  )
+    .paginate()
     .sort()
     .fields()
     .filter()
@@ -95,6 +96,16 @@ export const getAllOrders = catchAsyncError(async (req, res, next) => {
 
   !result && next(new AppError(`order not found`, 404));
   res.status(200).json({ message: "success", page: apifeatures.page, result });
+});
+
+export const changeOrderStatus = catchAsyncError(async (req, res, next) => {
+  const order = await Order.findByIdAndUpdate(
+    req.params.id,
+    { status: req.body.status },
+    { new: true }
+  );
+  !order && next(new AppError(`order not found`, 404));
+  order && res.status(200).json({ message: "success", order });
 });
 
 export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
@@ -118,7 +129,7 @@ export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
     ],
     mode: "payment",
     success_url: "http://localhost:5173/success",
-cancel_url: "http://localhost:5173/cancel",
+    cancel_url: "http://localhost:5173/cancel",
 
     customer_email: req.user.email,
     client_reference_id: req.params.id,
