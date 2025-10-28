@@ -5,8 +5,8 @@ import About from "./pages/About";
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
 import OrderCheckout from "./pages/OrderCheckout";
-import Success from "./pages/success";
-import Cancel from "./pages/cancel";
+import Success from "./pages/Success";
+import Cancel from "./pages/Cancel";
 import ProductDetails from "./pages/ProductDetails";
 import AddProduct from "./pages/AddProduct";
 import {
