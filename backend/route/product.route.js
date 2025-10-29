@@ -44,21 +44,31 @@ router.post(
   "/",
   // authMiddleware,
   // roleAuthMiddleware("admin"),
-  upload.single("image"),
+  upload.array("image", 5),
   validateProduct,
   async (req, res) => {
     try {
       const product = req.body;
-      if(req.file) {
-        await cloudinary.uploader.upload(req.file.path, {folder: "products"}, (error, result) => {
+      if(req.files) {
+        //counter to put the main image in image attribute the rest in secondary list images
+        let i = 0;
+        product.secondaryImages = [];
+        for (const file of req.files) {
+          await cloudinary.uploader.upload(file.path, {folder: "products"}, (error, result) => {
           if (error) {
             console.log("Cloudinary failed uploading the image: ", error);
           }
           else {
             console.log("cloudinary uploaded the image: " + result.secure_url);
-            product.image = result.secure_url;
+            if(i === 0) {
+              product.image = result.secure_url;
+            } else {
+              product.secondaryImages.push(result.secure_url);
+            }
+            i++;
           }
         })
+        } 
       }
       const createdProduct = await productService.createProduct(product);
       res.status(201).send(createdProduct);
