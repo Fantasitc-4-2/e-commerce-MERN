@@ -114,6 +114,9 @@ export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
 
   const totalOrderPrice = cart.totalPrice;
 
+  // Use environment variable for frontend URL, fallback to localhost for development
+  const frontendUrl = process.env.FRONTEND_URL || "https://e-commerce-mern-beige.vercel.app";
+  
   let session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -128,8 +131,8 @@ export const createCheckoutSession = catchAsyncError(async (req, res, next) => {
       },
     ],
     mode: "payment",
-    success_url: "http://localhost:5173/success",
-    cancel_url: "http://localhost:5173/cancel",
+    success_url: `${frontendUrl}/success`,
+    cancel_url: `${frontendUrl}/cancel`,
 
     customer_email: req.user.email,
     client_reference_id: req.params.id,
