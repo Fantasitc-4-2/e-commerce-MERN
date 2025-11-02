@@ -53,6 +53,7 @@
   // CORS Configuration - Fixed: removed trailing slash
   const allowedOrigins = [
     "https://e-commerce-mern-beige.vercel.app",
+    "https://electronia-4.netlify.app/",
     "https://e-commerce-mern-five-sage.vercel.app", // Add backend URL if frontend calls it
     process.env.FRONTEND_URL,
     process.env.ALLOWED_ORIGINS?.split(",") || [],
