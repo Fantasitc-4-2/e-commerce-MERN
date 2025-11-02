@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 
 // CORS Configuration - Fixed: removed trailing slash
 const allowedOrigins = [
-  "https://electronia-4.netlify.app", // Frontend (Netlify)
+  "https://e-commerce-mern-beige.vercel.app", // Frontend (vercel)
   "https://e-commerce-mern-five-sage.vercel.app", // Backend
   process.env.FRONTEND_URL,
   "http://localhost:5173", // Development
