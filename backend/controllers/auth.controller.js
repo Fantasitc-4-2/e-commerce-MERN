@@ -75,14 +75,16 @@ export const login = async (req, res) => {
 
     const token = createToken(user);
 
+    // When sameSite is 'none', secure MUST be true (required by browsers)
+    // For Vercel deployment, always use secure=true since it uses HTTPS
+    // Check if running on HTTPS (Vercel sets x-forwarded-proto header)
+    const isHttps = req.secure || req.headers["x-forwarded-proto"] === "https" || process.env.NODE_ENV === "production";
+    
     res.cookie("token", token, {
       httpOnly: true,
-      // Only require secure cookies in production (allows localhost/dev over http)
-      secure: process.env.NODE_ENV === "production",
-      // keep sameSite none to allow cross-site requests when deployed; browsers
-      // require `secure` when sameSite is 'none' in production
-      sameSite: "none",
-      maxAge: 24 * 60 * 60 * 1000,
+      secure: isHttps, // Required when sameSite is "none"
+      sameSite: "none", // Required for cross-site requests on different domains
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });
     res.json({
       message: "Login successful",
@@ -111,12 +113,14 @@ export const me = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  // Clear using the same attributes used when the cookie was set so the
-  // browser removes it correctly in both development and production.
+  // Clear using the same attributes used when the cookie was set
+  // When sameSite is 'none', secure MUST be true
+  const isHttps = req.secure || req.headers["x-forwarded-proto"] === "https" || process.env.NODE_ENV === "production";
+  
   res.clearCookie("token", {
     httpOnly: true,
     sameSite: "none",
-    secure: process.env.NODE_ENV === "production",
+    secure: isHttps, // Required when sameSite is "none"
   });
   res.json({ message: "Logged out" });
 };
