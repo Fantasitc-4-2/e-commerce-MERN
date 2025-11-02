@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
+// Use environment variable or fallback to backend URL
 const api = axios.create({
-  baseURL: "https://e-commerce-mern-five-sage.vercel.app/",
+  baseURL: import.meta.env.VITE_API_URL || "https://e-commerce-mern-five-sage.vercel.app/",
   withCredentials: true,
   timeout: 10000,
 });
