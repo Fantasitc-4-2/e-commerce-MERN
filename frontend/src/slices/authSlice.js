@@ -43,8 +43,7 @@ export const fetchMe = createAsyncThunk(
 
 // 🔹 Logout user
 export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
-  await api.post("/auth/logout");
-  localStorage.removeItem("token"); // optional, since you use cookies
+  await api.post("/auth/logout"); 
 });
 
 export const verifyEmail = createAsyncThunk(

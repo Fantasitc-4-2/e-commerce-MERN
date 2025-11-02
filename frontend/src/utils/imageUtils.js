@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://e-commerce-mern-w1ml.onrender.com";
+const BACKEND_URL = "https://e-commerce-mern-five-sage.vercel.app/";
 
 export const getImageUrl = (imagePath) => {
   // If the image path is already a full URL (e.g., from CDN), return it as is
