@@ -17,7 +17,6 @@ const WishList = () => {
   if (loading) {
     return <LoadingSpinner />;
   }
-  console.log(wishlist);
   return (
     <div className="flex flex-col mt-20 ">
       {wishlist?.length === 0 ? (

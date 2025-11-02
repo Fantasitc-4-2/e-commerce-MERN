@@ -4,11 +4,13 @@ const RelatedProductCard = ({ title, image }) => {
   return (
     <div className="flex flex-col w-70 gap-1 group">
       <div className="relative w-60 overflow-hidden">
+        <div className="w-60 h-60 flex items-center justify-center">
         <img
           src={image}
           alt=""
-          className="w-60 h-60  transform transition-transform duration-300 group-hover:-translate-y-6"
+          className="h-50 transform transition-transform duration-300 group-hover:-translate-y-6"
         />
+        </div>
         <TrashIcon className="absolute top-3 right-2 w-6 bg-gray-100 rounded-3xl p-1" />
 
         <div className="bg-[#DB4444] text-white absolute top-3 left-2 w-13 rounded text-[.7rem] text-center p-1 font-light">

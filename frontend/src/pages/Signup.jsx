@@ -52,14 +52,13 @@ const Signup = () => {
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="flex">
-        <div className="w-1/2 flex items-center justify-center">
+        <div className="w-1/2 hidden lg:flex items-center justify-center">
           <img
             src="form-img.jpg"
             alt="Sign-up illustration"
             className="max-w-full h-auto"
           />
         </div>
-        <div className="w-1/2 flex items-center justify-center px-10">
           <form
             onSubmit={handleSubmit}
             className="mx-auto mt-16 max-w-xl sm:mt-20"
@@ -182,8 +181,7 @@ const Signup = () => {
                     className="block w-full  bg-white/5 p-3 border-b-1 text-base border-[#ddd] focus:border-b-[#DB4444] placeholder:text-gray-500 focus:outline-none"
                     value={userData.password}
                     onFocus={() => setFocusdInput("password")}
-                    onMouseEnter={()=>setFocusdInput("password")}
-                    onMouseLeave={()=>setFocusdInput("")}
+                  
                     onBlur={() => setFocusdInput("")}
                     onChange={(e) =>
                       setUserData({ ...userData, password: e.target.value })
@@ -218,7 +216,7 @@ const Signup = () => {
               </p>
             </div>
           </form>
-        </div>
+        
       </div>
     </div>
   );

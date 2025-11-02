@@ -34,6 +34,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(logger);
 
+
 app.get("/", (req, res) => res.send("Hello World!"));
 
 // ✅ Routes
@@ -56,7 +57,7 @@ app.use((err, req, res, next) => {
 // ✅ Database Connection
 mongoose
   .connect(DB_URI)
-  .then(() => console.log(`  ${DB_URI}  DB Connected`))
+  .then(() => console.log(`DB Connected`))
   .catch((err) => console.error("❌ DB Connection Failed:", err));
 
 

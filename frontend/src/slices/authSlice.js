@@ -48,7 +48,7 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
 });
 
 export const verifyEmail = createAsyncThunk(
-  "auth/verify-otp", 
+  "auth/verify-otp",
   async ({ email, otp }, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/verify-otp", { email, otp });
@@ -78,7 +78,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {

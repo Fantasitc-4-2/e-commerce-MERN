@@ -46,7 +46,7 @@ export default function CategoryImgs() {
     if (startIndex > 0) setStartIndex(startIndex - 1);
   };
   return (
-    <div className="mx-5 sm:mx-10 md:mx-15 lg:mx-20">
+    <div className="mx-20">
         <SectionName section="Category"/>
       <div className="flex flex-col justify-between items-center sm:flex-row">
         <h2 className="text-xl p-2 md:text-2xl lg:text-3xl font-bold">Browse By Category</h2>
