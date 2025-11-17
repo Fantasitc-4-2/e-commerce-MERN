@@ -163,7 +163,7 @@ Visit our live demo: [E-Commerce Platform](https://e-commerce-mern-beige.vercel.
 
 ## 📞 Support
 
-For support, email [your-email@example.com] or join our Slack channel.
+For support, email [abdalkareemnegm@gmail.com].
 
 ## 🙏 Acknowledgments
 
@@ -175,3 +175,4 @@ For support, email [your-email@example.com] or join our Slack channel.
 ---
 
 ⭐️ Star us on GitHub — it helps!
+
